@@ -1,0 +1,23 @@
+{
+    "short_name": "GenArtory",
+    "name": "GenArtory: AI NFT Marketplace",
+    "description": "Discover and trade unique AI-generated NFT art on Aptos.",
+    "icons": [
+      {
+        "src": "%PUBLIC_URL%/logo192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "%PUBLIC_URL%/logo512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+  }
+  
+  

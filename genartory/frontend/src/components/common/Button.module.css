@@ -1,0 +1,39 @@
+/* frontend/src/components/common/Button.module.css */
+.button {
+    /* Common styles for all buttons */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+  }
+  
+  .button--primary {
+    background-color: var(--primary-color); /* Get primary color from variables.css */
+    color: white;
+  
+    &:hover {
+      background-color: #1976d2; /* Darker shade of blue */
+    }
+  }
+  
+  .button--secondary {
+    background-color: var(--secondary-color); /* Get secondary color from variables.css */
+    color: white;
+  
+    &:hover {
+      background-color: #495057; /* Darker shade of gray */
+    }
+  }
+  
+  /* ... Add more styles for different sizes (small, medium, large) and fullWidth */
+  
+  .loader {
+    /* Add your loading spinner styles here */
+    margin-right: 0.5rem; /* Add space between loader and text */
+  }
+  
