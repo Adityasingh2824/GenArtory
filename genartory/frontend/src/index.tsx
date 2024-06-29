@@ -6,8 +6,15 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom'; // For routing
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from 'react-redux'; // If you are using Redux
-import { store } from './store';
+import dataReducer from "./store.ts";
+
+const store = configureStore({
+  reducer: {
+    clientReduxStore: dataReducer,
+  },
+});
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

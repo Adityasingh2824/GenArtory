@@ -38,7 +38,7 @@ const Explore: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h1>Explore the Marketplace</h1>
+      <h1>Explore the Marketplace</h1
       {/* Add filtering and sorting options here (if needed) */}
       {isLoading ? (
         <p>Loading marketplace listings...</p>
