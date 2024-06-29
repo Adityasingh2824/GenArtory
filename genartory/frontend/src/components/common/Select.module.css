@@ -1,0 +1,22 @@
+.selectContainer {
+    margin-bottom: 1rem;
+  }
+  
+  .select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+  
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color); /* Highlight on focus */
+      box-shadow: 0 0 0 0.2rem rgba(41, 98, 255, 0.25);
+    }
+  }
+  
+  .error {
+    color: red;
+    font-size: 0.8rem;
+  }
+  

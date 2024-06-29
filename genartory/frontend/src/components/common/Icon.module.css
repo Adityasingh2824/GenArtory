@@ -1,0 +1,53 @@
+/* frontend/src/components/common/Icon.module.css */
+
+/* Base styles for all icons */
+.icon {
+    /* Common styles like display, alignment, font size, etc. */
+    display: inline-flex; /* Or block if you want the icon to take up the full width */
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;  /* Adjust as needed */
+  }
+  
+  /* Variants for different icon sets or styles */
+  .icon--material {
+    font-family: 'Material Icons', sans-serif; /* Or any other icon font you prefer */
+  }
+  
+  .icon--fontawesome {
+    font-family: 'Font Awesome 5 Free'; /* Or the appropriate Font Awesome font family */
+  }
+  
+  /* Sizes */
+  .icon--small {
+    font-size: 1rem;
+  }
+  
+  .icon--medium {
+    font-size: 1.5rem;
+  }
+  
+  .icon--large {
+    font-size: 2rem;
+  }
+  
+  /* Colors (use your CSS variables for consistency) */
+  .icon--primary {
+    color: var(--primary-color);
+  }
+  
+  .icon--secondary {
+    color: var(--secondary-color);
+  }
+  
+  /* Additional styles for specific icons */
+  .icon--close {
+    /* Styles for a close icon */
+  }
+  
+  .icon--search {
+    /* Styles for a search icon */
+  }
+  
+  /* ... and so on */
+  

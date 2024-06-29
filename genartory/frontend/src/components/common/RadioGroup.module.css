@@ -1,0 +1,21 @@
+/* frontend/src/components/common/RadioGroup.module.css */
+.radioGroup {
+    display: flex;
+    flex-direction: column; /* Or 'row' for horizontal layout */
+    gap: 0.5rem;
+  }
+  
+  .radioButton {
+    display: flex;
+    align-items: center;
+  }
+  
+  .radioButton input[type="radio"] {
+    margin-right: 0.5rem;
+  }
+  
+  .error {
+    color: red;
+    font-size: 0.8rem;
+  }
+  

@@ -1,0 +1,34 @@
+/* frontend/src/components/common/Input.module.css */
+.inputContainer {
+    margin-bottom: 1rem;
+  }
+  
+  .label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .input {
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    width: 100%;
+  
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color); /* Highlight on focus */
+      box-shadow: 0 0 0 0.2rem rgba(41, 98, 255, 0.25); /* Aptos blue focus shadow */
+    }
+  }
+  
+  .errorInput {
+    border-color: #dc3545; /* Red border when there's an error */
+  }
+  
+  .error {
+    color: #dc3545; /* Red error message */
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+  

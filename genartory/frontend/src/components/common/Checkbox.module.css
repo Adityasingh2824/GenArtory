@@ -1,0 +1,23 @@
+/* frontend/src/components/common/Checkbox.module.css */
+.checkboxContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem; /* Adjust spacing as needed */
+  }
+  
+  .checkbox {
+    /* Style the checkbox itself (you might want to customize appearance) */
+    margin-right: 0.5rem;
+    width: 18px; /* Adjust size as needed */
+    height: 18px;
+  }
+  
+  .label {
+    cursor: pointer; /* Indicate that the label is clickable */
+  }
+  
+  .error {
+    color: red;
+    font-size: 0.8rem;
+  }
+  
