@@ -1,21 +1,36 @@
-// vite.config.mjs
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import path from 'path';
+import path from "path";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+import { nodePolyfills } from "vite-plugin-node-polyfills";
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'), // For easy imports from the src directory
-    },
+  build: {
+    outDir: "build",
   },
   server: {
-    host: true, // Enable network access
-    port: 5173,
+    open: true,
   },
-  build: {
-    outDir: '../dist', // Output build to the 'dist' directory at the project root
+  plugins: [
+    react(),
+    nodePolyfills({
+      exclude: ["fs"],
+      // Whether to polyfill specific globals.
+      globals: {
+        Buffer: true,
+        global: true,
+        process: true,
+      },
+      // Whether to polyfill `node:` protocol imports.
+      protocolImports: true,
+    }),
+  ],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./frontend"),
+      process: "process/browser",
+      path: "path-browserify",
+      os: "os-browserify",
+      stream: "stream-browserify",
+    },
   },
 });
