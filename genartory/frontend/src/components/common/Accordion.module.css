@@ -1,0 +1,26 @@
+/* Accordion.module.css */
+
+.accordion {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.accordionHeader {
+    padding: 15px;
+    background-color: #f7f7f7;
+    cursor: pointer;
+    font-weight: bold;
+    color: #333;
+}
+
+.accordionHeader:hover {
+    background-color: #e2e2e2;
+}
+
+.accordionBody {
+    padding: 15px;
+    background-color: white;
+    border-top: 1px solid #ccc;
+}

@@ -38,14 +38,15 @@ function App() {
           <Routes> 
             <Route path="/" element={<Home />} />
             <Route path="/explore" element={<Explore />} />
-            {/* <Route path="/create" element={<Create />} />
-            <Route path="/explore" element={<Explore />} />
+            <Route path="/create" element={<Create />} />
+            <Route path="/faq" element={<FAQ />} />
+            {/*
             <Route path="/my-nfts" element={<MyNFTs />} />
             <Route path="/my-collections" element={<MyCollections />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/activity" element={<Activity />} />
             <Route path="/about" element={<About />} />
-            <Route path="/faq" element={<FAQ />} /> */}
+             */}
             {/* Add more routes as needed */}
             
             <Route path="*" element={<h1>Page Not Found</h1>}/>

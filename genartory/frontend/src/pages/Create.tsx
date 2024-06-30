@@ -2,11 +2,12 @@
 import React, { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Create.module.css';
-import AICreationForm from '../components/AICreationForm'; 
+//import AICreationForm from '../components/AICreationForm'; 
 import { useWallet } from '@aptos-labs/wallet-adapter-react';
-import { mintNFT } from '../utils/aptos';
+import Button from '../components/common/Button';
+//import { mintNFT } from '../utils/aptos';
 import Select from '../components/common/Select';
-import { generateArt } from '@/utils/ai';
+import { generateArt } from '../utils/ai';
 
 const Create: React.FC = () => {
   const navigate = useNavigate();
@@ -53,6 +54,29 @@ const Create: React.FC = () => {
     }
   };
 
+  ///create a mintNFT function please
+  const mintNFT = async () => {
+    // 1. Call API to mint NFT (replace with your actual API call)
+    try {
+      const response = await fetch('/api/nft/mint', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: generatedImage, creator: account }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to mint NFT');
+      }
+
+      const { nftId } = await response.json();
+      navigate(`/nft/${account}/${nftId}`); // Redirect to the newly minted NFT
+    } catch (error) {
+      console.error('Error minting NFT:', error);
+      setFormError('An error occurred while minting the NFT.'); // Show specific error
+    }
+  };
+  
+
   return (
     <div className={styles.container}>
       <h1>Create Your AI-Powered NFT</h1>
@@ -69,7 +93,7 @@ const Create: React.FC = () => {
           value={selectedArtStyle}
           onChange={(e) => setSelectedArtStyle(e.target.value)}
         />
-        <AICreationForm error={formError} /> {/* Pass formError to AICreationForm */}
+       {/* <AICreationForm error={formError} /> {/* Pass formError to AICreationForm */ }
         <Button type="submit" isLoading={isLoading} disabled={isLoading}>
           {isLoading ? 'Creating...' : 'Create NFT'}
         </Button>
@@ -89,8 +113,9 @@ const Create: React.FC = () => {
         <div className={styles.actions}>
           <Button variant="secondary" onClick={() => setGeneratedImage(null)}>
             Regenerate
-          </Button>
-          <Button variant="primary" onClick={() => /* Mint NFT logic */}>
+            </Button>
+            
+          <Button variant="primary" onClick={() =>  mintNFT() }>
             Mint NFT
           </Button>
         </div>

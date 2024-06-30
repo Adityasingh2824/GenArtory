@@ -5,7 +5,7 @@ import styles from './ListingCard.module.css';
 import { Listing } from '@/types';
 import { useNavigate } from 'react-router-dom';
 import Button from '../common/Button'; // Import your Button component
-import { formatAuctionDetails, formatBidHistory } from '@/utils/formatting';
+import { formatAuctionDetails, formatBidHistory } from '../../utils/formatting';
 
 interface ListingCardProps {
   listing: Listing;

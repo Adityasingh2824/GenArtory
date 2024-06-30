@@ -1,0 +1,46 @@
+/* Updated Create.module.css */
+
+.container {
+    padding: 20px;
+    background-color: grey;
+}
+
+.createPageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: grey;
+    /* Background color changed to light grey */
+}
+
+.form {
+    width: 100%;
+    max-width: 500px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.formField {
+    margin-bottom: 20px;
+}
+
+.formField label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.formField input,
+.formField textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.submitButton {
+    background-color: #007bff;
+    color: white;
+}

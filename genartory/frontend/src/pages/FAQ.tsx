@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './FAQ.module.css';
 import Accordion from '../components/common/Accordion'; // Assuming you have an Accordion component
 
-const FAQ: React.FC = () => {
+export const FAQ: React.FC = () => {
   const faqs = [
     {
       question: 'What is GenArtory?',

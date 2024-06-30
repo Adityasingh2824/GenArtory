@@ -8,9 +8,6 @@ import { getConnectedWallet } from "./wallet";
 const client = new AptosClient(NODE_URL);
 const coinClient = new CoinClient(client);
 
-const client = new AptosClient(NODE_URL);
-const coinClient = new CoinClient(client);
-
 // Function to fetch all listings from the marketplace
 export async function getAllListings(): Promise<Listing[]> {
   try {

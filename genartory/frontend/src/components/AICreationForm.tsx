@@ -2,9 +2,9 @@
 
 import React, { useState, FormEvent } from 'react';
 import styles from './AICreationForm.module.css';
-import Input from '../common/Input';
-import Select from '../common/Select';
-import Button from '../common/Button';
+import Input from './common/Input';
+import Select from './common/Select';
+import Button from './common/Button';
 
 interface AICreationFormProps {
   onSubmit: (formData: FormData) => void;

@@ -32,3 +32,7 @@ export async function disconnectWallet() {
   }
 }
 
+export function getConnectedWallet(): Wallet | null {
+  const { account } = useWallet();
+  return account;
+}
