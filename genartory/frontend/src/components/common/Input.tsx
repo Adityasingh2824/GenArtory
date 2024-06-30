@@ -1,6 +1,9 @@
 // frontend/src/components/common/Input.tsx
 import React, { InputHTMLAttributes, ChangeEvent } from 'react';
 import styles from './Input.module.css';
+///import clsx please
+import clsx from 'clsx';
+
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;

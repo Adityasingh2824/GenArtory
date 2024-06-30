@@ -9,7 +9,7 @@ interface AccordionProps {
   answer: string;
 }
 
-const Accordion: React.FC<AccordionProps> = ({ question, answer }) => {
+export const Accordion: React.FC<AccordionProps> = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = () => setIsOpen(!isOpen);

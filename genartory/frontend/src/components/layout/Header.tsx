@@ -8,12 +8,12 @@ import { Link } from 'react-router-dom'; // Import Link from react-router-dom fo
 
 const Header = () => {
   const { connect, account } = useWallet();
-
   return (
     <header className={styles.header}>
       <h1>My App</h1>
-      <WalletConnector />
       <Link to="/" className={styles.homeButton}>Home</Link> {/* Add a "Back to Home" button */}
+      <WalletConnector />
+
     </header>
   );
 };
