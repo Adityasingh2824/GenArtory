@@ -5,6 +5,8 @@ import { useParams } from 'react-router-dom';
 import styles from './NFTDetails.module.css';
 import { getNFTDetails } from '../../utils/aptos';
 import Button from '../common/Button';
+import { formatAuctionDetails, formatBidHistory } from '@/utils/formatting';
+
 
 const NFTDetails: React.FC = () => {
   const { creatorAddress, tokenId } = useParams();
@@ -53,6 +55,17 @@ const NFTDetails: React.FC = () => {
       </div>
 
       {/* ... (Optional) Sections for bid history, ownership history, etc. */}
+      {listing.is_auction && (
+    <div className={styles.auctionDetails}>
+      <p>{formatAuctionDetails(listing.auction)}</p>
+      {listing.auction.bids && listing.auction.bids.length > 0 && (
+        <div className={styles.bidHistory}>
+          <h3>Bid History:</h3>
+          <pre>{formatBidHistory(listing.auction.bids)}</pre>
+        </div>
+      )}
+    </div>
+)}
     </div>
   );
 };

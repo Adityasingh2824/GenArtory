@@ -6,6 +6,7 @@ import AICreationForm from '../components/AICreationForm';
 import { useWallet } from '@aptos-labs/wallet-adapter-react';
 import { mintNFT } from '../utils/aptos';
 import Select from '../components/common/Select';
+import { generateArt } from '@/utils/ai';
 
 const Create: React.FC = () => {
   const navigate = useNavigate();
@@ -14,6 +15,10 @@ const Create: React.FC = () => {
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
   const [selectedArtStyle, setSelectedArtStyle] = useState('realistic');
+  const request: GenerateArtRequest = {
+    prompt: 'a photorealistic image of a cat wearing sunglasses',
+    style: 'realistic',
+  }; 
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,6 +28,7 @@ const Create: React.FC = () => {
     try {
       const formData = new FormData(e.currentTarget);
       const prompt = formData.get('prompt') as string;
+      const imageUrl = await generateArt(request);
 
       // 2. Call AI model to generate image (replace with your actual API call)
       const response = await fetch('/api/ai/generate', {

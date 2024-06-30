@@ -3,6 +3,8 @@ import React, { useState, FormEvent } from 'react';
 import styles from './NFTCreateForm.module.css';
 import Input from '../common/Input';
 import Button from '../common/Button';
+import { validatePrompt, validateRoyaltyPercentage, validatePrice } from '@/utils/validation';
+
 
 interface NFTCreateFormProps {
   onSubmit: (formData: FormData) => void;
@@ -52,7 +54,15 @@ const NFTCreateForm: React.FC<NFTCreateFormProps> = ({ onSubmit, error }) => {
         min="0"
         max="100"
         required
+
       />
+      const errors: Record<string, string> = {};
+        if (validatePrompt(prompt)) {
+    errors.prompt = validatePrompt(prompt);
+    }
+    if (validateRoyaltyPercentage(royaltyPercentage)) {
+    errors.royaltyPercentage = validateRoyaltyPercentage(royaltyPercentage);
+    }
 
       {/* Add more input fields for other parameters as needed */}
       <Button type="submit">Generate Art</Button>
