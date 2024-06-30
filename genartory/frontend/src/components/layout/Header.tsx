@@ -1,30 +1,30 @@
 // ./components/layout/Header.tsx
 
 import React from 'react';
-import styles from './Footer.module.css';
+import styles from './Header.module.css'; // Corrected import to use Header.module.css
 
-
+// Assuming Aptos Wallet integration
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { WalletConnector } from "@aptos-labs/wallet-adapter-mui-design";
 
 const Header = () => {
+  const { connect, account } = useWallet();
+
   const connectWallet = async () => {
-    if (window.ethereum) {
-      try {
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-        console.log('Connected account:', accounts[0]);
-        // You can add more logic here to set the account in your app's state
-      } catch (error) {
-        console.error('Error connecting to wallet:', error);
-      }
-    } else {
-      console.error('Ethereum object not found, install MetaMask.');
+    try {
+      await connect();
+      console.log('Connected account:', account);
+      // You can add more logic here to set the account in your app's state
+    } catch (error) {
+      console.error('Error connecting to wallet:', error);
     }
   };
 
   return (
-    <header>
+    <header className={styles.header}>
       <h1>My App</h1>
-      <button onClick={connectWallet}>Connect Wallet</button>
+          <button className={styles.connectWalletButton} onClick={connectWallet}>Connect Wallet</button>
+          <WalletConnector />
     </header>
   );
 };
