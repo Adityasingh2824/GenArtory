@@ -2,7 +2,7 @@
 import React, { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Create.module.css';
-//import AICreationForm from '../components/AICreationForm'; 
+import AICreationForm from '../components/AICreationForm'; 
 import { useWallet } from '@aptos-labs/wallet-adapter-react';
 import Button from '../components/common/Button';
 //import { mintNFT } from '../utils/aptos';
@@ -93,11 +93,11 @@ const Create: React.FC = () => {
           value={selectedArtStyle}
           onChange={(e) => setSelectedArtStyle(e.target.value)}
         />
-       {/* <AICreationForm error={formError} /> {/* Pass formError to AICreationForm */ }
-        <Button type="submit" isLoading={isLoading} disabled={isLoading}>
-          {isLoading ? 'Creating...' : 'Create NFT'}
-        </Button>
-      </form>
+        <AICreationForm error={formError} /> {/* Pass formError to AICreationForm */}
+            <Button type="submit" isLoading={isLoading} disabled={isLoading}>
+            {isLoading ? 'Creating...' : 'Create NFT'}
+            </Button>
+        </form>
 
        {/* Image Preview and Additional Actions */}
     {generatedImage && (
