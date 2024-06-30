@@ -39,7 +39,7 @@ const AICreationForm: React.FC<AICreationFormProps> = ({ onArtGenerated, error }
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    setFormError(null); // Clear previous errors
+    //setFormError(null); // Clear previous errors
 
     const request: GenerateArtRequest = {
       prompt,
