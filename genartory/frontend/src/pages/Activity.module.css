@@ -1,0 +1,32 @@
+/* Activity.module.css */
+
+.activityContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.activityTitle {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.activityList {
+    width: 100%;
+    max-width: 800px;
+}
+
+.activityItem {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+
+.activityItem:last-child {
+    border-bottom: none;
+}
+
+.activityDescription {
+    color: #666;
+}

@@ -12,6 +12,10 @@ const Header = () => {
     <header className={styles.header}>
       <h1>My App</h1>
       <Link to="/" className={styles.homeButton}>Home</Link> {/* Add a "Back to Home" button */}
+      <div className={styles.headerRight}>
+        {/* Other header items (if any) */}
+        <Link to="/profile" className={styles.profileButton}>Profile</Link> {/* Add this line for the Profile button */}
+      </div>
       <WalletConnector />
 
     </header>

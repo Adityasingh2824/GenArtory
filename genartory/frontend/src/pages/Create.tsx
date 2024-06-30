@@ -6,7 +6,7 @@ import AICreationForm from "../components/AICreationForm";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import Button from "../components/common/Button";
 import { toast } from "react-hot-toast";
-import { mintNFT } from '../utils/aptos';
+//import { mintNFT } from '../utils/aptos';
 import { NFT } from '../types';
 import { generateArt } from '../utils/ai';
 

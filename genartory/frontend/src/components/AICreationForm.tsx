@@ -3,11 +3,11 @@
 import React, { FormEvent, useState } from "react";
 import { toast } from "react-hot-toast";
 import styles from "./AICreationForm.module.css";
-import Input from "../common/Input";
-import Select from "../common/Select";
-import Button from "../common/Button";
-import { generateArt } from '@/utils/ai';
-import { GenerateArtRequest } from "@/utils/ai/types";
+import Input from "./common/Input";
+import Select from "./common/Select";
+import Button from "./common/Button";
+import { generateArt } from '../utils/ai';
+import { GenerateArtRequest } from "../utils/ai/types";
 
 interface AICreationFormProps {
   onArtGenerated: (imageData: string, prompt: string) => void;

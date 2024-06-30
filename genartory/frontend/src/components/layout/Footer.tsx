@@ -11,6 +11,10 @@ const Footer = () => {
     <footer>
       <div className="footer-content">
         <Link to="/faq">FAQ</Link>
+      
+      </div>
+<div className="footer-content">
+      <Link to="/about">About</Link> {/* Add this line for the About page link */}
       </div>
     </footer>
   );

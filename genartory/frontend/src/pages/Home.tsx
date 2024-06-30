@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import styles from './Home.module.css';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/common/Button';
-// import NFTCard from '../components/nft/NFTCard';
+ import NFTCard from '../components/nft/NFTCard';
 // import { getNFTs } from '../utils/aptos';
-// import HeroSection from '../components/layout/HeroSection';
+ //import HeroSection from '../components/layout/HeroSection';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();

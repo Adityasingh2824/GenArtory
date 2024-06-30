@@ -149,3 +149,19 @@ export async function updateListing(account: any | null, tokenId: Types.TokenId,
     return null;
   }
 }
+
+// Function to get details of an NFT
+export async function getNFTDetails(tokenId: Types.TokenId): Promise<Types.NFTDetails | null> {
+  try {
+    const nftDetails: Types.NFTDetails = await client.call({
+      function: `${MODULE_ADDRESS}::marketplace::get_nft_details`,
+      type_arguments: [],
+      arguments: [tokenId],
+    });
+
+    return nftDetails;
+  } catch (error: any) {
+    toast.error(error?.message || "Failed to fetch NFT details.");
+    return null;
+  }
+}

@@ -40,12 +40,16 @@ function App() {
             <Route path="/explore" element={<Explore />} />
             <Route path="/create" element={<Create />} />
             <Route path="/faq" element={<FAQ />} />
+            <Route path="/about" element={<About />} /> 
+            <Route path="/profile" element={<Profile />} />
+           
+
             {/*
             <Route path="/my-nfts" element={<MyNFTs />} />
             <Route path="/my-collections" element={<MyCollections />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/activity" element={<Activity />} />
-            <Route path="/about" element={<About />} />
+            
              */}
             {/* Add more routes as needed */}
             

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from './Explore.module.css';
-import { getAllListings, getNFTDetails } from '@/utils/aptos';
+import { getAllListings , getNFTDetails } from '../utils/aptos';
 import { NFT, Listing } from '@/types'; 
 import ListingCard from '../components/marketplace/ListingCard';
 import FilterBar from '../components/marketplace/FilterBar';
