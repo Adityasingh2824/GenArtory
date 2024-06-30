@@ -20,8 +20,8 @@ import About from './pages/About';
 import FAQ from './pages/FAQ';
 
 // Import your layout components
-//import Header from './components/layout/Header';
-//import Footer from './components/layout/Footer';
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
 
 // Create an array of supported wallet adapters
 const wallets = [
@@ -34,7 +34,7 @@ function App() {
   return (
     <AptosWalletAdapterProvider plugins={wallets} autoConnect>
       <div className="app">
-        {/*<Header /> {/* Add your header component */}
+        <Header /> 
         <main>
           <Routes> 
             <Route path="/" element={<Home />} />
@@ -51,7 +51,7 @@ function App() {
             <Route path="*" element={<h1>Page Not Found</h1>}/>
           </Routes>
         </main>
-        {/*<Footer /> {/* Add your footer component */}
+        <Footer /> 
       </div>
     </AptosWalletAdapterProvider>
   );

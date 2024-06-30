@@ -1,0 +1,18 @@
+/* ./components/layout/Footer.module.css */
+
+.footer-content {
+    background-color: #222;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-content a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
