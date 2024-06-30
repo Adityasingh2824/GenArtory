@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from './Explore.module.css';
-import { getAllListings, getNFTDetails } from '@/utils/aptos';
+//import { getAllListings, getNFTDetails } from '@/utils/aptos';
 import { NFT, Listing } from '@/types'; 
-import ListingCard from '@/components/marketplace/ListingCard';
-import FilterBar from '@/components/marketplace/FilterBar';
-import SearchBar from '@/components/marketplace/SearchBar';
+import ListingCard from '../components/marketplace/ListingCard';
+import FilterBar from '../components/marketplace/FilterBar';
+import SearchBar from '../components/marketplace/SearchBar';
 
 const Explore: React.FC = () => {
   const [listings, setListings] = useState<Listing[]>([]);
@@ -17,25 +17,25 @@ const Explore: React.FC = () => {
 
   useEffect(() => {
     const fetchListings = async () => {
-      try {
-        const listingsData = await getAllListings();
+      // try {
+      //   const listingsData = await getAllListings();
         
-        // Fetch additional details for each NFT (image, metadata, etc.)
-        const detailedListings = await Promise.all(
-          listingsData.map(async (listing) => {
-            const nftDetails = await getNFTDetails(listing.creator, listing.token_id.name);
-            return { ...listing, nft: nftDetails }; 
-          })
-        );
+      //   // Fetch additional details for each NFT (image, metadata, etc.)
+      //   const detailedListings = await Promise.all(
+      //     listingsData.map(async (listing) => {
+      //       const nftDetails = await getNFTDetails(listing.creator, listing.token_id.name);
+      //       return { ...listing, nft: nftDetails }; 
+      //     })
+      //   );
 
-        setListings(detailedListings);
-        setFilteredListings(detailedListings);
-      } catch (error) {
-        console.error('Error fetching listings:', error);
-        // Handle the error appropriately (e.g., display an error message)
-      } finally {
+      //   setListings(detailedListings);
+      //   setFilteredListings(detailedListings);
+      // } catch (error) {
+      //   console.error('Error fetching listings:', error);
+      //   // Handle the error appropriately (e.g., display an error message)
+      // } finally {
         setIsLoading(false);
-      }
+     // }
     };
     fetchListings();
   }, []);

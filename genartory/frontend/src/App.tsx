@@ -37,6 +37,7 @@ function App() {
         <main>
           <Routes> 
             <Route path="/" element={<Home />} />
+            <Route path="/explore" element={<Explore />} />
             {/* <Route path="/create" element={<Create />} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/my-nfts" element={<MyNFTs />} />
