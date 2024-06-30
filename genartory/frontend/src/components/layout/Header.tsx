@@ -13,10 +13,17 @@ const Header = () => {
       <h1>My App</h1>
       <Link to="/" className={styles.homeButton}>Home</Link> {/* Add a "Back to Home" button */}
       <div className={styles.headerRight}>
-        {/* Other header items (if any) */}
-        <Link to="/profile" className={styles.profileButton}>Profile</Link> {/* Add this line for the Profile button */}
+      <Link to="/create" className={styles.homeButton}>Create</Link>
+      <Link to="/explore" className={styles.homeButton}>Explore</Link>
+      <Link to="/my-collections" className={styles.homeButton}>My Collections</Link>
+      <Link to="/activity" className={styles.homeButton}>Activity</Link>
+      <Link to="/my-nfts" className={styles.homeButton}>My NFTs</Link>
+      <Link to="/profile" className={styles.homeButton}>Profile</Link>
+
+
       </div>
-      <WalletConnector />
+<WalletConnector />
+      
 
     </header>
   );
