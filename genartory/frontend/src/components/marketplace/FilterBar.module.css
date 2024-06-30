@@ -1,0 +1,43 @@
+/* frontend/src/components/marketplace/FilterBar.module.css */
+
+.filterBar {
+    /* Overall filter bar container styles */
+    background-color: #f8f9fa; /* Light background color */
+    padding: 1rem;
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin-bottom: 2rem; /* Space from the listings grid */
+  }
+  
+  .filterBar h3 { /* Filter bar heading */
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .filters {
+    display: flex;
+    flex-direction: column; /* Stack filter sections vertically by default */
+    gap: 1rem; /* Spacing between filter sections */
+  }
+  
+  /* Filter section styling */
+  .filterBar h4 { /* Section heading (e.g., Collections) */
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Checkbox styling (you can customize this based on your Checkbox component) */
+  .checkbox {
+    display: block; /* Each checkbox on its own line */
+    margin-bottom: 0.25rem; /* Space between checkboxes */
+  }
+  
+  /* Media queries for responsive design */
+  @media (min-width: 768px) { /* Adjust this breakpoint as needed */
+    .filters {
+      flex-direction: row; /* Display filter sections horizontally on larger screens */
+      flex-wrap: wrap;    /* Allow wrapping if needed */
+    }
+  }
+  

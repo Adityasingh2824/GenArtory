@@ -1,0 +1,58 @@
+/* frontend/src/components/nft/NFTModal.module.css */
+
+.modalContent {
+    background-color: white; /* Set background color of the modal */
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a shadow to the modal */
+    max-width: 500px;
+    width: 90%; /* Make it responsive on smaller screens */
+  }
+  
+  .image {
+    width: 100%; /* Make the image responsive */
+    height: auto;
+    max-height: 300px; /* Limit the maximum height of the image */
+    object-fit: contain; /* Contain the image within the container */
+    border-radius: 8px; 
+    margin-bottom: 1rem;
+  }
+  
+  .details {
+    text-align: left;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .creator,
+  .description,
+  .collection,
+  .royalty {
+    margin-bottom: 0.5rem;
+  }
+  
+  .creator span,
+  .collection span {
+    font-weight: bold;
+  }
+  
+  .priceContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+  }
+  
+  .price {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .bidding {
+    margin-top: 1rem;
+  }
+  

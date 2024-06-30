@@ -1,0 +1,51 @@
+/* frontend/src/components/nft/NFTCard.module.css */
+.card {
+    border: 1px solid #ccc; /* Add a border to the card */
+    border-radius: 8px;       /* Rounded corners */
+    overflow: hidden;       /* Hide overflowing image content */
+    transition: transform 0.2s; /* Add a subtle hover effect */
+  }
+  
+  .card:hover {
+    transform: translateY(-3px); 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .imageContainer {
+    /* Container for image with specific height */
+    height: 200px; /* Adjust the height as needed */
+    overflow: hidden; 
+  }
+  
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  /* Make the image cover the container */
+  }
+  
+  .details {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .creator {
+    font-size: 0.9rem;
+    color: #6c757d; /* Gray */
+  }
+  
+  .collection {
+    font-size: 0.8rem;
+    color: #999; /* Lighter gray */
+  }
+  
+  .price {
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  

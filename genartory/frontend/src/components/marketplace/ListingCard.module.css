@@ -1,0 +1,40 @@
+/* frontend/src/components/marketplace/ListingCard.module.css */
+.card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s; /* Add hover effects */
+    cursor: pointer; /* Indicate it's clickable */
+  }
+  
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .image {
+    width: 100%;
+    height: 200px; /* Adjust height as needed */
+    object-fit: cover; 
+  }
+  
+  .details {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .creator {
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+  
+  .price {
+    font-weight: bold;
+    margin-top: 0.5rem;
+  }
+  

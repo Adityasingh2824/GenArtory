@@ -1,4 +1,3 @@
-// frontend/src/App.tsx
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 //import { MartianWalletAdapter } from '@martianwap/martian-wallet-adapter';

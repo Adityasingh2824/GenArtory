@@ -1,0 +1,49 @@
+/* frontend/src/components/nft/AICreationForm.module.css */
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem; /* Increased spacing between elements for better readability */
+    width: 100%; 
+    max-width: 500px; 
+    padding: 2rem; /* More padding for a comfortable feel */
+    border: none; /* Remove default border */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle box shadow for depth */
+    background-color: #fff; /* White background for contrast */
+  }
+  
+  .label {
+    font-weight: 500;  
+    font-size: 1rem; /* Larger label font size */
+    color: #333;     /* Darker label color */
+  }
+  
+  .input, .select { /* Style both input and select elements similarly */
+    padding: 0.8rem; /* Increased padding for better user interaction */
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    width: 100%;
+    font-size: 1rem; /* Match font size with labels */
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  
+  .input:focus, .select:focus { /* Focus style */
+    outline: none;
+    border-color: var(--primary-color); 
+    box-shadow: 0 0 0 0.2rem rgba(41, 98, 255, 0.25); 
+  }
+  
+  /* Hide number input arrows */
+  .input[type="number"]::-webkit-outer-spin-button,
+  .input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  .error {
+    color: #dc3545; /* Bootstrap danger color (red) for errors */
+    font-size: 0.875rem; 
+    margin-top: 0.25rem;
+  }
+  

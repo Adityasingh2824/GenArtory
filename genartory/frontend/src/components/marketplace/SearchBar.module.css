@@ -1,0 +1,36 @@
+/* frontend/src/components/marketplace/SearchBar.module.css */
+.searchBar {
+    display: flex;
+    align-items: center;
+    background-color: var(--background-color-light); /* Use a slightly lighter background color */
+    border: 1px solid var(--border-color); /* Add a subtle border */
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem; /* Adjust padding for a comfortable feel */
+    width: 300px; /* Adjust width as needed */
+    transition: box-shadow 0.2s ease-in-out; /* Add a smooth transition for the hover effect */
+  }
+  
+  .searchBar:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a shadow on hover */
+  }
+  
+  .icon {
+    /* Style the search icon (if using an icon font) */
+    font-size: 1.25rem;
+    margin-right: 0.5rem;
+    color: var(--text-color); /* Use your text color variable */
+  }
+  
+  .input {
+    border: none;
+    outline: none;
+    flex: 1;  /* Take up remaining space */
+    padding: 0; /* Remove default padding */
+    font-size: 1rem;
+  }
+  
+  /* Optional: Style for the search button (if you add one) */
+  .searchButton {
+    /* ... Your button styles ... */
+  }
+  

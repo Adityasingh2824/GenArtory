@@ -1,0 +1,27 @@
+/* frontend/src/components/nft/NFTList.module.css */
+
+.list {
+    display: grid; /* Use grid for better layout control */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive columns */
+    gap: 1.5rem; /* Consistent spacing between cards */
+  }
+  
+  /* Media queries for responsiveness */
+  @media (max-width: 768px) { 
+    .list {
+      grid-template-columns: 1fr; /* Single column on smaller screens */
+    }
+  }
+  
+  @media (min-width: 769px) and (max-width: 1024px) { 
+    .list {
+      grid-template-columns: repeat(2, 1fr); /* Two columns on medium screens */
+    }
+  }
+  
+  @media (min-width: 1025px) { 
+    .list {
+      grid-template-columns: repeat(3, 1fr); /* Three or more columns on larger screens */
+    }
+  }
+  

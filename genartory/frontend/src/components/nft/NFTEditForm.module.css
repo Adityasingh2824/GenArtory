@@ -1,0 +1,51 @@
+/* frontend/src/components/nft/NFTEditForm.module.css */
+.form {
+    display: flex;
+    flex-direction: column; 
+    gap: 1rem;  
+    width: 100%;  
+    max-width: 500px; 
+    padding: 1.5rem;
+    border: 1px solid #e0e0e0; 
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  .form h2 { /* Add heading style for the edit form */
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+  }
+  .inputContainer {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column;
+  }
+  .label {
+    font-weight: bold; 
+    margin-bottom: 0.5rem;
+  }
+  
+  .input, .textarea {  /* Style for both input and textarea fields */
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    width: 100%;
+  
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color); 
+      box-shadow: 0 0 0 0.2rem rgba(41, 98, 255, 0.25); 
+    }
+  }
+  
+  .textarea {
+    min-height: 120px; /* Adjust as needed */
+    resize: vertical; /* Allow vertical resizing only */
+  }
+  
+  .error {
+    color: red;
+    font-size: 0.875rem; 
+    margin-top: 0.25rem;
+  }
+  

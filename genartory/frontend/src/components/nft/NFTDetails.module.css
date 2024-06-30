@@ -1,0 +1,73 @@
+/* frontend/src/components/nft/NFTDetails.module.css */
+.container {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack elements vertically on smaller screens */
+    gap: 2rem;  /* Add space between the image and details */
+    align-items: center;
+    padding: 2rem;
+    max-width: 800px;  /* Limit the width of the container */
+    margin: 0 auto;    /* Center the container */
+  }
+  
+  .image {
+    max-width: 100%; 
+    height: auto;  
+    border-radius: 8px; /* Add rounded corners to the image */
+  }
+  
+  .details {
+    width: 100%;  /* Make details section take full width on smaller screens */
+    text-align: left;
+  }
+  
+  .title {
+    font-size: 2rem; /* Large font size for title */
+    margin-bottom: 1rem; 
+  }
+  
+  .creator {
+    font-size: 1rem;
+    color: #6c757d;  /* Gray color for creator */
+  }
+  
+  .description {
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+  
+  .collection {
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+  
+  .royalty {
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .priceContainer {
+    display: flex;
+    align-items: center;
+    gap: 1rem; 
+  }
+  
+  .price {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  
+  @media (min-width: 768px) { /* Adjust this breakpoint as needed */
+    .container {
+      flex-direction: row; /* Display image and details side by side on larger screens */
+    }
+    .image {
+      width: 40%;
+      margin-right: 2rem; 
+    }
+  
+    .details {
+      width: 60%; 
+    }
+  }
+  
