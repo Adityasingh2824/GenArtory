@@ -1,27 +1,38 @@
 // frontend/src/utils/ai/generation.ts
 
-import { GenerateArtRequest } from './types'; // Import your type definitions
+import { GenerateArtRequest } from './types';
 
-// Assuming you are using a backend API for AI generation
 export async function generateArt(request: GenerateArtRequest): Promise<string> {
+  const API_URL = 'https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4'; 
+  const headers = { Authorization: `Bearer ${import.meta.env.VITE_HUGGING_FACE_API_KEY}` }; 
+
   try {
-    const response = await fetch('/api/ai/generate', {  // Replace with your actual API endpoint
+    const response = await fetch(API_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(request),
+      headers: headers,
+      body: JSON.stringify({
+        inputs: request.prompt,
+        options: {
+          wait_for_model: true,
+        },
+      }),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to generate image');
+      const errorData = await response.json(); // Try to get error details from the response
+      throw new Error(errorData?.error || 'Image generation failed'); // Use detailed error if available
     }
 
     const data = await response.json();
-    // Check for errors in the response (optional)
-    if (data.error) {
-      throw new Error(data.error);
+    if (data?.error) { // Check for specific error field in the response
+      throw new Error(data.error); 
     }
 
-    return data.imageUrl; // or data.imageData, depending on your API response format
+    if (!data[0] || !data[0].generated) { // Ensure generated image exists
+      throw new Error('No image was generated');
+    }
+
+    return data[0].generated; 
   } catch (error) {
     console.error('Error generating art:', error);
     throw error; // Re-throw the error to be handled by the calling component
