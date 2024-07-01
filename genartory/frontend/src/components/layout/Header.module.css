@@ -1,4 +1,4 @@
-/* Update to Header.module.css to move the connect button to the right */
+/* Update to Header.module.css for consistent button height and centered text */
 
 .header {
     display: flex;
@@ -8,14 +8,37 @@
     color: white;
     padding: 20px;
 }
-
-/* Add or update existing styles */
-.homeButton {
+/* Adjusted styles for button text centering and trimming long text */
+.homeButton,
+.profileButton {
     background-color: #007bff;
     color: white;
-    padding: 10px 20px;
+    padding: 0;
+    /* Remove padding to use height and line-height for centering */
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 10px;
+    height: 40px;
+    /* Adjusted height for better appearance and centering */
+    line-height: 40px;
+    /* Match line-height with button height for vertical centering */
+    display: inline-flex;
+    /* Use flexbox for centering */
+    align-items: center;
+    /* Center vertically */
+    justify-content: center;
+    /* Center horizontally */
+    width: auto;
+    /* Adjust width as needed, or use specific width */
+    min-width: 100px;
+    /* Minimum width to ensure buttons are not too narrow */
+    max-width: 200px;
+    /* Maximum width to prevent overflow */
+    white-space: nowrap;
+    /* Prevent text from wrapping to a new line */
+    overflow: hidden;
+    /* Hide overflow text */
+    text-overflow: ellipsis;
+    /* Show ellipsis for overflow text */
 }
 
 .headerRight {
@@ -24,12 +47,16 @@
 }
 
 .profileButton {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-left: 10px;
-    /* Adjust spacing as needed */
+    margin-left: 10px; /* Adjust spacing as needed */
 }
-/* Ensure other styles remain or are appropriately modified */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.welcomeMessage {
+    animation: fadeIn 2s ease-out;
+    font-size: 20px; /* Adjust size as needed */
+    color: #fff; /* Adjust color as needed */
+}
