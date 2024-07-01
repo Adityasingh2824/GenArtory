@@ -4,11 +4,13 @@ import styles from './Header.module.css'; // Corrected import to use Header.modu
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { WalletConnector } from "@aptos-labs/wallet-adapter-mui-design";
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom for navigation
+import  mylogo from '../../../public/images/logo.jpg'; // Import mylogo from images/genartory_logo.svg
 
 const Header = () => {
   const { connect, account, connected } = useWallet();
   return (
     <header className={styles.header}>
+      <img src={mylogo} alt="Genartory Logo" className={styles.logo} /> {/* Use mylogo as the source of the image */}
       <h1>My App</h1>
       
       <Link to="/" className={styles.homeButton}>Home</Link> {/* Add a "Back to Home" button */}

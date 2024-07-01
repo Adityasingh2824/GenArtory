@@ -60,3 +60,12 @@
     font-size: 20px; /* Adjust size as needed */
     color: #fff; /* Adjust color as needed */
 }
+
+.logo {
+    height: 50px;
+    /* Adjust based on your logo's size */
+    width: 50px;
+    /* Adjust based on your logo's size */
+    margin-right: 10px;
+    /* Adds some space between the logo and the title */
+}
