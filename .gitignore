@@ -1,2 +1,3 @@
 node_modules/
 .aptos/
+genartory/node_modules/bigint-buffer/build/Makefile
