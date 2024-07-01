@@ -5,7 +5,10 @@ module genartory::nft {
     use aptos_std::token::{Self, Token, TokenId};
     use aptos_framework::coin::{Coin};
     use aptos_framework::account;
-    use aptos_token_objects::TokenDataId, create_unlimited_collection, create_tokendata;
+
+    use aptos_token_objects::collection;
+    
+      TokenDataId, create_unlimited_collection, create_tokendata;
 
     friend genartory::marketplace;
     friend genartory::dao;

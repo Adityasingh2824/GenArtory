@@ -15,6 +15,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     onSearch(query); // Notify parent component of the new query
   };
 
+
   return (
     <div className={styles.searchBar}>
       <input

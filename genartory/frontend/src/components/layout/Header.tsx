@@ -6,7 +6,7 @@ import { WalletConnector } from "@aptos-labs/wallet-adapter-mui-design";
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom for navigation
 import  mylogo from '../../../public/images/logo.jpg'; // Import mylogo from images/genartory_logo.svg
 
-const Header = () => {
+  const Header = () => {
   const { connect, account, connected } = useWallet();
   return (
     <header className={styles.header}>
