@@ -1,6 +1,6 @@
 // frontend/src/utils/ai/generation.ts
-
 import { GenerateArtRequest } from './types';
+import { toast } from "react-hot-toast";
 
 export async function generateArt(request: GenerateArtRequest): Promise<string> {
 
@@ -17,31 +17,43 @@ export async function generateArt(request: GenerateArtRequest): Promise<string> 
       method: 'POST',
       headers: headers,
       body: JSON.stringify({
-        inputs: request.prompt,
-        options: {
-          wait_for_model: true,
-        },
-        // Parameters specific to stable-diffusion-v1-5:
+        inputs: request.prompt, // The main prompt text
         parameters: {
-          width: 512,                 // Set your desired width
-          height: 512,                // Set your desired height
-          negative_prompt: null,     // You can set this if you want to specify what NOT to generate
-          num_inference_steps: 50,   // Number of steps to refine the image (adjust as needed)
-          guidance_scale: 7.5,        // How strongly the model should adhere to the prompt (adjust as needed)
-          // ... other parameters you might want to adjust ...
+          width: request.width,                 
+          height: request.height,                
+          negative_prompt: null,     
+          num_inference_steps: 50,  
+          guidance_scale: 7.5,        
+          num_images_per_prompt: request.numOutputs, //Specify the number of images you want to generate per prompt
         }
       }),
     });
 
+    // More specific error handling
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Image generation failed.');
+      const errorData = await response.json(); 
+      if (errorData.error) { // Check for specific error field
+        throw new Error(errorData.error); 
+      } else if (response.status === 429) {
+        throw new Error("Rate limit exceeded. Please try again later.");
+      } else {
+        throw new Error('Image generation failed. Please check your API key and prompt.');
+      }
+    }
+    const data = await response.json();
+
+    if (!Array.isArray(data)) {
+      throw new Error("Unexpected API response format. Please try again.");
     }
 
-    const blob = await response.blob();
-    return URL.createObjectURL(blob); 
+    const imageUrls = data.map((item: {generated: string}) => item.generated); 
+    if (imageUrls.length === 0) {
+      throw new Error('No images were generated. Please try a different prompt or settings.');
+    }
+    return imageUrls;
   } catch (error) {
     console.error('Error generating art:', error);
+    toast.error(error?.message || 'An unexpected error occurred.'); // Display user-friendly error
     throw error; 
   }
 }
