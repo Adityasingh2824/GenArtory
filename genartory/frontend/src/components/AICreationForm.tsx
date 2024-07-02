@@ -1,13 +1,13 @@
 // frontend/src/components/nft/AICreationForm.tsx
-
-import React, { FormEvent, useState } from "react";
-import { toast } from "react-hot-toast";
-import styles from "./AICreationForm.module.css";
-import Input from "./common/Input";
-import Select from "./common/Select";
-import Button from "./common/Button";
+import React, { FormEvent, useState } from 'react';
+import { toast } from 'react-hot-toast';
+import styles from './AICreationForm.module.css';
+import Input from './common/Input';
+import Select from './common/Select';
+import Button from './common/Button';
 import { generateArt } from '../utils/ai';
-import { GenerateArtRequest } from "../utils/ai/types";
+import { GenerateArtRequest } from '../utils/ai/types';
+import { DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT } from '../utils/constants';
 
 interface AICreationFormProps {
   onArtGenerated: (imageData: string, prompt: string) => void;
@@ -17,54 +17,39 @@ interface AICreationFormProps {
 const AICreationForm: React.FC<AICreationFormProps> = ({ onArtGenerated, error }) => {
   // States for form fields
   const [prompt, setPrompt] = useState('');
-  const [style, setStyle] = useState('realistic');
-  const [aspectRatio, setAspectRatio] = useState('1:1');
-  const [seed, setSeed] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
-  // Options for style dropdown
-  const styleOptions = [
-    { value: 'realistic', label: 'Realistic' },
-    { value: 'abstract', label: 'Abstract' },
-    { value: 'pixelArt', label: 'Pixel Art' },
-  ];
-
-  // Options for aspect ratio dropdown
-  const aspectRatioOptions = [
-    { value: '1:1', label: 'Square' },
-    { value: '16:9', label: 'Landscape' },
-    { value: '9:16', label: 'Portrait' },
-  ];
+  const [numOutputs, setNumOutputs] = useState(1);
+  const [width, setWidth] = useState(DEFAULT_IMAGE_WIDTH);
+  const [height, setHeight] = useState(DEFAULT_IMAGE_HEIGHT);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
-    //setFormError(null); // Clear previous errors
+    setIsLoading(true); // Show loading indicator while generating
 
     const request: GenerateArtRequest = {
       prompt,
-      style,
-      aspectRatio,
-      seed: seed ? parseInt(seed, 10) : undefined, // Parse seed if provided
+      numOutputs,
+      width,
+      height
     };
 
     try {
-      const generatedImage = await generateArt(request); // Call the AI generation function
-      onArtGenerated(generatedImage, prompt); // Notify the parent component
+      const generatedImages = await generateArt(request); // Get an array of generated images
+      
+      onArtGenerated(generatedImages[0], prompt); // Pass the first generated image and prompt to the parent
+      
+      // Optionally, show a gallery with all generated images
     } catch (err) {
-      console.error("Error generating art:", err);
-      toast.error("Failed to generate art. Please try again.");
+      console.error('Error generating art:', err);
+      toast.error('Failed to generate art. Please try again.');
     } finally {
-      setIsLoading(false); // Reset loading state after completion or error
+      setIsLoading(false);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      {/* Error Display */}
       {error && <p className={styles.error}>{error}</p>}
-
-      {/* Prompt Input */}
       <Input
         type="text"
         id="prompt"
@@ -74,40 +59,38 @@ const AICreationForm: React.FC<AICreationFormProps> = ({ onArtGenerated, error }
         onChange={(e) => setPrompt(e.target.value)}
         required
       />
-
-      {/* Style Selection */}
-      <Select
-        id="style"
-        label="Art Style"
-        options={styleOptions}
-        value={style}
-        onChange={(e) => setStyle(e.target.value)}
-        error={error} 
-      />
-
-      {/* Aspect Ratio Selection */}
-      <Select
-        id="aspectRatio"
-        label="Aspect Ratio"
-        options={aspectRatioOptions}
-        value={aspectRatio}
-        onChange={(e) => setAspectRatio(e.target.value)}
-        error={error} 
-      />
-
-      {/* Seed Input (Optional) */}
       <Input
-        type="text"
-        id="seed"
-        label="Seed (optional)"
-        placeholder="Enter a seed for reproducibility"
-        value={seed}
-        onChange={(e) => setSeed(e.target.value)}
+        type="number"
+        id="numOutputs"
+        label="Number of Images"
+        value={numOutputs}
+        onChange={(e) => setNumOutputs(parseInt(e.target.value))}
+        min="1"
+        required
       />
-
-      {/* Submit Button */}
+      <Input
+        type="number"
+        id="width"
+        label="Width"
+        value={width}
+        onChange={(e) => setWidth(parseInt(e.target.value))}
+        min="256" // Minimum image width (adjust as needed)
+        max="1024" // Maximum image width (adjust as needed)
+        required
+      />
+      <Input
+        type="number"
+        id="height"
+        label="Height"
+        value={height}
+        onChange={(e) => setHeight(parseInt(e.target.value))}
+        min="256" // Minimum image height (adjust as needed)
+        max="1024" // Maximum image height (adjust as needed)
+        required
+      />
+      {/* ... you can add more input fields here for style, seed etc. ... */}
       <Button type="submit" isLoading={isLoading} disabled={isLoading}>
-        {isLoading ? "Generating..." : "Generate Art"}
+        {isLoading ? 'Generating...' : 'Generate Art'}
       </Button>
     </form>
   );

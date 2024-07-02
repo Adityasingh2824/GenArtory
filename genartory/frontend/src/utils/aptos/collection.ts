@@ -74,4 +74,43 @@ export async function getUserCollections(creatorAddress: string): Promise<any[]>
     return [];
   }
 }
+//add a mintnft funtion please
+// Function to mint an NFT
+export async function mintNFT(
+  account: any | null,
+  collectionName: string,
+  metadataURI: string
+): Promise<Types.HexEncodedBytes | null> {
+  if (!account) {
+    throw new Error('Please connect your wallet first');
+  }
 
+  try {
+    const payload: Types.TransactionPayload = {
+      type: "entry_function_payload",
+      function: `${MODULE_ADDRESS}::nft::mint_nft`,
+      type_arguments: [],
+      arguments: [collectionName, metadataURI],
+    };
+
+    const txnRequest = await client.generateTransaction(account.address, payload);
+    const signedTxn = await account.signAndSubmitTransaction(txnRequest);
+    await client.waitForTransaction(signedTxn.hash);
+    toast.success("NFT minted successfully!");
+    return signedTxn.hash;
+  } catch (error: any) {
+    toast.error(error?.message || "Failed to mint NFT.");
+    return null;
+  }
+}
+
+// Function to get recent activities
+export async function getRecentActivities(): Promise<any[]> {
+  try {
+    const activities = await client.getRecentTransactions();
+    return activities;
+  } catch (error) {
+    console.error("Error fetching recent activities:", error);
+    return [];
+  }
+}

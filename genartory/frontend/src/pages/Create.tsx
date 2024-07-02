@@ -1,4 +1,3 @@
-// frontend/src/pages/Create.tsx
 import React, { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Create.module.css";
@@ -9,58 +8,89 @@ import { toast } from "react-hot-toast";
 import { mintNFT } from '../utils/aptos';
 import { NFT } from '../types';
 import { generateArt } from '../utils/ai';
+import { GenerateArtRequest } from '../utils/ai/types';
 
 
 const Create: React.FC = () => {
   const navigate = useNavigate();
   const { account } = useWallet();
-  const [isLoading, setIsLoading] = useState(false);
-  const [generatedImage, setGeneratedImage] = useState<string | null>(null);
-  const [formError, setFormError] = useState<string | null>(null);
-  const [minting, setMinting] = useState(false);
-  const [mintedNft, setMintedNft] = useState<NFT | null>(null);
 
-  const handleArtGenerated = async (imageData: string, prompt: string) => {
-    setGeneratedImage(imageData);
-    setPrompt(prompt);
+  // Combined useState for better readability
+  const [nftCreationState, setNFTCreationState] = useState<{
+    isLoading: boolean;
+    generatedImages: string[] | null; // Array to store multiple generated images
+    mintSuccess: boolean;
+    prompt: string;
+    error: string | null;
+  }>({
+    isLoading: false,
+    generatedImages: null, // Initialize as null
+    mintSuccess: false,
+    prompt: '',
+    error: null,
+  });
+
+  // Destructure state for easier use
+  const { isLoading, generatedImages, mintSuccess, prompt, error } = nftCreationState;
+
+  const handleArtGenerated = (imageDataArray: string[], prompt: string) => {
+    setNFTCreationState({
+      ...nftCreationState,
+      generatedImages: imageDataArray,
+      prompt,
+      mintSuccess: false,
+      error: null,
+    });
   };
-
   const handleMint = async () => {
-    if (!account?.address || !generatedImage || !prompt) {
-      toast.error("Please connect your wallet, generate an image, and fill in the prompt.");
+    if (!account?.address || !generatedImages || !prompt) {
+      toast.error("Please connect your wallet and generate an image first.");
       return;
     }
+    setIsLoading(true);
 
     try {
-      setMinting(true); // Set loading state for minting button
-      const nftData = await mintNFT(account.address, generatedImage, prompt);
-      if (nftData) {
-        setMintedNft(nftData as NFT);
+      const nftId = await mintNFT(account.address, generatedImages, prompt);
+      if (nftId) {
+        setNFTCreationState({
+          ...nftCreationState,
+          mintSuccess: true,
+          isLoading: false,
+        });
         toast.success("NFT minted successfully!");
+      } else {
+        throw new Error("Minting failed");
       }
     } catch (error) {
-      console.error('Error minting NFT:', error);
-      toast.error('An error occurred while minting the NFT.');
-    } finally {
-      setMinting(false); // Reset loading state after minting
+      console.error("Error minting NFT:", error);
+      setNFTCreationState({
+        ...nftCreationState,
+        error: "An error occurred while minting the NFT. Please try again.",
+        isLoading: false,
+      });
+      toast.error(error?.message || "Failed to mint NFT");
     }
   };
 
   return (
     <div className={styles.container}>
       <h1>Create Your AI-Powered NFT</h1>
-      <AICreationForm onArtGenerated={handleArtGenerated} error={formError} />
-
+      <AICreationForm onArtGenerated={handleArtGenerated} error={error} />
       {/* Image Preview Section */}
-      {generatedImage && (
+      {generatedImages && (
         <div className={styles.previewContainer}>
           <h2 className={styles.previewTitle}>Preview</h2>
-          <img src={generatedImage} alt={prompt} className={styles.previewImage} />
-          <Button onClick={handleMint} isLoading={minting} disabled={minting}>
-            {minting ? "Minting..." : "Mint NFT"}
-          </Button>
-          {/* Optional: Display minted NFT details */}
-          {mintedNft && (
+          {/* Display all generated images */}
+          {generatedImages.map((image: string, index: number) => (
+            <img src={image} alt={prompt} key={index} className={styles.previewImage} />
+          ))}
+          {!mintSuccess && (
+            <Button onClick={handleMint} isLoading={isLoading} disabled={isLoading || minting}>
+              Mint NFT
+            </Button>
+          )}
+
+          {mintSuccess && mintedNft && (
             <div className={styles.mintedNft}>
               <h3>Your NFT has been minted!</h3>
               <p>Token ID: {mintedNft.id.name}</p>

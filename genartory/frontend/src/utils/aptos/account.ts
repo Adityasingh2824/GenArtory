@@ -54,3 +54,4 @@ export async function getProfileDetails(address: string): Promise<any> {
     return null;
   }
 }
+
