@@ -3,8 +3,8 @@
 import { GenerateArtRequest } from './types';
 
 export async function generateArt(request: GenerateArtRequest): Promise<string> {
-  const API_URL = 'https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4'; 
-  const headers = { Authorization: `Bearer ${import.meta.env.VITE_HUGGING_FACE_API_KEY}` }; 
+  const API_URL = 'https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-3-medium';
+  const headers = { Authorization: `Bearer ${import.meta.env.VITE_HUGGING_FACE_API_KEY}` }; // Get API key from env
 
   try {
     const response = await fetch(API_URL, {
@@ -15,26 +15,27 @@ export async function generateArt(request: GenerateArtRequest): Promise<string> 
         options: {
           wait_for_model: true,
         },
+        // Parameters specific to stable-diffusion-v1-5:
+        parameters: {
+          width: 512,                 // Set your desired width
+          height: 512,                // Set your desired height
+          negative_prompt: null,     // You can set this if you want to specify what NOT to generate
+          num_inference_steps: 50,   // Number of steps to refine the image (adjust as needed)
+          guidance_scale: 7.5,        // How strongly the model should adhere to the prompt (adjust as needed)
+          // ... other parameters you might want to adjust ...
+        }
       }),
     });
 
     if (!response.ok) {
-      const errorData = await response.json(); // Try to get error details from the response
-      throw new Error(errorData?.error || 'Image generation failed'); // Use detailed error if available
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Image generation failed.');
     }
 
-    const data = await response.json();
-    if (data?.error) { // Check for specific error field in the response
-      throw new Error(data.error); 
-    }
-
-    if (!data[0] || !data[0].generated) { // Ensure generated image exists
-      throw new Error('No image was generated');
-    }
-
-    return data[0].generated; 
+    const blob = await response.blob();
+    return URL.createObjectURL(blob); 
   } catch (error) {
     console.error('Error generating art:', error);
-    throw error; // Re-throw the error to be handled by the calling component
+    throw error; 
   }
 }
