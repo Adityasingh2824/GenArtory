@@ -40,9 +40,11 @@ const Create: React.FC = () => {
   }, [account?.address]); // Re-fetch collections when the account changes
 
   const handleArtGenerated = (imageDataArray: string[], prompt: string) => {
+    console.log('Generated images:', imageDataArray);
+
     setGeneratedImages(imageDataArray);
     setPrompt(prompt);
-    setMintSuccess(false);
+    //setMintSuccess(false);
     setError(null); // Clear any previous errors
   };
 
@@ -91,14 +93,22 @@ const Create: React.FC = () => {
       <h1>Create Your AI-Powered NFT</h1>
       <AICreationForm onArtGenerated={handleArtGenerated} error={error} collections={collections} />
 
+       
+         {generatedImages && (
+        <div>
+          <img src={generatedImages.imageUrl} alt="Generated Art" style={{ maxWidth: '100%', height: 'auto' }} />
+        </div>
+      )}
+      
       {/* Image Preview Section */}
       {generatedImages?.length > 0 && (
         <div className={styles.previewContainer}>
           <h2 className={styles.previewTitle}>Preview</h2>
           <div className={styles.nftGrid}>
-            {generatedImages.map((image: string, index: number) => (
-              <img src={image} alt={prompt} key={index} className={styles.previewImage} />
-            ))}
+            {generatedImages.map((image: string, index: number) => 
+                <img src={image} alt={prompt} key={index} className={styles.previewImage} />
+             
+            )}
           </div>
           {/* Select Collection & Royalty */}
           <div className={styles.select}>
@@ -139,6 +149,7 @@ const Create: React.FC = () => {
 
         </div>
       )}
+
     </div>
   );
 };

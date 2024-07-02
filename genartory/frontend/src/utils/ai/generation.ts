@@ -40,17 +40,27 @@ export async function generateArt(request: GenerateArtRequest): Promise<string> 
         throw new Error('Image generation failed. Please check your API key and prompt.');
       }
     }
-    const data = await response.json();
 
-    if (!Array.isArray(data)) {
-      throw new Error("Unexpected API response format. Please try again.");
-    }
+  const imageBlob = await response.blob(); // Convert the response body to a Blob
+  const imageUrl = URL.createObjectURL(imageBlob); // Create a URL for the Blob
 
-    const imageUrls = data.map((item: {generated: string}) => item.generated); 
+
+    // const data = await response.json();
+
+    // if (!Array.isArray(data)) {
+    //   throw new Error("Unexpected API response format. Please try again.");
+    // }
+
+    const imageUrls = [];// data.map((item: { generated: string }) => item.generated); 
+    //add imageUrl to array of imageUrls
+    imageUrls.push({ imageUrl  });
+
+    console.log('imageUrls:', imageUrls);
+
     if (imageUrls.length === 0) {
       throw new Error('No images were generated. Please try a different prompt or settings.');
     }
-    return imageUrls;
+    return imageUrls; 
   } catch (error) {
     console.error('Error generating art:', error);
     toast.error(error?.message || 'An unexpected error occurred.'); // Display user-friendly error

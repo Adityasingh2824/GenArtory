@@ -34,8 +34,10 @@ const AICreationForm: React.FC<AICreationFormProps> = ({ onArtGenerated, error }
     };
 
     try {
+      console.log('Generating art with request:', request);
+
       const generatedImages = await generateArt(request); // Get an array of generated images
-      
+      console.log('Generated images:', generatedImages);
       onArtGenerated(generatedImages[0], prompt); // Pass the first generated image and prompt to the parent
       
       // Optionally, show a gallery with all generated images
