@@ -1,74 +1,89 @@
-import React, { useState, FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
-import styles from "./Create.module.css";
-import AICreationForm from "../components/AICreationForm";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import Button from "../components/common/Button";
-import { toast } from "react-hot-toast";
-import { mintNFT } from '../utils/aptos';
+// frontend/src/pages/Create.tsx
+import React, { useState, useEffect } from 'react';
+import styles from './Create.module.css';
+import { useNavigate } from 'react-router-dom';
+import AICreationForm from '../components/nft/AICreationForm';
+import { useWallet } from '@aptos-labs/wallet-adapter-react';
+import { mintNFT } from '../utils/aptos/nft';
+import { toast } from 'react-hot-toast';
 import { NFT } from '../types';
-import { generateArt } from '../utils/ai';
-import { GenerateArtRequest } from '../utils/ai/types';
+import { getCollectionDetails } from '@/utils/aptos';
 
 
 const Create: React.FC = () => {
   const navigate = useNavigate();
-  const { account } = useWallet();
+  const { account, connected } = useWallet();
 
-  // Combined useState for better readability
-  const [nftCreationState, setNFTCreationState] = useState<{
-    isLoading: boolean;
-    generatedImages: string[] | null; // Array to store multiple generated images
-    mintSuccess: boolean;
-    prompt: string;
-    error: string | null;
-  }>({
-    isLoading: false,
-    generatedImages: null, // Initialize as null
-    mintSuccess: false,
-    prompt: '',
-    error: null,
-  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [generatedImages, setGeneratedImages] = useState<string[]>([]);
+  const [prompt, setPrompt] = useState('');
+  const [collectionName, setCollectionName] = useState<string | null>(null); 
+  const [error, setError] = useState<string | null>(null);
+  const [minting, setMinting] = useState(false);
+  const [collections, setCollections] = useState<any[]>([]); 
+  const [selectedCollection, setSelectedCollection] = useState('');
+  const [royaltyPercentage, setRoyaltyPercentage] = useState(10);
 
-  // Destructure state for easier use
-  const { isLoading, generatedImages, mintSuccess, prompt, error } = nftCreationState;
+  useEffect(() => {
+    const fetchCollections = async () => {
+      if (account?.address) {
+        try {
+          const userCollections = await getUserCollections(account.address);
+          setCollections(userCollections);
+          setSelectedCollection(userCollections[0]?.name || ""); 
+        } catch (error) {
+          console.error('Error fetching collections:', error);
+        } 
+      }
+    };
+
+    fetchCollections();
+  }, [account?.address]); // Re-fetch collections when the account changes
 
   const handleArtGenerated = (imageDataArray: string[], prompt: string) => {
-    setNFTCreationState({
-      ...nftCreationState,
-      generatedImages: imageDataArray,
-      prompt,
-      mintSuccess: false,
-      error: null,
-    });
+    setGeneratedImages(imageDataArray);
+    setPrompt(prompt);
+    setError(null); 
   };
+
   const handleMint = async () => {
     if (!account?.address || !generatedImages || !prompt) {
-      toast.error("Please connect your wallet and generate an image first.");
+      toast.error("Please connect your wallet, generate an image, and fill in the prompt.");
+      return;
+    }
+
+    const validRoyalty = validateRoyaltyPercentage(royaltyPercentage);
+    if(validRoyalty)
+    {
+      toast.error(validRoyalty);
       return;
     }
     setIsLoading(true);
 
     try {
-      const nftId = await mintNFT(account.address, generatedImages, prompt);
+      const collectionDetails = await getCollectionDetails(selectedCollection);
+      const nftId = await mintNFT(
+        account.address, 
+        generatedImages, 
+        prompt, 
+        selectedCollection, 
+        royaltyPercentage, 
+        collectionDetails?.uri, 
+        collectionDetails?.description
+      );
+      
       if (nftId) {
-        setNFTCreationState({
-          ...nftCreationState,
-          mintSuccess: true,
-          isLoading: false,
-        });
         toast.success("NFT minted successfully!");
+        navigate("/explore"); // Navigate back to marketplace after successful mint
       } else {
         throw new Error("Minting failed");
       }
     } catch (error) {
       console.error("Error minting NFT:", error);
-      setNFTCreationState({
-        ...nftCreationState,
-        error: "An error occurred while minting the NFT. Please try again.",
-        isLoading: false,
-      });
+      setError("An error occurred while minting the NFT. Please try again.");
       toast.error(error?.message || "Failed to mint NFT");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -76,29 +91,51 @@ const Create: React.FC = () => {
     <div className={styles.container}>
       <h1>Create Your AI-Powered NFT</h1>
       <AICreationForm onArtGenerated={handleArtGenerated} error={error} />
+
       {/* Image Preview Section */}
-      {generatedImages && (
+      {generatedImages?.length > 0 && (
         <div className={styles.previewContainer}>
           <h2 className={styles.previewTitle}>Preview</h2>
-          {/* Display all generated images */}
+          <div className={styles.nftGrid}>
           {generatedImages.map((image: string, index: number) => (
             <img src={image} alt={prompt} key={index} className={styles.previewImage} />
           ))}
-          {!mintSuccess && (
-            <Button onClick={handleMint} isLoading={isLoading} disabled={isLoading || minting}>
-              Mint NFT
-            </Button>
-          )}
+          </div>
+          {/* Select Collection & Royalty */}
+          <div className={styles.select}>
+            <label htmlFor="collection">Select Collection:</label>
+            <select
+              id="collection"
+              value={selectedCollection}
+              onChange={(e) => setSelectedCollection(e.target.value)}
+            >
+              {collections.map((collection) => (
+                <option key={collection.name} value={collection.name}>
+                  {collection.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-          {mintSuccess && mintedNft && (
-            <div className={styles.mintedNft}>
-              <h3>Your NFT has been minted!</h3>
-              <p>Token ID: {mintedNft.id.name}</p>
-              <Button onClick={() => navigate(`/nft/${mintedNft.creator_address}/${mintedNft.id.name}`)}>
-                View Details
-              </Button>
-            </div>
-          )}
+          <div className={styles.royaltyPercentage}>
+            <Input
+              type="number"
+              id="royaltyPercentage"
+              label="Royalty Percentage"
+              value={royaltyPercentage}
+              onChange={(e) => {
+                const value = parseInt(e.target.value, 10);
+                if (!isNaN(value) && value >= 0 && value <= 100) { // Validate input
+                  setRoyaltyPercentage(value);
+                }
+              }}
+            />
+          </div>
+
+          <Button onClick={handleMint} isLoading={isLoading} disabled={isLoading || minting}>
+            {minting ? 'Minting...' : 'Mint NFT'}
+          </Button>
+
         </div>
       )}
     </div>
