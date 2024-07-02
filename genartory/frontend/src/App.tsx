@@ -6,6 +6,8 @@ import { PetraWallet } from 'petra-plugin-wallet-adapter';
 
 import { AptosWalletAdapterProvider } from '@aptos-labs/wallet-adapter-react';
 import './styles/index.css'; 
+import { API_URL } from './utils/constants'; // Assuming you have this in constants.ts
+
 
 // Import your page components
 import Home from './pages/Home';
@@ -37,7 +39,7 @@ function App() {
         <main>
           <Routes> 
             <Route path="/" element={<Home />} />
-            <Route path="/explore" element={<Explore />} />
+            <Route path="/explore" element={<Explore apiUrl={API_URL} />} />
             <Route path="/create" element={<Create />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/about" element={<About />} /> 

@@ -4,7 +4,13 @@ import { GenerateArtRequest } from './types';
 
 export async function generateArt(request: GenerateArtRequest): Promise<string> {
   const API_URL = 'https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4'; 
+
   const headers = { Authorization: `Bearer ${import.meta.env.VITE_HUGGING_FACE_API_KEY}` }; 
+
+  console.log('request:', request);
+  ///print headers to console
+  console.log('headers:', headers);
+
 
   try {
     const response = await fetch(API_URL, {

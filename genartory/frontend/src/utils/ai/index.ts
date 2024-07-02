@@ -6,4 +6,4 @@ export * from './types';
 
 // Explicit exports for convenience and clarity (optional)
 export { generateArt } from './generation'; 
-//export { GenerateArtRequest } from './types'; //and more based on what is defined in generation and types
+export type { GenerateArtRequest } from './types'; //and more based on what is defined in generation and types

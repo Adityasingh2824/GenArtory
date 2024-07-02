@@ -16,6 +16,6 @@ export const DEFAULT_IMAGE_WIDTH = 512;
 export const DEFAULT_IMAGE_HEIGHT = 512;
 
 // API endpoint for AI art generation
-export const AI_GENERATION_API = "/api/ai/generate";
+export const AI_GENERATION_API = "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4";
 
 // ... Add more constants as needed ...
