@@ -3,4 +3,5 @@ node_modules/
 genartory/node_modules/bigint-buffer/build/Makefile
 build/
 .env
+.move_not
 

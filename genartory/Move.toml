@@ -6,7 +6,9 @@ version = "0.1.0"
 AptosFramework = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-framework/", rev = "devnet" }
 AptosStdlib = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-stdlib/", rev = "devnet" }
 AptosToken = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-token/", rev = "devnet" } # Changed to AptosToken
-AptosToken = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-token/", rev = "devnet" } 
+AptosTokenObjects = { git = "https://github.com/aptos-labs/aptos-core.git", rev = "devnet", subdir = "aptos-move/framework/aptos-token-objects" }
 
 [addresses]
-Std = "0x1"
+
+genartory="0x7956e1ba370b5b27abe7e1e115b6fcf25ed2aa6fc91266f5281fc30667038061"
+
