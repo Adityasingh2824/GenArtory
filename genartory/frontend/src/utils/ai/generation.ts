@@ -1,17 +1,12 @@
 // frontend/src/utils/ai/generation.ts
 import { GenerateArtRequest } from './types';
 import { toast } from "react-hot-toast";
+import { API_URL } from '../constants';
+
 
 export async function generateArt(request: GenerateArtRequest): Promise<string> {
-
-  const API_URL = 'https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4'; 
+  //const API_URL = 'https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4'; 
   const headers = { Authorization: `Bearer ${import.meta.env.VITE_HUGGING_FACE_API_KEY}` }; 
-
-  console.log('request:', request);
-  ///print headers to console
-  console.log('headers:', headers);
-
-
   try {
     const response = await fetch(API_URL, {
       method: 'POST',
@@ -44,7 +39,6 @@ export async function generateArt(request: GenerateArtRequest): Promise<string> 
   const imageBlob = await response.blob(); // Convert the response body to a Blob
   const imageUrl = URL.createObjectURL(imageBlob); // Create a URL for the Blob
 
-
     // const data = await response.json();
 
     // if (!Array.isArray(data)) {
@@ -54,8 +48,6 @@ export async function generateArt(request: GenerateArtRequest): Promise<string> 
     const imageUrls = [];// data.map((item: { generated: string }) => item.generated); 
     //add imageUrl to array of imageUrls
     imageUrls.push({ imageUrl  });
-
-    console.log('imageUrls:', imageUrls);
 
     if (imageUrls.length === 0) {
       throw new Error('No images were generated. Please try a different prompt or settings.');

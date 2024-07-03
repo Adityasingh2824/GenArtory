@@ -8,6 +8,10 @@ import { mintNFT } from '../utils/aptos/nft';
 import { toast } from 'react-hot-toast';
 import { NFT } from '../types';
 import { getUserCollections, /*validateRoyaltyPercentage*/ } from '../utils/aptos';
+//please import Input and Button components from the common folder
+import Input from '../components/common/Input';
+import Button from '../components/common/Button';
+
 
 const Create: React.FC = () => {
   const navigate = useNavigate();
@@ -40,11 +44,11 @@ const Create: React.FC = () => {
   }, [account?.address]); // Re-fetch collections when the account changes
 
   const handleArtGenerated = (imageDataArray: string[], prompt: string) => {
-    console.log('Generated images:', imageDataArray);
+    
 
     setGeneratedImages(imageDataArray);
     setPrompt(prompt);
-    //setMintSuccess(false);
+    setMintSuccess(false);
     setError(null); // Clear any previous errors
   };
 
@@ -92,25 +96,24 @@ const Create: React.FC = () => {
     <div className={styles.container}>
       <h1>Create Your AI-Powered NFT</h1>
       <AICreationForm onArtGenerated={handleArtGenerated} error={error} collections={collections} />
-
-       
-         {generatedImages && (
-        <div>
-          <img src={generatedImages.imageUrl} alt="Generated Art" style={{ maxWidth: '100%', height: 'auto' }} />
-        </div>
-      )}
       
       {/* Image Preview Section */}
-      {generatedImages?.length > 0 && (
+      <div>
+        <h1 >TEST{generatedImages?.length}</h1>
+      </div>
+
+      {generatedImages && (
         <div className={styles.previewContainer}>
           <h2 className={styles.previewTitle}>Preview</h2>
           <div className={styles.nftGrid}>
-            {generatedImages.map((image: string, index: number) => 
-                <img src={image} alt={prompt} key={index} className={styles.previewImage} />
+            <img src={generatedImages.imageUrl} alt={prompt} key={0} className={styles.previewImage} />
+            <h4>{prompt}</h4>
+            {/*{generatedImages.map((imageUrl: string, index: number) => 
+                <img src={imageUrl} alt={prompt} key={index} className={styles.previewImage} />
              
-            )}
+            )}*/}
           </div>
-          {/* Select Collection & Royalty */}
+      
           <div className={styles.select}>
             <label htmlFor="collection">Select Collection:</label>
             <select
@@ -147,8 +150,9 @@ const Create: React.FC = () => {
             {minting ? 'Minting...' : 'Mint NFT'}
           </Button>
 
-        </div>
-      )}
+        </div> 
+      )
+      }
 
     </div>
   );

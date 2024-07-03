@@ -31,7 +31,6 @@ const wallets = [
 ];
 
 function App() {
-  console.log("App.tsx");
   return (
     <AptosWalletAdapterProvider plugins={wallets} autoConnect>
       <div className="app">
