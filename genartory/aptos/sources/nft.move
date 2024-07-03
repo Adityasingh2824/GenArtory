@@ -6,9 +6,10 @@ module genartory::nft {
     use aptos_framework::coin::{Coin};
     use aptos_framework::account;
 
-    use aptos_token_objects::collection;
+    use aptos_token_objects::collection::{Self, Collection};
     
-      TokenDataId, create_unlimited_collection, create_tokendata;
+     // TokenDataId,
+       //create_unlimited_collection, create_tokendata;
 
     friend genartory::marketplace;
     friend genartory::dao;
@@ -94,7 +95,7 @@ module genartory::nft {
         let admin = borrow_global<Admin>(@genartory);
         assert!(signer::address_of(account) == admin.admin_address, ENOT_ADMIN);
 
-        create_unlimited_collection(account, collection_name, uri, description);
+        Collection::create_unlimited_collection(account, collection_name, uri, description);
         event::emit(CreateCollectionEvent {
             creator: signer::address_of(account),
             collection_name,
