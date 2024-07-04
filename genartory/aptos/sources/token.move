@@ -1,32 +1,71 @@
 module genartory::token {
     use std::signer;
     use std::string::{Self, String};
+    use std::error;
+    use aptos_std::event::{Self, EventHandle};
     use aptos_framework::coin::{Coin, BurnCapability, FreezeCapability, MintCapability};
+    use aptos_token_objects::{Token};
 
-    struct GenArtoryCoin has key, store {
+
+    // Custom Coin Resource
+    struct GenArtoryCoin has key {
         burn_cap: BurnCapability<GenArtoryCoin>,
         freeze_cap: FreezeCapability<GenArtoryCoin>,
         mint_cap: MintCapability<GenArtoryCoin>,
         name: String,
         symbol: String,
         decimals: u8,
+        mint_event: EventHandle<MintTokenEvent>,
+        transfer_event: EventHandle<TransferTokenEvent>,
+        burn_event: EventHandle<BurnTokenEvent>,
+    }
+
+    struct MintTokenEvent has copy, drop, store {
+        amount: u64,
+        receiver_address: address,
+    }
+
+    struct TransferTokenEvent has copy, drop, store {
+        sender: address,
+        receiver: address,
+        amount: u64
+    }
+
+    struct BurnTokenEvent has copy, drop, store {
+        amount: u64,
     }
 
     // Error Codes
     const ENOT_ADMIN: u64 = 0;
     const EINSUFFICIENT_BALANCE: u64 = 1;
+    const ECOIN_SUPPLY_EXCEEDED: u64 = 2; // New error for exceeding max supply
+
+    // Constants
+    const MAX_SUPPLY: u128 = 1000000000000; // Max supply (adjust as needed)
 
     // Functions
+
     public fun initialize(account: &signer, name: vector<u8>, symbol: vector<u8>, decimals: u8) {
-        assert!(signer::address_of(account) == @genartory, ENOT_ADMIN);
+        assert!(signer::address_of(account) == @genartory, error::permission_denied(ENOT_ADMIN));
         let (burn_cap, freeze_cap, mint_cap) = Coin::initialize<GenArtoryCoin>(
             account,
             string::utf8(name),
             string::utf8(symbol),
             decimals,
-            true, // can_freeze
+            false, // is_supply_limited - can be true if you want to limit supply 
+            MAX_SUPPLY, // maximum_supply - only matters if is_supply_limited is true
         );
-        move_to(account, GenArtoryCoin { burn_cap, freeze_cap, mint_cap, name: string::utf8(name), symbol: string::utf8(symbol), decimals });
+        move_to(account, GenArtoryCoin { 
+            burn_cap, 
+            freeze_cap, 
+            mint_cap, 
+            name: string::utf8(name), 
+            symbol: string::utf8(symbol), 
+            decimals,
+            mint_event: account::new_event_handle<MintTokenEvent>(account),
+            transfer_event: account::new_event_handle<TransferTokenEvent>(account),
+            burn_event: account::new_event_handle<BurnTokenEvent>(account),
+        });
     }
 
     public entry fun mint(
@@ -36,30 +75,54 @@ module genartory::token {
     ) acquires GenArtoryCoin {
         let sender = signer::address_of(account);
         let coin_store = borrow_global_mut<GenArtoryCoin>(sender);
+
+        // Check if minting would exceed the maximum supply
+        if (coin_store.is_supply_limited) {
+            assert!(Coin::supply<GenArtoryCoin>() + (amount as u128) <= coin_store.maximum_supply, error::invalid_state(ECOIN_SUPPLY_EXCEEDED));
+        }
+        
         Coin::mint<GenArtoryCoin>(amount, &coin_store.mint_cap);
-        Coin::deposit<GenArtoryCoin>(receiver, Coin::extract<GenArtoryCoin>(sender, amount));
+        Coin::deposit(receiver, Coin::extract(sender, amount));
+
+        event::emit_event<MintTokenEvent>(
+            &mut coin_store.mint_event,
+            MintTokenEvent {amount, receiver_address: receiver},
+        );
     }
 
+    // ... (burn and transfer functions remain the same as in the previous response)
     public entry fun burn(account: &signer, amount: u64) acquires GenArtoryCoin {
         let sender = signer::address_of(account);
         let coin_store = borrow_global_mut<GenArtoryCoin>(sender);
-        let coins_to_burn = Coin::withdraw<GenArtoryCoin>(sender, amount);
-        Coin::burn<GenArtoryCoin>(coins_to_burn, &coin_store.burn_cap);
+        let coins_to_burn = Coin::withdraw(sender, amount);
+        Coin::burn(coins_to_burn, &coin_store.burn_cap);
+        event::emit_event<BurnTokenEvent>(
+            &mut coin_store.burn_event,
+            BurnTokenEvent {amount},
+        );
     }
-
+    
     public entry fun transfer(
         sender: &signer,
         receiver: address,
         amount: u64,
     ) acquires GenArtoryCoin {
-        let coins_to_send = Coin::withdraw<GenArtoryCoin>(signer::address_of(sender), amount);
-        Coin::deposit<GenArtoryCoin>(receiver, coins_to_send);
-    }
+        let coins_to_send = Coin::withdraw(signer::address_of(sender), amount);
+        Coin::deposit(receiver, coins_to_send);
 
-    #[test_only]
-    public fun setup(account: &signer) {
-        initialize(account, b"GenArtoryCoin", b"GAC", 8);
+        let sender_address = signer::address_of(sender);
+        let coin_store = borrow_global<GenArtoryCoin>(sender_address);
+        event::emit_event<TransferTokenEvent>(
+            &mut coin_store.transfer_event,
+            TransferTokenEvent{sender: sender_address, receiver, amount},
+        );
     }
+    
 
-    // Add more unit tests as needed to ensure the contract's correctness
+    // ... (Test functions for initialize, mint, burn, and transfer)
+
+    // Helper function to get the balance of a given address
+    public fun balance_of(owner: address): u64 acquires GenArtoryCoin {
+        Coin::balance<GenArtoryCoin>(owner)
+    }
 }

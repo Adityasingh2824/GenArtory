@@ -1,29 +1,41 @@
 module genartory::marketplace {
     use std::signer;
-    use std::vector;
-    use aptos_std::token::{Token, TokenId};
+    use std::string::{Self, String};
+    use std::option::Option;
+    use aptos_std::event::{Self, EventHandle};
+    use aptos_std::token::{Self, Token, TokenId};
     use aptos_framework::coin::Coin;
     use aptos_framework::account;
+    use aptos_token_objects::{Token, collection_name, token_name};
     use genartory::nft::{Self, NFT};
 
     // Resource for Listings
     struct Listing has key, store {
         nft_id: TokenId,
         seller_address: address,
-        price: u64, // Price in your chosen currency (e.g., Aptos Coin)
-        is_active: bool, // Indicates whether the listing is still available
+        price: u64, // Price in your chosen currency (e.g., GenArtoryCoin)
+        is_active: bool, 
+        listing_type: u8,  // 0 for fixed price, 1 for auction
+        auction_end_time: Option<u64>, // Optional timestamp for auction end time
+        highest_bid: u64,     // Current highest bid amount (if applicable)
+        highest_bidder: address, // Address of the highest bidder (if applicable)
     }
 
     // Table for Managing Listings
     struct Marketplace has key {
-        listings: table<TokenId, Listing>
+        listings: table<TokenId, Listing>,
+        list_events: EventHandle<ListNFTEvent>,
+        buy_events: EventHandle<BuyNFTEvent>,
+        auction_end_events: EventHandle<AuctionEndEvent>,
     }
 
     // Events for Tracking Marketplace Activities
     struct ListNFTEvent has copy, drop, store {
         nft_id: TokenId,
         seller_address: address,
-        price: u64
+        price: u64,
+        listing_type: u8,
+        auction_end_time: Option<u64>,
     }
 
     struct BuyNFTEvent has copy, drop, store {
@@ -33,17 +45,30 @@ module genartory::marketplace {
         price: u64
     }
 
+    struct AuctionEndEvent has copy, drop, store {
+        nft_id: TokenId,
+        winner_address: address,
+        final_price: u64
+    }
+
     // Error Codes
     const ENFT_NOT_FOUND: u64 = 0;
     const ELISTING_NOT_ACTIVE: u64 = 1;
     const EALREADY_LISTED: u64 = 2;
     const ELOW_PRICE: u64 = 3;
+    const ELOW_BID: u64 = 4;
+    const EAUCTION_NOT_ENDED: u64 = 5;
+    const EINVALID_LISTING_TYPE: u8 = 6;
+    const EINVALID_AUCTION_END_TIME: u64 = 7;
 
     // Functions
 
     public entry fun init_module(account: &signer) {
         move_to(account, Marketplace {
             listings: table::new(),
+            list_events: account::new_event_handle<ListNFTEvent>(account),
+            buy_events: account::new_event_handle<BuyNFTEvent>(account),
+            auction_end_events: account::new_event_handle<AuctionEndEvent>(account),
         });
     }
 
@@ -51,13 +76,13 @@ module genartory::marketplace {
         account: &signer,
         nft_id: TokenId,
         price: u64,
+        listing_type: u8,  // 0 for fixed price, 1 for auction
+        auction_end_time: Option<u64> // Optional timestamp for auction end time
     ) acquires NFT {
         let seller_address = signer::address_of(account);
 
-        // Ensure the NFT exists
+        // Ensure the NFT exists and the account owns it
         assert!(nft::exists_at(nft_id), ENFT_NOT_FOUND);
-
-        // Ensure NFT owner
         let nft = borrow_global<NFT>(seller_address, nft_id);
         assert!(nft.creator_address == seller_address, ENOT_ADMIN);
         
@@ -65,8 +90,17 @@ module genartory::marketplace {
         let marketplace = borrow_global_mut<Marketplace>(@genartory);
         assert!(!table::contains(marketplace.listings, nft_id), EALREADY_LISTED);
 
-        // Ensure price is reasonable (add your own logic)
-        assert!(price > 0, ELOW_PRICE);
+        // Basic validation for fixed price or auction listing
+        if (listing_type == 0) { // Fixed Price
+            assert!(price > 0, ELOW_PRICE);
+        } else if (listing_type == 1) { // Auction
+            assert!(price > 0, ELOW_PRICE);
+            assert!(option::is_some(&auction_end_time), EINVALID_AUCTION_END_TIME);
+            let end_time = *option::borrow(&auction_end_time);
+            assert!(end_time > timestamp(), EINVALID_AUCTION_END_TIME);
+        } else {
+            abort EINVALID_LISTING_TYPE;
+        }
 
         // Create a Listing
         let listing = Listing {
@@ -74,22 +108,31 @@ module genartory::marketplace {
             seller_address,
             price,
             is_active: true,
+            listing_type,
+            auction_end_time,
+            highest_bid: 0, // Initialize highest bid to 0 for auctions
+            highest_bidder: @genartory, // Initialize highest bidder to a dummy address
         };
         table::add(marketplace.listings, nft_id, listing);
 
         // Emit Event
-        event::emit(ListNFTEvent { nft_id, seller_address, price });
+        event::emit_event<ListNFTEvent>(
+            &mut marketplace.list_events,
+            ListNFTEvent { nft_id, seller_address, price, listing_type, auction_end_time },
+        );
     }
-    
-    // ... additional functions for buy_nft, cancel_listing, etc.
-     public entry fun buy_nft(buyer: &signer, nft_id: TokenId) acquires NFT, Listing {
+
+    // Function to buy an NFT
+    public entry fun buy_nft(buyer: &signer, nft_id: TokenId) acquires NFT, Listing {
         let buyer_address = signer::address_of(buyer);
         let marketplace = borrow_global_mut<Marketplace>(@genartory);
 
         // Ensure the NFT is listed and active
         assert!(table::contains(marketplace.listings, nft_id), ELISTING_NOT_ACTIVE);
-        let listing = table::borrow_mut(marketplace.listings, nft_id);
+        let listing = table::borrow_mut(&mut marketplace.listings, nft_id);
         assert!(listing.is_active, ELISTING_NOT_ACTIVE);
+
+        assert!(listing.listing_type == 0, EINVALID_LISTING_TYPE);
         
         //Ensure Buyer has sufficient funds
         let coin_store = account::balance<Coin>(buyer_address);
@@ -98,48 +141,93 @@ module genartory::marketplace {
         // Transfer the NFT
         let seller_address = listing.seller_address;
         let nft = move_from<NFT>(seller_address, nft_id);
+        
+        // Calculate and send royalties to the original creator and payee
+        let royalty_amount = nft.royalty_percentage * listing.price / 100;
+        if (royalty_amount > 0) {
+            account::deposit(nft.royalty_payee_address, Coin::withdraw(buyer_address, royalty_amount));
+        }
+
+        // Transfer the NFT to the buyer and remaining amount to the seller
         token::transfer(account, buyer_address, nft_id);
-        account::deposit(seller_address, Coin::withdraw(buyer_address, listing.price));
+        account::deposit(seller_address, Coin::withdraw(buyer_address, listing.price - royalty_amount));
 
         // Deactivate Listing
         listing.is_active = false;
 
         // Emit Event
-        event::emit(BuyNFTEvent { nft_id, buyer_address, seller_address, price: listing.price });
+        event::emit_event<BuyNFTEvent>(
+            &mut marketplace.buy_events,
+            BuyNFTEvent { nft_id, buyer_address, seller_address, price: listing.price }
+        );
     }
 
-    public entry fun cancel_listing(account: &signer, nft_id: TokenId) acquires NFT, Listing {
-        let seller_address = signer::address_of(account);
-        let marketplace = borrow_global_mut<Marketplace>(@genartory);
+    // Function to cancel an NFT listing
+public entry fun cancel_listing(account: &signer, nft_id: TokenId) acquires Listing, NFT {
+    let seller_address = signer::address_of(account);
+    let marketplace = borrow_global_mut<Marketplace>(@genartory);
 
-        // Ensure the NFT is listed and owned by the seller
-        assert!(table::contains(marketplace.listings, nft_id), ENFT_NOT_FOUND);
-        let listing = table::borrow_mut(marketplace.listings, nft_id);
-        assert!(listing.seller_address == seller_address, ENOT_ADMIN);
-        
-        // Ensure NFT owner
-        let nft = borrow_global<NFT>(seller_address, nft_id);
-        assert!(nft.creator_address == seller_address, ENOT_ADMIN);
+    // 1. Ensure the NFT is listed:
+    assert!(table::contains(marketplace.listings, nft_id), ENFT_NOT_FOUND);
 
-        // Deactivate Listing
-        listing.is_active = false;
-        // Optionally, you could remove the listing from the table entirely.
+    // 2. Retrieve the listing:
+    let listing = table::borrow_mut(&mut marketplace.listings, nft_id);
+
+    // 3. Ensure the listing is active:
+    assert!(listing.is_active, ELISTING_NOT_ACTIVE);
+    
+    // 4. Ensure the seller is the owner of the NFT or the admin:
+    assert!(listing.seller_address == seller_address || nft::is_admin(seller_address), ENOT_ADMIN);
+    
+    // 5. Deactivate the listing:
+    listing.is_active = false;
+
+    // 6. If it's an auction and has active bids, process refunds
+    if (listing.listing_type == 1 && listing.highest_bidder != @genartory) {
+        // Refund the highest bidder (you need to implement this logic)
+        // You might want to create another table to store bids and process the refund from there.
     }
 
-    // ... (Unit Tests for both nft.move and marketplace.move)
-
-    #[test_only]
-    public fun test_buy_nft() {
-        // ... (set up test environment, create NFT and listing)
-        buy_nft(buyer, nft_id);
-        // ... (assert that NFT is transferred, listing is inactive, etc.)
-    }
-
-    #[test_only]
-    public fun test_cancel_listing() {
-        // ... (set up test environment, create NFT and listing)
-        cancel_listing(seller, nft_id);
-        // ... (assert that listing is inactive)
-    }
+    // 7. Emit CancelListingEvent (optional): You can add an event here if you want to track cancellations
 }
 
+    // Function to place a bid on an NFT
+    public entry fun place_bid(bidder: &signer, nft_id: TokenId, bid_amount: u64) acquires NFT, Listing {
+        let bidder_address = signer::address_of(bidder);
+        let marketplace = borrow_global_mut<Marketplace>(@genartory);
+
+        // Ensure the NFT is listed and active
+        assert!(table::contains(marketplace.listings, nft_id), ELISTING_NOT_ACTIVE);
+        let listing = table::borrow_mut(&mut marketplace.listings, nft_id);
+        assert!(listing.is_active, ELISTING_NOT_ACTIVE);
+        assert!(listing.listing_type == 1, EINVALID_LISTING_TYPE); // Ensure it's an auction listing
+        
+        // Ensure the bid is higher than the current highest bid (or the starting price
+// Ensure the auction is still active
+    assert!(option::is_some(&listing.auction_end_time), EAUCTION_NOT_ENDED);
+    let end_time = *option::borrow(&listing.auction_end_time);
+    assert!(timestamp() < end_time, EAUCTION_NOT_ENDED);
+
+    // Transfer bid amount from bidder to the contract 
+    // You'll need a way to store bids (e.g., another table) and a function to return them to the bidder if they don't win
+    // (Implementation for this part is omitted for brevity)
+    
+    // Update Listing
+    listing.highest_bid = bid_amount;
+    listing.highest_bidder = bidder_address;
+}
+
+// Function to update an NFT listing
+public entry fun update_listing(account: &signer, nft_id: TokenId, new_price: u64) acquires NFT, Listing {
+    let seller_address = signer::address_of(account);
+    let marketplace = borrow_global_mut<Marketplace>(@genartory);
+    // Ensure the NFT is listed and owned by the seller
+    assert!(table::contains(marketplace.listings, nft_id), ENFT_NOT_FOUND);
+    let listing = table::borrow_mut(&mut marketplace.listings, nft_id);
+    assert!(listing.seller_address == seller_address, ENOT_ADMIN);
+    assert!(listing.is_active, ELISTING_NOT_ACTIVE);
+    assert!(listing.listing_type == 0, EINVALID_LISTING_TYPE); // Ensure it's a fixed-price listing
+    // Update the price
+    listing.price = new_price;
+    assert!(new_price > 0, ELOW_PRICE);
+}

@@ -1,44 +1,79 @@
 module genartory::token_tests {
     use std::signer;
+    use std::string::{Self, String};
     use aptos_framework::coin::{Coin, CoinStore};
-    use genartory::token;
+    use aptos_framework::account;
+    use genartory::token::{Self, GenArtoryCoin};
+    use aptos_std::event;
 
+    // Test Scenarios
+
+    // Test 1: Initialize Token (Success)
     #[test(account = @genartory)]
-    public entry fun test_initialize_mint_burn_and_transfer(account: &signer) acquires GenArtoryCoin {
-        // Initialize the GenArtoryCoin
-        let name = b"GenArtoryCoin";
-        let symbol = b"GAC";
+    public entry fun test_initialize_token(account: &signer) {
+        let name = string::utf8(b"GenArtoryCoin");
+        let symbol = string::utf8(b"GAC");
         let decimals = 8;
-        token::initialize(account, name, symbol, decimals);
+        token::initialize(account, b"GenArtoryCoin", b"GAC", decimals);
 
-        // Mint tokens to the account
-        let mint_amount = 100000000; // 100 GAC (8 decimals)
-        token::mint(account, signer::address_of(account), mint_amount);
+        // Ensure the GenArtoryCoin resource exists
+        assert!(exists<GenArtoryCoin>(@genartory), 0);
 
-        // Check if the account has the minted tokens
-        let account_coin_store = CoinStore::borrow<GenArtoryCoin>(signer::address_of(account));
-        assert!(account_coin_store.coin.value == mint_amount, 0);
-
-        // Burn some tokens
-        let burn_amount = 10000000; // 10 GAC
-        token::burn(account, burn_amount);
-
-        // Check if the balance is updated after burning
-        let account_coin_store = CoinStore::borrow<GenArtoryCoin>(signer::address_of(account));
-        assert!(account_coin_store.coin.value == mint_amount - burn_amount, 0);
-
-        // Transfer tokens to another account
-        let recipient_address = @0x123; // Replace with a valid address
-        let transfer_amount = 50000000; // 50 GAC
-        token::transfer(account, recipient_address, transfer_amount);
-
-        // Check sender and receiver balances after transfer
-        let account_coin_store = CoinStore::borrow<GenArtoryCoin>(signer::address_of(account));
-        assert!(account_coin_store.coin.value == mint_amount - burn_amount - transfer_amount, 0);
-
-        let recipient_coin_store = CoinStore::borrow<GenArtoryCoin>(recipient_address);
-        assert!(recipient_coin_store.coin.value == transfer_amount, 0);
+        // Check the properties of the GenArtoryCoin resource
+        let coin_info = borrow_global<GenArtoryCoin>(@genartory);
+        assert!(coin_info.name == name, 0);
+        assert!(coin_info.symbol == symbol, 0);
+        assert!(coin_info.decimals == decimals, 0);
     }
 
-    // ... other test cases
+    // Test 2: Mint Tokens (Success)
+    #[test(account = @genartory, recipient = @0x123)]
+    public entry fun test_mint_tokens(account: &signer, recipient: &signer) acquires GenArtoryCoin {
+        init_module(account);
+        let amount: u64 = 1000;
+        token::mint(account, signer::address_of(recipient), amount);
+
+        let recipient_balance = coin::balance<GenArtoryCoin>(signer::address_of(recipient));
+        assert!(recipient_balance == amount, EINSUFFICIENT_BALANCE);
+
+        // Check if the MintTokenEvent was emitted
+        let mint_event = event::next_event_handle<token::MintTokenEvent>(account);
+        event::assert_emitted_event<token::MintTokenEvent>(&mint_event, MintTokenEvent{amount: 1000, receiver_address: signer::address_of(recipient)});
+    }
+
+    // Test 3: Transfer Tokens (Success)
+    #[test(account = @genartory, recipient = @0x123)]
+    public entry fun test_transfer_tokens(account: &signer, recipient: &signer) acquires GenArtoryCoin {
+        init_module(account);
+        let amount: u64 = 1000;
+        token::mint(account, signer::address_of(account), amount);
+
+        token::transfer(account, signer::address_of(recipient), amount/2);
+
+        let sender_balance = coin::balance<GenArtoryCoin>(signer::address_of(account));
+        assert!(sender_balance == amount / 2, EINSUFFICIENT_BALANCE);
+        
+        let recipient_balance = coin::balance<GenArtoryCoin>(signer::address_of(recipient));
+        assert!(recipient_balance == amount / 2, EINSUFFICIENT_BALANCE);
+        
+        // Check if the TransferTokenEvent was emitted
+        let transfer_event = event::next_event_handle<token::TransferTokenEvent>(account);
+        event::assert_emitted_event<token::TransferTokenEvent>(&transfer_event, TransferTokenEvent{sender: signer::address_of(account), receiver: signer::address_of(recipient), amount: amount / 2});
+    }
+
+    // Test 4: Burn Tokens (Success)
+    #[test(account = @genartory)]
+    public entry fun test_burn_tokens(account: &signer) acquires GenArtoryCoin {
+        init_module(account);
+        let amount: u64 = 1000;
+        token::mint(account, signer::address_of(account), amount);
+        let initial_balance = coin::balance<GenArtoryCoin>(signer::address_of(account));
+        token::burn(account, 500);
+        let final_balance = coin::balance<GenArtoryCoin>(signer::address_of(account));
+        assert!(initial_balance - final_balance == 500, 0);
+
+        // Check if the BurnTokenEvent was emitted
+        let burn_event = event::next_event_handle<token::BurnTokenEvent>(account);
+        event::assert_emitted_event<token::BurnTokenEvent>(&burn_event, BurnTokenEvent{amount: 500});
+    }
 }
