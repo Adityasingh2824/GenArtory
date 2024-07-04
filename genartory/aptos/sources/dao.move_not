@@ -210,3 +210,5 @@ event::emit_event<ProposalExecutedEvent>(
     &mut dao.proposal_executed_events,
     ProposalExecutedEvent { proposal_id },
 );
+    }
+}

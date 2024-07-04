@@ -2,16 +2,22 @@
 import React, { useState, useEffect } from 'react';
 import styles from './MyCollections.module.css';
 import { useWallet } from '@aptos-labs/wallet-adapter-react';
+import { Aptos, AptosConfig, Network,queryIndexer } from "@aptos-labs/ts-sdk";
+
 import { getUserCollections, createCollection } from '../utils/aptos';
 import CollectionCard from '../components/nft/CollectionCard';
 import Button from '../components/common/Button';
 import Modal from '../components/common/Modal'; // Assuming you have a Modal component
 import Input from '../components/common/Input';
 import { useNavigate } from 'react-router-dom'
+import { NODE_URL, MODULE_ADDRESS } from "../utils/constants";
+
+
 
 
 const MyCollections: React.FC = () => {
-  const { account } = useWallet();
+
+  const { account , signAndSubmitTransaction} = useWallet();
   const [collections, setCollections] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -20,38 +26,103 @@ const MyCollections: React.FC = () => {
   const [newCollectionDesc, setNewCollectionDesc] = useState('');
   const navigate = useNavigate();
 
+ const config = new AptosConfig({ network: Network.DEVNET });
+  let myclient=new Aptos(config);
 
   useEffect(() => {
     const fetchCollections = async () => {
       if (account?.address) {
         try {
-          const data = await getUserCollections(account.address);
-          setCollections(data);
+          const datafetched = await lgetinfos(account);
+            setCollections(datafetched.current_objects);
         } catch (error) {
-          console.error('Error fetching collections:', error);
-          // Handle errors gracefully here
-        } finally {
-          setIsLoading(false);
-        }
+           console.error('Error fetching collections:', error);
+           // Handle errors gracefully here
+         } finally {
+           setIsLoading(false);
+         }
       }
     };
 
     fetchCollections();
   }, [account?.address]);
 
+
+
+
+  const lgetinfos = async (account: any ) => {
+    const objects = await myclient.queryIndexer({
+      query: {
+        query: `
+          query MyQuery($ownerAddress: String) {
+            current_objects(
+              where: {owner_address: {_eq: $ownerAddress}}
+            ) {
+              state_key_hash
+              owner_address
+              object_address
+              last_transaction_version
+              last_guid_creation_num
+              allow_ungated_transfer
+              is_deleted
+            }
+          }
+          `,
+        variables: { ownerAddress: account.address },
+      },
+    });
+    return objects;
+  };
+
+  
+
+  const lcreateCollection = async (
+    account: any | null,
+    collectionName: string,
+    uri: string,
+    description: string
+  ) => {
+      if (!account) {
+        throw new Error('Please connect your wallet first');
+      }
+      try {
+
+        const response = await signAndSubmitTransaction({
+          sender: account,
+          data: {
+            function:`${MODULE_ADDRESS}::nft::create_collection`,
+            typeArguments: [],
+            functionArguments:  [collectionName, uri, description],
+          }
+        });
+        let myresult = await myclient.waitForTransaction({ transactionHash: response.hash });
+       return response.hash;
+      } catch (error: any) {
+         toast.error(error?.message || "Failed to create collection.");
+        //return null;
+      }
+    }
+
+
+
+
   const handleCreateCollection = async () => {
+
     try {
       // Call the createCollection function from aptos.ts
-      await createCollection(account?.address, newCollectionName, newCollectionUri, newCollectionDesc);
+        console.log('handleCreateCollection',newCollectionName, newCollectionUri, newCollectionDesc);
+        let result = await lcreateCollection(account?.address, newCollectionName, newCollectionUri, newCollectionDesc);
+        console.log('handleCreateCollection',result);
       // Update the collections state or refetch collections
-      setShowModal(false); // Close the modal
-    } catch (error) {
-      console.error('Error creating collection:', error);
-      // Handle errors here
-    }
+        setShowModal(false); // Close the modal
+     } catch (error) {
+       console.error('Error creating collection:', error);
+       // Handle errors here
+     }
   };
   const handleCollectionClick = (collectionName: string) => {
-    navigate(`/collection/${collectionName}`);
+      //console.log(`navigate to /collection/${collectionName}`);
+     navigate(`/collection/${collectionName}`);
   };
 
 
@@ -66,7 +137,8 @@ const MyCollections: React.FC = () => {
       {isLoading ? (
         <p>Loading collections...</p>
       ) : (
-        <div className={styles.collectionsGrid}>
+          <div className={styles.collectionsGrid}>
+            <a> hi {account?.address} length {collections?.length}</a>
           {collections.map((collection) => (
             <CollectionCard 
               key={collection.name} 

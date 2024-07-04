@@ -1,0 +1,35 @@
+module genartory::MyCollectionModule {
+    use std::signer;
+    use std::vector;
+    use aptos_framework::account;
+    use aptos_token::token;
+    use 0x4::collection;
+    
+    use std::string::utf8;
+        use std::string::{Self,String};
+        use std::option;
+     //::{TokenDataId, create_unlimited_collection};
+
+    const ENOT_AUTHORIZED: u64 = 1;
+
+    // struct Admin has key {
+    //     admin_address: address,
+    // }
+
+    struct CollectionCreatedEvent has copy, drop, store {
+        creator: address,
+        description: String,
+    }
+
+    public entry fun create_collection(account: &signer, description: String) {
+        //let admin = Admin{admin_address: signer::address_of(account)};
+        // Assuming create_unlimited_collection takes a name, description, and URI
+        let collection_name =description;// utf8(b"My Collection");
+        let uri = utf8(b"http://example.com");
+        let mydescription=description;
+        let royalty = option::none();
+        let token_data_id =  collection::create_unlimited_collection(account, mydescription,collection_name, royalty, uri);
+
+    }
+
+}

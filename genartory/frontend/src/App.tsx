@@ -9,6 +9,7 @@ import './styles/index.css';
 import { API_URL } from './utils/constants'; // Assuming you have this in constants.ts
 
 
+
 // Import your page components
 import Home from './pages/Home';
 import Create from './pages/Create';
@@ -30,9 +31,11 @@ const wallets = [
   //new FewchaWalletAdapter(), // Include other wallet adapters as needed
 ];
 
+
 function App() {
   return (
     <AptosWalletAdapterProvider plugins={wallets} autoConnect>
+           
       <div className="app">
         <Header /> 
         <main>
@@ -54,6 +57,7 @@ function App() {
         </main>
         <Footer /> 
       </div>
+      
     </AptosWalletAdapterProvider>
   );
 }

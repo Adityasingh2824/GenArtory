@@ -3,8 +3,9 @@ module genartory::token {
     use std::string::{Self, String};
     use std::error;
     use aptos_std::event::{Self, EventHandle};
-    use aptos_framework::coin::{Coin, BurnCapability, FreezeCapability, MintCapability};
-    use aptos_token_objects::{Token};
+    use aptos_framework::coin::{Self,Coin, BurnCapability, FreezeCapability, MintCapability};
+    use aptos_std::coin::{Self,Coin, BurnCapability, FreezeCapability, MintCapability};
+    use aptos_token_objects::token::{Self,Token};
 
 
     // Custom Coin Resource

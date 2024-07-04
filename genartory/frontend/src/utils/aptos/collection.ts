@@ -3,7 +3,7 @@ import { AptosClient, Types } from "aptos";
 import { NODE_URL, MODULE_ADDRESS } from "../constants";
 import { getConnectedWallet } from "./wallet";
 import { toast } from "react-hot-toast";
-
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
 
 const client = new AptosClient(NODE_URL);
 
@@ -14,23 +14,30 @@ export async function createCollection(
   uri: string,
   description: string
 ): Promise<Types.HexEncodedBytes | null> {
+  
+  // add usewallet please
+  
+  
   if (!account) {
     throw new Error('Please connect your wallet first');
   }
 
   try {
+  
     const payload: Types.TransactionPayload = {
       type: "entry_function_payload",
       function: `${MODULE_ADDRESS}::nft::create_collection`,
-      type_arguments: [],
-      arguments: [collectionName, uri, description],
+      typeArguments: [],
+      functionArguments: [collectionName, uri, description],
     };
+    console.log('payload', payload);
+    console.log('account.address', account.address);
+    //print NODE_URL
+    console.log('NODE_URL', NODE_URL);
 
-    const txnRequest = await client.generateTransaction(account.address, payload);
-    const signedTxn = await account.signAndSubmitTransaction(txnRequest);
-    await client.waitForTransaction(signedTxn.hash);
-    toast.success("Collection created successfully!");
-    return signedTxn.hash;
+   const txnRequest = await client.generateTransaction(account, payload);
+          return "0x456456465465654";
+
   } catch (error: any) {
     toast.error(error?.message || "Failed to create collection.");
     return null;
@@ -54,13 +61,23 @@ export async function getCollectionDetails(collectionName: string): Promise<any 
 
 // Function to get all collections created by a user
 export async function getUserCollections(creatorAddress: string): Promise<any[]> {
+  console.log(' getUserCollections creatorAddress', creatorAddress);
+const ledgerVersion = await client.getLedgerInfo().ledger_version;
+ 
+const tokens = await client.getAccountOwnedTokens({
+  accountAddress: creatorAddress,
+  minimumLedgerVersion: BigInt(ledgerVersion.version),
+});
+console.log('tokens', tokens);
   try {
     const resources = await client.getAccountResources(creatorAddress);
+    console.log('resources', resources);
     const collectionsResource = resources.find(
       (r) =>
         r.type ===
         `${MODULE_ADDRESS}::token::Collections<${MODULE_ADDRESS}::nft::NFT>`
     );
+
 
     if (collectionsResource) {
       return collectionsResource.data.collections.filter(

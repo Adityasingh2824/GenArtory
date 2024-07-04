@@ -3,7 +3,7 @@ export const NODE_URL = "https://fullnode.devnet.aptoslabs.com"; // Replace with
 export const FAUCET_URL = "https://faucet.devnet.aptoslabs.com"; // Replace with your Aptos faucet URL
 
 // Update with your actual smart contract address once deployed
-export const MODULE_ADDRESS = "0x1";  // Replace with your module address on Aptos
+export const MODULE_ADDRESS = "0x7956e1ba370b5b27abe7e1e115b6fcf25ed2aa6fc91266f5281fc30667038061";  // Replace with your module address on Aptos
 
 // Default royalty percentage for new NFTs
 export const DEFAULT_ROYALTY_PERCENTAGE = 10; 
