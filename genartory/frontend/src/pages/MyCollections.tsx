@@ -34,6 +34,7 @@ const MyCollections: React.FC = () => {
       if (account?.address) {
         try {
           const datafetched = await lgetinfos(account);
+          //console.log(datafetched.current_collections_v2);
             setCollections(datafetched.current_collections_v2);
         } catch (error) {
            console.error('Error fetching collections:', error);
@@ -51,27 +52,7 @@ const MyCollections: React.FC = () => {
 
 
   const lgetinfos = async (account: any ) => {
-    // const objects = await myclient.queryIndexer({
-    //   query: {
-    //     query: `
-    //       query MyQuery($ownerAddress: String) {
-    //         current_objects(
-    //           where: {owner_address: {_eq: $ownerAddress}}
-    //         ) {
-    //           state_key_hash
-    //           owner_address
-    //           object_address
-    //           last_transaction_version
-    //           last_guid_creation_num
-    //           allow_ungated_transfer
-    //           is_deleted
-    //         }
-    //       }
-    //       `,
-    //     variables: { ownerAddress: account.address },
-    //   },
-    // });
-
+    
   const objects = await myclient.queryIndexer({
       query: {
         query: `

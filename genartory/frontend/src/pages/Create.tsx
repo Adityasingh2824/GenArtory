@@ -5,7 +5,8 @@ import styles from './Create.module.css';
 import AICreationForm from '../components/AICreationForm';
 
 import { mintNFT } from '../utils/aptos/nft';
-import { toast } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
+
 import { NFT } from '../types';
 import { getUserCollections, /*validateRoyaltyPercentage*/ } from '../utils/aptos';
 //please import Input and Button components from the common folder
@@ -34,16 +35,18 @@ const Create: React.FC = () => {
   const [selectedCollection, setSelectedCollection] = useState('');
   const [royaltyPercentage, setRoyaltyPercentage] = useState(10);
 
+  const notifToast = (mytext:string) => toast(mytext);
+
   useEffect(() => {
     const fetchCollections = async () => {
       if (account?.address) {
         try {
          // const userCollections = await getUserCollections(account.address);
           const datafetched = await lgetinfos(account);
-          const userCollections = datafetched.current_objects;
-          console.log(userCollections);
-          setCollections(userCollections);
-          setSelectedCollection(userCollections[0]?.name || "hhhhh");
+          const userCollections = datafetched;
+          //console.log(userCollections);
+          setCollections(userCollections.current_collections_v2);
+          setSelectedCollection(userCollections[0]?.description || "hhhhh");
         } catch (error) {
           console.error('Error fetching collections:', error);
         } 
@@ -55,25 +58,31 @@ const Create: React.FC = () => {
 
 
 
-
-
-  const lgetinfos = async (account: any ) => {
-    const objects = await myclient.queryIndexer({
+const lgetinfos = async (account: any ) => {
+    
+  const objects = await myclient.queryIndexer({
       query: {
         query: `
-          query MyQuery($ownerAddress: String) {
-            current_objects(
-              where: {owner_address: {_eq: $ownerAddress}}
-            ) {
-              state_key_hash
-              owner_address
-              object_address
-              last_transaction_version
-              last_guid_creation_num
-              allow_ungated_transfer
-              is_deleted
-            }
-          }
+          query MyQuery($ownerAddress: String)  {
+  current_collections_v2(
+    where: {creator_address: {_eq:  $ownerAddress}}
+  ) {
+    creator_address
+    collection_name
+    collection_id
+    current_supply
+    description
+    uri
+    total_minted_v2
+    token_standard
+    table_handle_v1
+    mutable_uri
+    mutable_description
+    max_supply
+    last_transaction_version
+    last_transaction_timestamp
+  }
+}
           `,
         variables: { ownerAddress: account.address },
       },
@@ -81,21 +90,24 @@ const Create: React.FC = () => {
     return objects;
   };
 
-
   const handleArtGenerated = (imageDataArray: string[], prompt: string) => {
-    
-
     setGeneratedImages(imageDataArray);
     setPrompt(prompt);
-    setMintSuccess(false);
+   // setMintSuccess(false);
     setError(null); // Clear any previous errors
   };
 
   const handleMint = async () => {
+    console.log("minting");
+     
     if (!account?.address || generatedImages.length === 0) {
-      toast.error("Please connect your wallet and generate at least one image first.");
+       notifToast("Please connect your wallet and generate at least one image first.");
       return;
     }
+
+
+ 
+      notifToast('yes sir');
 
     const validRoyalty = validateRoyaltyPercentage(royaltyPercentage);
     if(validRoyalty) {
@@ -132,15 +144,14 @@ const Create: React.FC = () => {
   };
 
   return (
+
     <div className={styles.container}>
+      <Toaster />
       <h1>Create Your AI-Powered NFT</h1>
       <AICreationForm onArtGenerated={handleArtGenerated} error={error} collections={collections} />
       
       {/* Image Preview Section */}
-      <div>
-        <h1 >TEST{generatedImages?.length}</h1>
-      </div>
-
+      
       {generatedImages && (
         <div className={styles.previewContainer}>
           <h2 className={styles.previewTitle}>Preview</h2>
@@ -161,8 +172,8 @@ const Create: React.FC = () => {
               onChange={(e) => setSelectedCollection(e.target.value)}
             >
               {collections.map((collection) => (
-                <option key={collection.name} value={collection.name}>
-                  {collection.name}
+                <option key={collection.description} value={collection.description}>
+                  {collection.description}
                 </option>
               ))}
             </select>
