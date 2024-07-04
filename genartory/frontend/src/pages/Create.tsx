@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Create.module.css';
 import AICreationForm from '../components/AICreationForm';
-import { useWallet } from '@aptos-labs/wallet-adapter-react';
+
 import { mintNFT } from '../utils/aptos/nft';
 import { toast } from 'react-hot-toast';
 import { NFT } from '../types';
@@ -11,9 +11,16 @@ import { getUserCollections, /*validateRoyaltyPercentage*/ } from '../utils/apto
 //please import Input and Button components from the common folder
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
+import { useWallet } from '@aptos-labs/wallet-adapter-react';
+import { Aptos, AptosConfig, Network, queryIndexer } from "@aptos-labs/ts-sdk";
+
 
 
 const Create: React.FC = () => {
+
+  const config = new AptosConfig({ network: Network.DEVNET });
+  let myclient=new Aptos(config);
+
   const navigate = useNavigate();
   const { account } = useWallet();
 
@@ -31,9 +38,12 @@ const Create: React.FC = () => {
     const fetchCollections = async () => {
       if (account?.address) {
         try {
-          const userCollections = await getUserCollections(account.address);
+         // const userCollections = await getUserCollections(account.address);
+          const datafetched = await lgetinfos(account);
+          const userCollections = datafetched.current_objects;
+          console.log(userCollections);
           setCollections(userCollections);
-          setSelectedCollection(userCollections[0]?.name || "");
+          setSelectedCollection(userCollections[0]?.name || "hhhhh");
         } catch (error) {
           console.error('Error fetching collections:', error);
         } 
@@ -42,6 +52,35 @@ const Create: React.FC = () => {
 
     fetchCollections();
   }, [account?.address]); // Re-fetch collections when the account changes
+
+
+
+
+
+  const lgetinfos = async (account: any ) => {
+    const objects = await myclient.queryIndexer({
+      query: {
+        query: `
+          query MyQuery($ownerAddress: String) {
+            current_objects(
+              where: {owner_address: {_eq: $ownerAddress}}
+            ) {
+              state_key_hash
+              owner_address
+              object_address
+              last_transaction_version
+              last_guid_creation_num
+              allow_ungated_transfer
+              is_deleted
+            }
+          }
+          `,
+        variables: { ownerAddress: account.address },
+      },
+    });
+    return objects;
+  };
+
 
   const handleArtGenerated = (imageDataArray: string[], prompt: string) => {
     

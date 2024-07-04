@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './MyCollections.module.css';
 import { useWallet } from '@aptos-labs/wallet-adapter-react';
-import { Aptos, AptosConfig, Network,queryIndexer } from "@aptos-labs/ts-sdk";
+import { Aptos, AptosConfig, Network, queryIndexer } from "@aptos-labs/ts-sdk";
 
 import { getUserCollections, createCollection } from '../utils/aptos';
 import CollectionCard from '../components/nft/CollectionCard';
@@ -34,7 +34,7 @@ const MyCollections: React.FC = () => {
       if (account?.address) {
         try {
           const datafetched = await lgetinfos(account);
-            setCollections(datafetched.current_objects);
+            setCollections(datafetched.current_collections_v2);
         } catch (error) {
            console.error('Error fetching collections:', error);
            // Handle errors gracefully here
@@ -51,26 +51,56 @@ const MyCollections: React.FC = () => {
 
 
   const lgetinfos = async (account: any ) => {
-    const objects = await myclient.queryIndexer({
+    // const objects = await myclient.queryIndexer({
+    //   query: {
+    //     query: `
+    //       query MyQuery($ownerAddress: String) {
+    //         current_objects(
+    //           where: {owner_address: {_eq: $ownerAddress}}
+    //         ) {
+    //           state_key_hash
+    //           owner_address
+    //           object_address
+    //           last_transaction_version
+    //           last_guid_creation_num
+    //           allow_ungated_transfer
+    //           is_deleted
+    //         }
+    //       }
+    //       `,
+    //     variables: { ownerAddress: account.address },
+    //   },
+    // });
+
+  const objects = await myclient.queryIndexer({
       query: {
         query: `
-          query MyQuery($ownerAddress: String) {
-            current_objects(
-              where: {owner_address: {_eq: $ownerAddress}}
-            ) {
-              state_key_hash
-              owner_address
-              object_address
-              last_transaction_version
-              last_guid_creation_num
-              allow_ungated_transfer
-              is_deleted
-            }
-          }
+          query MyQuery($ownerAddress: String)  {
+  current_collections_v2(
+    where: {creator_address: {_eq:  $ownerAddress}}
+  ) {
+    creator_address
+    collection_name
+    collection_id
+    current_supply
+    description
+    uri
+    total_minted_v2
+    token_standard
+    table_handle_v1
+    mutable_uri
+    mutable_description
+    max_supply
+    last_transaction_version
+    last_transaction_timestamp
+  }
+}
           `,
         variables: { ownerAddress: account.address },
       },
     });
+
+
     return objects;
   };
 
@@ -141,7 +171,7 @@ const MyCollections: React.FC = () => {
             <a> hi {account?.address} length {collections?.length}</a>
           {collections.map((collection) => (
             <CollectionCard 
-              key={collection.name} 
+              key={collection.collection_id} 
               collection={collection} 
               onClick={() => handleCollectionClick(collection.name)}
             />
