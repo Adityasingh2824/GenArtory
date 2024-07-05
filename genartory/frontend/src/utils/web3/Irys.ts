@@ -1,6 +1,6 @@
 import { WebIrys } from "@irys/sdk";
 import { WalletContextState } from "@aptos-labs/wallet-adapter-react";
-//import { accountAPTBalance } from "@/view-functions/accountBalance";
+import { accountAPTBalance } from "./accountBalance";
 
 const getWebIrys = async (aptosWallet: WalletContextState) => {
     const network = "devnet"; //import.meta.env.VITE_APP_NETWORK === "testnet" ? "devnet" : "mainnet"; // Irys network
@@ -10,6 +10,11 @@ const getWebIrys = async (aptosWallet: WalletContextState) => {
   const wallet = { rpcUrl: rpcUrl, name: "aptos", provider: aptosWallet };
   const webIrys = new WebIrys({ network, token, wallet });
   await webIrys.ready();
+
+  console.log(' getWebIrys irys.ts webIrys', webIrys);
+  //please print address
+  console.log(' getWebIrys irys.ts wallet', webIrys.address);
+
   return webIrys;
 };
 
@@ -57,49 +62,83 @@ let myobj = {
   }
   
 
-  
+  // const files: File[] = [];
+  // for (let i = 0; i < fileList.length; i++) {
+  //   files.push(fileList[i]);
+  // }
+
   //const costToUpload = await webIrys.utils.estimateFolderPrice(files.map((f) => f.size));
 
-  let mynumber:number = 46 * 8;
+  
   const costToUpload = await webIrys.utils.estimateFolderPrice(myobj);
+  console.log(' checkIfFund irys.ts costToUpload', costToUpload);
   // 2. check the wallet balance on the irys node: irys.getLoadedBalance()
   const irysBalance = await webIrys.getLoadedBalance();
+  console.log(' checkIfFund irys.ts irysBalance', irysBalance);
 
   // 3. if balance is enough, then upload without funding
   if (irysBalance.toNumber() > costToUpload.toNumber()) {
     return true;
   }
 
+  //print my wallet address
+  
+  
   // 4. if balance is not enough,  check the payer balance
   const currentAccountAddress = await aptosWallet.account!.address;
+
+
 console.log('irys.ts curr',currentAccountAddress);
+
   const currentAccountBalance = await accountAPTBalance({ accountAddress: currentAccountAddress });
+  console.log(' checkIfFund irys.ts currentAccountBalance', currentAccountBalance);
 
   // 5. if payer balance > the amount based on the estimation, fund the irys node irys.fund, then upload
   if (currentAccountBalance > costToUpload.toNumber()) {
-    try {
-      await fundNode(aptosWallet, costToUpload.toNumber());
+    //try {
+      console.log(' checkIfFund irys.ts funding node costtoupload',costToUpload.toNumber());
+      let myres = await fundNode(aptosWallet, costToUpload);
+      console.log(' checkIfFund irys.ts funding node myres', myres);
       return true;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      throw new Error(`Error funding node ${error}`);
-    }
+    // } catch (error: any) {
+    //   throw new Error(`Error funding node ${error}`);
+    // }
   }
   // 6. if payer balance < the amount, replenish the payer balance*/
   return false;
 };
 
-export const fundNode = async (aptosWallet: WalletContextState, amount?: number) => {
+
+
+
+
+
+export const fundNode = async (aptosWallet: WalletContextState, amount) => {
   const webIrys = await getWebIrys(aptosWallet);
 
-  try {
-    const fundTx = await webIrys.fund(amount ?? 1000000);
+  //try {
+    console.log('funding node amount'
+
+    );
+    
+    //create a bignumber equal to 5000
+    const amountQ = webIrys.utils.toAtomic(5000);
+
+
+    
+
+    const fundTx = await webIrys.fund(amount);
+    //const fundTx = await webIrys.fund(amount );
     console.log(`Successfully funded ${webIrys.utils.fromAtomic(fundTx.quantity)} ${webIrys.token}`);
     return true;
-  } catch (e) {
-    throw new Error(`Error uploading data ${e}`);
-  }
+  // } catch (e) {
+  //   throw new Error(`Error uploading data ${e}`);
+  // }
 };
+
+
+
 
 export const uploadFile = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -109,6 +148,7 @@ export const uploadFile = async (
   const webIrys = await getWebIrys(aptosWallet);
   try {
     const receipt = await webIrys.uploadFile(fileToUpload, { tags: [] });
+
     return `https://gateway.irys.xyz/${receipt.id}`;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {

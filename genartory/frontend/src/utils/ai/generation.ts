@@ -37,7 +37,9 @@ export async function generateArt(request: GenerateArtRequest): Promise<string> 
     }
 
   const imageBlob = await response.blob(); // Convert the response body to a Blob
-  const imageUrl = URL.createObjectURL(imageBlob); // Create a URL for the Blob
+    const imageUrl = URL.createObjectURL(imageBlob); // Create a URL for the Blob
+    
+
 
     // const data = await response.json();
 

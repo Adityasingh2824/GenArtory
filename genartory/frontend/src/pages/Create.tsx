@@ -17,7 +17,7 @@ import Button from '../components/common/Button';
 import { useWallet } from '@aptos-labs/wallet-adapter-react';
 import { Aptos, AptosConfig, Network, queryIndexer } from "@aptos-labs/ts-sdk";
 
-import { checkIfFund, uploadFolder } from "../utils/web3/";
+import { checkIfFund, uploadFile } from "../utils/web3/";
 
 import { isAscii } from 'buffer';
 
@@ -106,10 +106,15 @@ const lgetinfos = async (account: any ) => {
   };
 
   const handleMint = async () => {
-    if (generatedImages.length === 0) {
-      /// please add 'https://f5c4dfa0fe2c14e113d9881788a255fa.blok.host/logo192.png' to an array and pass it to the setGeneratedImages function
-      setGeneratedImages(['https://f5c4dfa0fe2c14e113d9881788a255fa.blok.host/logo192.png']);
-    }
+    // if (generatedImages.length === 0) {
+    //   /// please add 'https://f5c4dfa0fe2c14e113d9881788a255fa.blok.host/logo192.png' to an array and pass it to the setGeneratedImages function
+      
+
+    //   setGeneratedImages(['./logo192.png']);
+
+    //   //load logo192.png in a var called test
+
+    // }
      
     if (!account?.address || generatedImages.length === 0) {
        notifToast("Please connect your wallet and generate at least one image first.");
@@ -136,6 +141,23 @@ const lgetinfos = async (account: any ) => {
       
       notifToast("Uploading images to Irys...");
       
+      //please upload my file myarrayFile[0] to Irys using  Irys.ts uploadFile file function
+
+      //create a File from url
+      const myblob = new Blob([generatedImages[0]], { type: 'image/png' });
+
+     
+
+      
+
+      const myres2 = await uploadFile(aptosWallet, myblob  );
+      console.log('myres2', myres2);
+
+    notifToast(myres2);
+
+      notifToast("Images uploaded to Irys successfully");
+
+
       // const collectionDetails = await getCollectionDetails(selectedCollection);
       // const nftIds = await mintNFT(
       //   account.address, 
