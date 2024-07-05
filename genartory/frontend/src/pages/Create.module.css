@@ -1,46 +1,70 @@
-/* Updated Create.module.css */
+/* frontend/src/pages/Create.module.css */
 
 .container {
-    padding: 20px;
-    background-color: grey;
-}
-
-.createPageContainer {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Stack elements vertically on smaller screens */
     align-items: center;
-    padding: 20px;
-    background-color: grey;
-    /* Background color changed to light grey */
-}
-
-.form {
-    width: 100%;
-    max-width: 500px;
-    background-color: #fff;
-    padding: 20px;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: var(--text-color); /* Light text for contrast */
+  }
+  
+  .previewContainer {
+    display: flex;
+    flex-direction: column; /* Stack image and details vertically */
+    align-items: center;
+    gap: 1.5rem;
+    background-color: var(--background-color-light); /* Slightly lighter background */
+    padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.formField {
-    margin-bottom: 20px;
-}
-
-.formField label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.formField input,
-.formField textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.submitButton {
-    background-color: #007bff;
-    color: white;
-}
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    margin-top: 2rem;
+  }
+  
+  .previewTitle {
+    font-size: 1.5rem; /* Adjust the title font size as needed */
+    margin-bottom: 1rem;
+  }
+  
+  .previewImage {
+    max-width: 100%; 
+    height: auto;
+    max-height: 300px; 
+    object-fit: contain;
+    border-radius: 4px; 
+  }
+  
+  .nftGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: center; 
+    gap: 1rem; 
+  }
+  .actions button {
+    flex: 1;
+  }
+  .mintedNft {
+    text-align: center;
+  }
+  
+  /* Media Queries for Responsiveness */
+  @media (min-width: 768px) { 
+    .container {
+      flex-direction: row; /* Display form and preview side-by-side on larger screens */
+      gap: 3rem; /* Increased spacing between form and preview */
+    }
+    .previewContainer {
+      width: 50%; /* Equal width for form and preview */
+    }
+  
+    .nftGrid {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+  }
+  
