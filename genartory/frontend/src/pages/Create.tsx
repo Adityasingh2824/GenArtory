@@ -97,17 +97,6 @@ const lgetinfos = async (account: any ) => {
     return objects;
   };
 
-
-
-
-
-
-
-
-
-
-
-
   const handleArtGenerated = (imageDataArray: string[], prompt: string) => {
     console.log('imageDataArray', imageDataArray);
     setGeneratedImages(imageDataArray);
@@ -117,6 +106,10 @@ const lgetinfos = async (account: any ) => {
   };
 
   const handleMint = async () => {
+    if (generatedImages.length === 0) {
+      /// please add 'https://f5c4dfa0fe2c14e113d9881788a255fa.blok.host/logo192.png' to an array and pass it to the setGeneratedImages function
+      setGeneratedImages(['https://f5c4dfa0fe2c14e113d9881788a255fa.blok.host/logo192.png']);
+    }
      
     if (!account?.address || generatedImages.length === 0) {
        notifToast("Please connect your wallet and generate at least one image first.");
@@ -135,19 +128,10 @@ const lgetinfos = async (account: any ) => {
     setIsLoading(true);
 
     try {
-
-let myarrayFile:File = [];
-    ///add generatedImages to myarrayFile
+      let myarrayFile:File = [];
       myarrayFile.push(generatedImages);
-   
-
-
-        let myres = checkIfFund(aptosWallet, myarrayFile);
+      let myres = checkIfFund(aptosWallet, myarrayFile);
       console.log('myres', myres);
-  
-    
-
-
      // console.log('myres', myres);
       
       notifToast("Uploading images to Irys...");
