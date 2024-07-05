@@ -26,7 +26,7 @@ const MyCollections: React.FC = () => {
   const [newCollectionDesc, setNewCollectionDesc] = useState('');
   const navigate = useNavigate();
 
- const config = new AptosConfig({ network: Network.DEVNET });
+ const config = new AptosConfig({ network: Network.TESTNET });
   let myclient=new Aptos(config);
 
   useEffect(() => {

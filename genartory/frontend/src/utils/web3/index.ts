@@ -3,6 +3,7 @@
 export * from './wallet';
 export * from './transaction'; // If you have this file
 export * from './types';
+export * from './Irys';
 
 // Add specific functions for clarity (optional)
 export { connectWallet, disconnectWallet, getConnectedWallet } from './wallet';

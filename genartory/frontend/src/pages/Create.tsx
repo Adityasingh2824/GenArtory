@@ -8,25 +8,32 @@ import { mintNFT } from '../utils/aptos/nft';
 import toast, { Toaster } from 'react-hot-toast';
 
 import { NFT } from '../types';
-import { getUserCollections, /*validateRoyaltyPercentage*/ } from '../utils/aptos';
+import { getUserCollections } from '../utils/aptos';
+import { validateRoyaltyPercentage } from '../utils/validation';
+ 
 //please import Input and Button components from the common folder
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import { useWallet } from '@aptos-labs/wallet-adapter-react';
 import { Aptos, AptosConfig, Network, queryIndexer } from "@aptos-labs/ts-sdk";
 
+import { checkIfFund, uploadFolder } from "../utils/web3/";
+
+import { isAscii } from 'buffer';
+
 
 
 const Create: React.FC = () => {
 
-  const config = new AptosConfig({ network: Network.DEVNET });
+  const config = new AptosConfig({ network: Network.TESTNET });
   let myclient=new Aptos(config);
 
   const navigate = useNavigate();
-  const { account } = useWallet();
-
+  const aptosWallet = useWallet();
+  const { account} = useWallet();
+  
   const [isLoading, setIsLoading] = useState(false);
-  const [generatedImages, setGeneratedImages] = useState<string[]>([]);
+  const [generatedImages, setGeneratedImages] = useState<File[]>([]);
   const [prompt, setPrompt] = useState('');
   const [collectionName, setCollectionName] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -90,7 +97,19 @@ const lgetinfos = async (account: any ) => {
     return objects;
   };
 
+
+
+
+
+
+
+
+
+
+
+
   const handleArtGenerated = (imageDataArray: string[], prompt: string) => {
+    console.log('imageDataArray', imageDataArray);
     setGeneratedImages(imageDataArray);
     setPrompt(prompt);
    // setMintSuccess(false);
@@ -98,7 +117,6 @@ const lgetinfos = async (account: any ) => {
   };
 
   const handleMint = async () => {
-    console.log("minting");
      
     if (!account?.address || generatedImages.length === 0) {
        notifToast("Please connect your wallet and generate at least one image first.");
@@ -107,7 +125,7 @@ const lgetinfos = async (account: any ) => {
 
 
  
-      notifToast('yes sir');
+     
 
     const validRoyalty = validateRoyaltyPercentage(royaltyPercentage);
     if(validRoyalty) {
@@ -117,16 +135,33 @@ const lgetinfos = async (account: any ) => {
     setIsLoading(true);
 
     try {
-      const collectionDetails = await getCollectionDetails(selectedCollection);
-      const nftIds = await mintNFT(
-        account.address, 
-        generatedImages, 
-        prompt, 
-        selectedCollection, 
-        royaltyPercentage, 
-        collectionDetails?.uri, 
-        collectionDetails?.description
-      );
+
+let myarrayFile:File = [];
+    ///add generatedImages to myarrayFile
+      myarrayFile.push(generatedImages);
+   
+
+
+        let myres = checkIfFund(aptosWallet, myarrayFile);
+      console.log('myres', myres);
+  
+    
+
+
+     // console.log('myres', myres);
+      
+      notifToast("Uploading images to Irys...");
+      
+      // const collectionDetails = await getCollectionDetails(selectedCollection);
+      // const nftIds = await mintNFT(
+      //   account.address, 
+      //   generatedImages, 
+      //   prompt, 
+      //   selectedCollection, 
+      //   royaltyPercentage, 
+      //   collectionDetails?.uri, 
+      //   collectionDetails?.description
+      // );
       
       if (nftIds && nftIds.length > 0) {
         toast.success("NFT(s) minted successfully!");
