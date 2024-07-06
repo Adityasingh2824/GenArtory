@@ -35,6 +35,8 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@reduxjs/toolkit": "^2.2.6",
+    "@splinetool/react-spline": "^4.0.0",
+    "@splinetool/runtime": "^1.8.9",
     "@tanstack/react-query": "^5.40.1",
     "browserify-zlib": "^0.2.0",
     "class-variance-authority": "^0.7.0",

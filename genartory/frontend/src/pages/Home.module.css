@@ -1,17 +1,18 @@
 /* frontend/src/pages/Home.module.css */
 
+
 .container {
     padding: 20px;
-    background-color:  #fdfdfd;
+    background-color:  hsl(315, 18%, 96%);
 }
 
 .featured {
-    margin-top: 0px;
+    margin-top: 20px;
 }
 
 .nftGrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 0px;
+    gap: 40px;
     margin-top: 1px;
 }

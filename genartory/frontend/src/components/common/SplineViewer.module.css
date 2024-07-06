@@ -1,0 +1,8 @@
+/* SplineViewer.module.css */
+.splineContainer {
+    width: 100%; 
+    height: 500px; /* Adjust height as needed */
+    /* Add styling to match your design */
+    margin-bottom: 20px; /* Optional spacing below */
+  }
+  

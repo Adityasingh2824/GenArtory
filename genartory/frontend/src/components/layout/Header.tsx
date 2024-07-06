@@ -11,7 +11,7 @@ import  mylogo from '../../../public/images/logo.jpg'; // Import mylogo from ima
   return (
     <header className={styles.header}>
       <img src={mylogo} alt="Genartory Logo" className={styles.logo} /> {/* Use mylogo as the source of the image */}
-      <h1>My App</h1>
+      <h1>GenArtory</h1>
       
       <Link to="/" className={styles.homeButton}>Home</Link> {/* Add a "Back to Home" button */}
 
@@ -24,7 +24,7 @@ import  mylogo from '../../../public/images/logo.jpg'; // Import mylogo from ima
           <Link to="/my-nfts" className={styles.homeButton}>My NFTs</Link>
           <Link to="/profile" className={styles.homeButton}>Profile</Link>
         </div>
-       : <div className={styles.welcomeMessage}>WELCOME</div>}
+       : <div > </div>}
       
       <WalletConnector />
     </header>

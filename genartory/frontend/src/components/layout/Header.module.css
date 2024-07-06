@@ -4,15 +4,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #faf7fb;
-    color: rgb(14, 13, 13);
+    background-color: #f308a8;
+    color: hsl(0, 90%, 49%);
     padding: 20px;
 }
 /* Adjusted styles for button text centering and trimming long text */
 .homeButton,
 .profileButton {
-    background-color: #053b76;
-    color: white;
+    background-color: hwb(60 6% 6%);
+    color: rgb(235, 5, 5);
     padding: 0;
     /* Remove padding to use height and line-height for centering */
     text-decoration: none;
@@ -33,7 +33,7 @@
     /* Minimum width to ensure buttons are not too narrow */
     max-width: 250px;
     /* Maximum width to prevent overflow */
-    white-space: opx;
+    white-space: ;
     /* Prevent text from wrapping to a new line */
     overflow: hidden;
     /* Hide overflow text */

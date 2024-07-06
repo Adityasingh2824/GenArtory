@@ -1,50 +1,36 @@
-// frontend/src/pages/Home.tsx
 import React, { useState, useEffect } from 'react';
 import styles from './Home.module.css';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/common/Button';
- import NFTCard from '../components/nft/NFTCard';
+import NFTCard from '../components/nft/NFTCard';
 // import { getNFTs } from '../utils/aptos';
- //import HeroSection from '../components/layout/HeroSection';
+import Spline from '@splinetool/react-spline'
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const [featuredNFTs, setFeaturedNFTs] = useState<any[]>([]); // Update with your NFT type
+  const [featuredNFTs, setFeaturedNFTs] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchNFTs = async () => {
       console.log("fetchNFTs");
-      // Simulate loading state 
-      // try {
-      //   const nfts = await getNFTs(); // Fetch featured NFTs (implement this function in utils/aptos.ts)
-      //   setFeaturedNFTs(nfts);
-      // } catch (error) {
-      //   console.error('Error fetching NFTs:', error);
-      //   // Handle the error (e.g., show an error message)
-      // } finally {
-        setIsLoading(false);
-     // }
+      // ... (Fetch or simulate NFT data) ...
     };
-
     fetchNFTs();
   }, []);
 
   return (
     <div className={styles.container}>
-      {/* <HeroSection 
-      title="Discover and create extraordinary AI art."
-      subtitle="Own a unique piece of the future." />*/}
+       <Spline scene="https://prod.spline.design/h5oaCvhO2NaUT988/scene.splinecode" />
 
       <section className={styles.featured}>
-      
         <h2>Featured Artworks</h2>
         {isLoading ? (
           <p>Loading...</p>
         ) : (
           <div className={styles.nftGrid}>
             {featuredNFTs.map((nft) => (
-              {/*    <NFTCard key={nft.id} nft={nft} /> */ }
+              <NFTCard key={nft.id} nft={nft} /> 
             ))}
           </div>
         )}
@@ -63,5 +49,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
-
+export default Home; 

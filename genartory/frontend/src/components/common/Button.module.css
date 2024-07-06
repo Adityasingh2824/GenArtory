@@ -33,12 +33,12 @@
 /* Button Variations */
 .primary {
   background-color: var(--primary-color);
-  color: white;
+  color: #ccec17;
 }
 
 .primary:hover {
   background-color: var(--secondary-color); 
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Increased shadow on hover */
+  box-shadow: 0 6px 8px rgba(229, 1, 27, 0.15); /* Increased shadow on hover */
 }
 
 .secondary {
@@ -60,8 +60,8 @@
 
 .outline:hover {
   background-color: var(--accent-color);
-  color: white;
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  color: #06e3f3;
+  box-shadow: 0 6px 8px #e603f126;
 }
 
 
