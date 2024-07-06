@@ -1,22 +1,76 @@
+/* Select.module.css */
+
+/* Design System Variables */
+:root {
+  --primary-color: #3498db; 
+  --secondary-color: #2980b9;
+  --text-color: #333; 
+  --error-color: #e74c3c;
+  --background-color: #fff;
+  --border-color: #ccc;
+  --border-color-focus: #999; 
+  --border-radius: 4px;
+  --font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Select Container */
 .selectContainer {
-    margin-bottom: 1rem;
-  }
-  
-  .select {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-  
-    &:focus {
-      outline: none;
-      border-color: var(--primary-color); /* Highlight on focus */
-      box-shadow: 0 0 0 0.2rem rgba(41, 98, 255, 0.25);
-    }
-  }
-  
-  .error {
-    color: red;
-    font-size: 0.8rem;
-  }
-  
+  position: relative; /* For positioning the dropdown arrow */
+  display: block; /* Ensure the select takes the full width */
+  width: 100%; /* Allow for responsiveness */
+}
+
+/* Select Element */
+.select {
+  width: 100%;
+  padding: 10px 15px; /* Adjust padding for desired spacing */
+  font-size: 1rem;
+  font-family: var(--font-family);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  appearance: none; /* Remove default styles */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath fill='none' stroke='%23333' stroke-width='2' d='M7 10l5 5 5-5'/%3e%3c/svg%3e"); /* Custom dropdown arrow */
+  background-repeat: no-repeat;
+  background-position: right 10px center; /* Position the arrow */
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+/* Select Focus State */
+.select:focus {
+  outline: none;
+  border-color: var(--border-color-focus);
+  box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+/* Error State */
+.select.error {
+  border-color: var(--error-color);
+  box-shadow: 0 0 0 2px var(--error-color);
+}
+
+/* Label Styles */
+.label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+/* Helper Text Styles */
+.helperText {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.8rem;
+  color: var(--text-color);
+}
+
+.errorText {
+  color: var(--error-color);
+}

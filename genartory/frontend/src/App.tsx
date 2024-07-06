@@ -36,7 +36,7 @@ function App() {
   return (
     <AptosWalletAdapterProvider plugins={wallets} autoConnect>
            
-      <div className="app">
+    
         <Header /> 
         <main>
           <Routes> 
@@ -56,7 +56,7 @@ function App() {
           </Routes>
         </main>
         <Footer /> 
-      </div>
+   
       
     </AptosWalletAdapterProvider>
   );

@@ -1,21 +1,83 @@
-/* frontend/src/components/common/RadioGroup.module.css */
+/* RadioGroup.module.css */
+
+/* Design System Variables */
+:root {
+  --primary-color: #3498db; 
+  --secondary-color: #2980b9;
+  --text-color: #333; 
+  --background-color: #fff;
+  --light-background: #f9f9fa;
+  --border-radius: 4px;
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --transition: all 0.2s ease-in-out;
+}
+
+/* Radio Group Container */
 .radioGroup {
-    display: flex;
-    flex-direction: column; /* Or 'row' for horizontal layout */
-    gap: 0.5rem;
-  }
-  
-  .radioButton {
-    display: flex;
-    align-items: center;
-  }
-  
-  .radioButton input[type="radio"] {
-    margin-right: 0.5rem;
-  }
-  
-  .error {
-    color: red;
-    font-size: 0.8rem;
-  }
-  
+  display: flex; /* Arrange radio buttons horizontally or vertically */
+  flex-direction: column; /* Adjust for vertical arrangement */
+}
+
+/* Hide the default radio button */
+.radio__input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Radio Button Container (Label) */
+.radio {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px; /* Add padding for visual spacing */
+  border-radius: var(--border-radius); /* Slightly rounded corners */
+  transition: var(--transition);
+}
+
+/* Radio Button Appearance (Styled Label) */
+.radio__circle {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--text-color);
+  border-radius: 50%; /* Perfect circle */
+  background-color: var(--background-color);
+  margin-right: 10px;
+  transition: var(--transition);
+  position: relative; /* For positioning the inner circle */
+}
+
+/* Selected Radio Button (Checked State) */
+.radio__input:checked + .radio__circle {
+  border-color: var(--primary-color);
+}
+
+.radio__input:checked + .radio__circle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+}
+
+/* Radio Button Label Text */
+.radio__label {
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+/* Focus State (Optional) */
+.radio__input:focus + .radio__circle {
+  box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+/* Hover State (Optional) */
+.radio:hover .radio__circle {
+  box-shadow: var(--box-shadow); /* Add a subtle shadow on hover */
+}

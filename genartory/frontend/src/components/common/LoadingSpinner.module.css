@@ -1,14 +1,32 @@
-/* frontend/src/components/common/LoadingSpinner.module.css */
+/* LoadingSpinner.module.css */
 
+/* Design System Variables */
+:root {
+  --spinner-size: 40px;      /* Adjust the default spinner size */
+  --spinner-color: #3498db;  /* Primary brand color */
+  --background-color: #fff; /* Or transparent for a subtle effect */
+  --animation-duration: 1.2s; /* Adjust animation speed */
+}
+
+/* Spinner Container */
+.spinnerContainer {
+  display: inline-block; /* Allow for inline placement */
+  width: var(--spinner-size);
+  height: var(--spinner-size);
+}
+
+/* Spinner Animation */
 .spinner {
-    border: 4px solid rgba(0, 0, 0, 0.1);
-    border-top: 4px solid; /* Color set dynamically using inline styles */
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 4px solid var(--background-color); /* Semi-transparent background */
+  border-top-color: var(--spinner-color); /* Spinner color */
+  animation: spin var(--animation-duration) linear infinite;
+}
+
+/* Keyframes for the Spinning Animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -1,23 +1,66 @@
-/* frontend/src/components/common/Checkbox.module.css */
-.checkboxContainer {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.5rem; /* Adjust spacing as needed */
-  }
-  
-  .checkbox {
-    /* Style the checkbox itself (you might want to customize appearance) */
-    margin-right: 0.5rem;
-    width: 18px; /* Adjust size as needed */
-    height: 18px;
-  }
-  
-  .label {
-    cursor: pointer; /* Indicate that the label is clickable */
-  }
-  
-  .error {
-    color: red;
-    font-size: 0.8rem;
-  }
-  
+/* Checkbox.module.css */
+
+/* Design System Variables */
+:root {
+  --primary-color: #3498db; 
+  --secondary-color: #2980b9;
+  --text-color: #333; 
+  --background-color: #fff;
+  --light-background: #f9f9fa;
+  --border-radius: 4px; /* Softened corners */
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --transition: all 0.2s ease-in-out;
+}
+
+/* Hide the default checkbox */
+.checkbox__input {
+  position: absolute;
+  opacity: 0; /* Hide visually */
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Custom checkbox container */
+.checkbox {
+  display: flex;
+  align-items: center; /* Align label vertically */
+  cursor: pointer;
+}
+
+/* Custom checkbox appearance */
+.checkbox__box {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--text-color);
+  border-radius: var(--border-radius);
+  background-color: var(--background-color);
+  transition: var(--transition);
+  margin-right: 10px; /* Space between checkbox and label */
+}
+
+/* Checked state */
+.checkbox__input:checked + .checkbox__box {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* Checked state tick mark (using pseudo-element) */
+.checkbox__input:checked + .checkbox__box::before {
+  content: "\2713"; /* Unicode checkmark */
+  display: block;
+  text-align: center;
+  line-height: 16px; /* Vertically center the checkmark */
+  color: white;
+}
+
+/* Focus state (optional) */
+.checkbox__input:focus + .checkbox__box {
+  box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+/* Label */
+.checkbox__label {
+  font-size: 1rem;
+  color: var(--text-color);
+}

@@ -1,40 +1,81 @@
 /* MyCollections.module.css */
 
-
-.collectionsContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+/* Design System Variables (if applicable) */
+:root {
+    --primary-color: #3498db; /* Primary brand color */
+    --secondary-color: #2980b9;
+    --text-color: #333; /* Main text color */
+    --background-color: #fff;
+    --light-background: #f9f9f9;
+    --font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    --heading-font-size: 1.8rem; /* Adjust as needed */
+    --standard-padding: 20px;
+    --border-radius: 8px;
+    --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  /* Main Container */
+  .collectionsContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--standard-padding);
+    font-family: var(--font-family);
+  }
+  
+  /* Heading */
+  .collectionsHeading {
+    font-size: var(--heading-font-size);
+    margin-bottom: 20px;
+    text-align: center; /* Or left, depending on your preference */
+    color: var(--text-color);
+  }
+  
+  /* Collection Item Container (Grid or Flexbox Layout) */
+  .collectionItems {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
-    padding: 20px;
-}
-
-.collectionCard {
-    width: 300px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+  }
+  
+  /* Individual Collection Item */
+  .collectionItem {
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.collectionImage {
+    transition: var(--transition);
+  }
+  
+  .collectionItem:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Collection Item Image */
+  .collectionItem__image {
     width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.collectionInfo {
-    padding: 15px;
-}
-
-.collectionTitle {
-    font-size: 20px;
-    margin: 0;
+    height: 200px; 
+    object-fit: cover; 
+    transition: transform 0.3s ease; /* Add transition for hover effect */
+  }
+  
+  .collectionItem:hover .collectionItem__image {
+    transform: scale(1.05); /* Subtle zoom on hover */
+  }
+  
+  /* Collection Item Content */
+  .collectionItem__content {
+    padding: var(--standard-padding);
+  }
+  
+  .collectionItem__title {
+    font-weight: bold;
     margin-bottom: 10px;
-    color: #333;
-}
-
-.collectionCount {
-    font-size: 16px;
-    color: #666;
-}
+    color: var(--text-color);
+  }
+  
+  .collectionItem__description {
+    color: var(--text-color);
+  }
+  

@@ -4,22 +4,22 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #333;
-    color: white;
+    background-color: #faf7fb;
+    color: rgb(14, 13, 13);
     padding: 20px;
 }
 /* Adjusted styles for button text centering and trimming long text */
 .homeButton,
 .profileButton {
-    background-color: #007bff;
+    background-color: #053b76;
     color: white;
     padding: 0;
     /* Remove padding to use height and line-height for centering */
     text-decoration: none;
-    border-radius: 10px;
+    border-radius: 19px;
     height: 40px;
     /* Adjusted height for better appearance and centering */
-    line-height: 40px;
+    line-height: 100px;
     /* Match line-height with button height for vertical centering */
     display: inline-flex;
     /* Use flexbox for centering */
@@ -29,11 +29,11 @@
     /* Center horizontally */
     width: auto;
     /* Adjust width as needed, or use specific width */
-    min-width: 100px;
+    min-width: 150px;
     /* Minimum width to ensure buttons are not too narrow */
-    max-width: 200px;
+    max-width: 250px;
     /* Maximum width to prevent overflow */
-    white-space: nowrap;
+    white-space: opx;
     /* Prevent text from wrapping to a new line */
     overflow: hidden;
     /* Hide overflow text */
@@ -56,9 +56,9 @@
 }
 
 .welcomeMessage {
-    animation: fadeIn 2s ease-out;
+    animation: fadeIn 100s ease-out;
     font-size: 20px; /* Adjust size as needed */
-    color: #fff; /* Adjust color as needed */
+    color: #050505; /* Adjust color as needed */
 }
 
 .logo {

@@ -1,34 +1,91 @@
-/* frontend/src/components/common/Typography.module.css */
+/* Typography.module.css */
+
+/* Design System Variables */
+:root {
+  --primary-color: #3498db; /* Primary brand color */
+  --secondary-color: #2980b9;
+  --text-color: #333; /* Main text color */
+  --background-color: #fff;
+  --light-background: #f9f9fa;
+  --font-family-primary: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* Primary font */
+  --font-family-secondary: "Georgia", serif; /* Optional secondary font */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+}
+
+/* Heading Styles (H1, H2, H3, etc.) */
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: var(--font-family-primary);
+  color: var(--text-color);
+  margin-top: 1.2em;  /* Adjust spacing as needed */
+  margin-bottom: 0.6em;
+}
+
 .h1 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-  }
-  
-  .h2 {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 0.75rem;
-  }
-  
-  .h3 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-  
-  .body1 {
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-  
-  .body2 {
-    font-size: 0.875rem;
-    line-height: 1.4;
-  }
-  
-  .caption {
-    font-size: 0.75rem;
-    color: #6c757d; /* Gray */
-  }
-  
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-bold);
+}
+
+.h2 {
+  font-size: 2rem;
+  font-weight: var(--font-weight-medium);
+}
+
+.h3 {
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-medium);
+}
+
+.h4 {
+  font-size: 1.2rem;
+  font-weight: var(--font-weight-regular);
+}
+
+.h5,
+.h6 {
+  font-size: 1rem;
+  font-weight: var(--font-weight-regular);
+}
+
+/* Paragraph Styles */
+.paragraph {
+  font-family: var(--font-family-primary);
+  font-size: 1rem;
+  line-height: 1.6; /* Improve readability */
+  color: var(--text-color);
+  margin-bottom: 1.2em;
+}
+
+/* Other Text Styles */
+.lead { /* Introductory text */
+  font-size: 1.2rem;
+  font-weight: var(--font-weight-light);
+  margin-bottom: 1.5em;
+}
+
+.small { /* Small print */
+  font-size: 0.8rem;
+}
+
+/* Emphasis */
+.bold { font-weight: var(--font-weight-bold); }
+.italic { font-style: italic; }
+
+/* Link Styles */
+.link {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease; /* Hover effect */
+}
+
+.link:hover {
+  color: var(--secondary-color);
+  text-decoration: underline;
+}

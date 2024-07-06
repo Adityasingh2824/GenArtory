@@ -1,39 +1,77 @@
-/* frontend/src/components/common/Button.module.css */
+/* Button.module.css */
+
+/* Design System Variables */
+:root {
+  --primary-color: #2980b9;      /* Deep blue primary color */
+  --secondary-color: #e67e22;   /* Orange secondary color */
+  --accent-color: #f1c40f;      /* Yellow accent color */
+  --text-color: #333;           /* Dark gray text color */
+  --background-color: #fff;
+  --light-background: #f9f9f9;
+  --font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --border-radius: 8px;
+  --transition: all 0.3s ease;  /* Smoother transitions */
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+}
+
+/* Base Button Styles */
 .button {
-    /* Common styles for all buttons */
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-    padding: 0.75rem 1rem;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
-  }
-  
-  .button--primary {
-    background-color: var(--primary-color); /* Get primary color from variables.css */
-    color: white;
-  
-    &:hover {
-      background-color: #1976d2; /* Darker shade of blue */
-    }
-  }
-  
-  .button--secondary {
-    background-color: var(--secondary-color); /* Get secondary color from variables.css */
-    color: white;
-  
-    &:hover {
-      background-color: #495057; /* Darker shade of gray */
-    }
-  }
-  
-  /* ... Add more styles for different sizes (small, medium, large) and fullWidth */
-  
-  .loader {
-    /* Add your loading spinner styles here */
-    margin-right: 0.5rem; /* Add space between loader and text */
-  }
-  
+  display: inline-block;
+  padding: 12px 24px;      /* Slightly larger padding */
+  font-family: var(--font-family);
+  font-size: 1rem;
+  font-weight: 600;       /* Slightly bolder font */
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+}
+
+/* Button Variations */
+.primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.primary:hover {
+  background-color: var(--secondary-color); 
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Increased shadow on hover */
+}
+
+.secondary {
+  background-color: var(--background-color);
+  color: var(--secondary-color);
+  border: 2px solid var(--secondary-color);
+}
+
+.secondary:hover {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.outline {
+  background-color: transparent;
+  color: var(--accent-color);
+  border: 2px solid var(--accent-color);
+}
+
+.outline:hover {
+  background-color: var(--accent-color);
+  color: white;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+/* Button Sizes */
+.small {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+}
+
+.large {
+  padding: 14px 28px;
+  font-size: 1.1rem;
+}

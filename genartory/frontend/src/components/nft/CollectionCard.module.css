@@ -1,28 +1,73 @@
-.collection {
-    border: 1px solid #ddd;
-    border-radius: 8px;
+/* frontend/src/components/nft/CollectionCard.module.css */
+
+/* Collection Card Container */
+.card {
+    background-color: var(--background-color-light); /* Slightly lighter background for contrast */
+    border: 1px solid var(--border-color); 
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    transition: all 0.3s ease-in-out; 
+    cursor: pointer;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.collectionImage {
+  }
+  
+  /* Hover Effect */
+  .card:hover {
+    transform: translateY(-3px); 
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Collection Image */
+  .imageContainer {
+    height: 200px; /* Adjust height as needed */
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .imageContainer::before { /* Gradient overlay on image */
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
     width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.collectionInfo {
-    padding: 15px;
-}
-
-.collectionTitle {
-    font-size: 20px;
-    margin: 0;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.collectionCount {
-    font-size: 16px;
-    color: #666;
-}
+    height: 50%; /* Adjust gradient height as needed */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent); 
+  }
+  
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    transition: transform 0.3s ease; 
+  }
+  
+  .card:hover .image {
+    transform: scale(1.05); 
+  }
+  
+  
+  /* Details Section */
+  .details {
+    padding: 1rem;
+    text-align: left; /* Align text to the left */
+    color: var(--text-color);
+  }
+  
+  .name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .creator {
+    font-size: 0.9rem;
+    color: var(--text-color-light); 
+    margin-bottom: 0.5rem;
+  }
+  
+  .description {
+    font-size: 0.875rem;
+    line-height: 1.4;
+    text-align: justify;
+  }
+  

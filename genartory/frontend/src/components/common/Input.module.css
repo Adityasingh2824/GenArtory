@@ -1,34 +1,82 @@
-/* frontend/src/components/common/Input.module.css */
+/* Input.module.css */
+
+/* Design System Variables */
+:root {
+  --primary-color: #3498db; 
+  --secondary-color: #2980b9;
+  --text-color: #333;
+  --error-color: #e74c3c;
+  --background-color: #fff;
+  --border-color: #ccc;
+  --border-color-focus: #999;
+  --border-color-error: #e74c3c; /* Use the same as error color */
+  --border-radius: 4px;
+  --font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Input Container */
 .inputContainer {
-    margin-bottom: 1rem;
-  }
-  
-  .label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-  }
-  
-  .input {
-    padding: 0.75rem;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    width: 100%;
-  
-    &:focus {
-      outline: none;
-      border-color: var(--primary-color); /* Highlight on focus */
-      box-shadow: 0 0 0 0.2rem rgba(41, 98, 255, 0.25); /* Aptos blue focus shadow */
-    }
-  }
-  
-  .errorInput {
-    border-color: #dc3545; /* Red border when there's an error */
-  }
-  
-  .error {
-    color: #dc3545; /* Red error message */
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-  }
-  
+  position: relative; /* For positioning the error icon */
+  margin-bottom: 15px; /* Adjust as needed */
+}
+
+/* Input Field Styles */
+.input {
+  display: block; 
+  width: 100%;
+  padding: 12px 15px; /* Slightly more padding */
+  font-size: 1rem;
+  font-family: var(--font-family);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--border-color-focus); /* Different color on focus */
+  box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+/* Error State */
+.input.error {
+  border-color: var(--error-color);
+  box-shadow: 0 0 0 2px var(--error-color);
+}
+
+/* Error Icon (using pseudo-element) */
+.input.error::after {
+  content: "\2716"; /* Unicode multiplication sign (X) */
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: var(--error-color);
+}
+
+/* Label Styles */
+.label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+/* Helper Text Styles */
+.helperText {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.8rem;
+  color: var(--text-color);
+}
+
+.errorText {
+  color: var(--error-color);
+}

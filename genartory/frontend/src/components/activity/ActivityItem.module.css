@@ -1,16 +1,63 @@
+/* frontend/src/components/activity/ActivityItem.module.css */
+
 .activityItem {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-  display: flex;
-  justify-content: space-between;
+  background-color: var(--background-color-light); /* Slightly lighter background for contrast */
+  border: 1px solid var(--border-color); 
+  padding: 1.25rem; /* Generous padding for readability */
+  margin-bottom: 1.5rem; 
+  border-radius: 8px; /* Rounded corners for a softer look */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  transition: all 0.2s ease; /* Subtle transition for hover effect */
+}
+
+.activityItem:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px); /* Lift up slightly on hover */
+}
+
+/* Activity Icon */
+.icon {
+  margin-right: 0.75rem; /* Space between icon and text */
+  display: inline-flex; /* Align icon with text */
   align-items: center;
 }
 
-.message {
-  color: #333;
+/* Activity Type Heading */
+.type {
+  font-weight: 600; /* Slightly bolder font weight */
+  margin: 0 0 0.25rem 0; /* Reduce margin below for tighter spacing */
 }
 
+/* Time and Actor */
 .timestamp {
-  color: #666;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
+  color: var(--text-color-light); /* Lighter color for metadata */
+  margin-bottom: 0.5rem;
+}
+
+.actor {
+  font-size: 0.9rem; /* Smaller font for actor/address */
+  color: var(--text-color-light); 
+}
+
+/* NFT Information (only for mint, list, sale, bid types) */
+.nftInfo {
+  margin-top: 1rem;
+}
+
+.nftInfo img {
+  max-width: 100%; /* Make image responsive */
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.nftInfo h4 { /* NFT title in activity feed */
+  font-size: 1rem; 
+  margin: 0;
+}
+
+.nftInfo p { /* NFT description in activity feed */
+  font-size: 0.875rem;
+  color: var(--text-color-light);
 }

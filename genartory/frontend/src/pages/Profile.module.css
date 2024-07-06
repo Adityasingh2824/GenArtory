@@ -1,47 +1,72 @@
 /* Profile.module.css */
 
-.profileContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-}
-
-.profileHeader {
-    width: 100%;
+/* Design System Variables */
+:root {
+    --primary-color: #3498db; 
+    --secondary-color: #2980b9;
+    --text-color: #333; 
+    --background-color: #fff;
+    --light-background: #f9f9f9;
+    --font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    --heading-font-size: 1.8rem; 
+    --subtitle-font-size: 1.2rem;
+    --standard-padding: 20px;
+    --border-radius: 8px;
+    --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  /* Main Profile Container */
+  .profileContainer {
+    max-width: 800px; 
+    margin: 0 auto; 
+    padding: var(--standard-padding);
+    font-family: var(--font-family);
+    background-color: var(--light-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+  }
+  
+  /* Profile Header */
+  .profileHeader {
     text-align: center;
     margin-bottom: 20px;
-}
-
-.profileInfo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 600px;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.profileInfoItem {
-    margin: 10px 0;
-}
-
-.avatar {
-    width: 100px;
-    height: 100px;
+  }
+  
+  .profileImage {
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
-    margin-bottom: 20px;
-}
-
-.userName {
-    font-size: 24px;
-    color: #333;
-}
-
-.userBio {
-    text-align: center;
-    color: #666;
-}
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 3px solid var(--primary-color); /* Add a colored border */
+  }
+  
+  .profileName {
+    font-size: var(--heading-font-size);
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--text-color);
+  }
+  
+  .profileUsername {
+    font-size: var(--subtitle-font-size);
+    color: var(--text-color);
+    opacity: 0.8;
+  }
+  
+  /* Profile Content Sections (Bio, NFTs, Collections, etc.) */
+  .profileSection {
+    margin-bottom: 30px;
+  }
+  
+  .profileSection__title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: var(--text-color);
+  }
+  
+  /* ... (Add styles for specific content within each section, 
+         such as NFT grids, collection lists, bio text, etc.) ... */
+  

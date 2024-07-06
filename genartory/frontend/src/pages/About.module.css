@@ -1,21 +1,99 @@
-/* About.module.css */
+/* frontend/src/pages/About.module.css */
 
+/* Import fonts for artistic style */
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+
+/* Page Container */
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
+  max-width: 900px; /* Adjust as needed for your content width */
+  margin: 0 auto;  /* Center the container horizontally */
+  padding: 3rem;   /* Add padding for visual breathing room */
+  text-align: center; /* Center text by default for aesthetic appeal */
+  color: var(--text-color);
+  background-color: var(--background-color-light); /* Slightly lighter background for contrast */
+  border-radius: 15px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  background-image: url("/images/subtle_texture.png"); /* Subtle texture for visual interest */
+  background-repeat: repeat;
+  background-size: 200px; /* Adjust texture size as needed */
 }
 
-.title {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
+/* Section Styling */
+.section {
+  margin-bottom: 3rem; /* Increased spacing between sections */
 }
 
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: var(--primary-color); /* Purple */
+  text-align: center;
+  font-family: "Playfair Display", serif;
+}
+
+/* Heading Styles */
+.heading {
+  font-size: 2rem; /* Adjust as needed */
+  margin-bottom: 1rem;
+  color: var(--text-color); /* Use the main text color */
+}
+
+.subheading {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--primary-color-light); /* Lighter shade of purple */
+}
+
+/* Paragraph Styles */
 .paragraph {
-    text-align: center;
-    max-width: 600px;
-    line-height: 1.6;
-    color: #666;
+  line-height: 1.6; 
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+/* Team Member Styles */
+.teamMember {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  margin-bottom: 2rem;
+  background-color: #fff; /* White background for team member cards */
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle card shadow */
+}
+
+.teamMemberImage {
+  width: 100px; 
+  height: 100px; 
+  object-fit: cover; 
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  border: 2px solid var(--primary-color-light);
+}
+
+.teamMemberName {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.teamMemberRole {
+  font-size: 0.9rem;
+  color: var(--text-color-light);
+}
+
+/* Responsive Adjustments */
+@media (min-width: 768px) {
+  .teamMember {
+    flex-direction: row; 
+    gap: 2rem; 
+    text-align: left;
+  }
+
+  .teamMemberImage {
+    margin-right: 1rem; 
+    margin-bottom: 0;
+  }
 }

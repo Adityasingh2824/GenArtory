@@ -1,43 +1,102 @@
 /* frontend/src/components/marketplace/FilterBar.module.css */
 
+/* Filter Bar Container */
 .filterBar {
-    /* Overall filter bar container styles */
-    background-color: #f8f9fa; /* Light background color */
-    padding: 1rem;
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    margin-bottom: 2rem; /* Space from the listings grid */
+  background-color: var(--background-color-light); /* Slightly lighter background for contrast */
+  border: 1px solid var(--border-color);  
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  transition: box-shadow 0.3s ease;  
+  width: 300px; /* Adjust width as needed */
+}
+
+/* Hover effect on the filter bar */
+.filterBar:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Increased shadow on hover */
+}
+
+/* Heading */
+.filterBar h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: var(--text-color); /* Use a color variable for the heading */
+}
+
+/* Filter Groups */
+.filterGroup {
+  margin-bottom: 1.5rem; /* Add space between filter groups */
+}
+
+.filterGroup h4 { /* Filter Group Heading */
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--primary-color); /* Purple */
+  margin-bottom: 0.5rem;
+  transition: color 0.2s ease; /* Add transition for hover effect */
+}
+.filterGroup:hover h4 { /* Change heading color on hover */
+  color: var(--accent-color);
+}
+/* Collapse Button */
+.collapseButton {
+  background: none; /* Remove default button background */
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 1.2rem; /* Adjust the size as needed */
+  color: var(--text-color); /* Set initial arrow color */
+  transition: transform 0.3s ease; /* Smooth transition for the arrow */
+}
+
+.collapseButton:hover, .collapseButton:focus {
+  color: var(--accent-color); /* Change color on hover and focus */
+}
+
+.collapseButton.open { /* Style for when the filter group is open */
+  transform: rotate(180deg); /* Rotate arrow 180 degrees */
+}
+
+/* Checkbox Styles */
+.filterBar input[type="checkbox"] {
+  width: 18px; 
+  height: 18px;
+  margin-right: 0.5rem;
+  accent-color: var(--primary-color); /* Purple checkmark */
+}
+
+.filterBar label { 
+  display: block; 
+  margin-bottom: 0.25rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  transition: color 0.2s ease; /* Add transition for hover effect */
+}
+
+.filterBar label:hover {
+  color: var(--primary-color); /* Change label color on hover */
+}
+
+/* Price Range Slider Styling */
+.priceSliderContainer {
+  /* ... Styles for your price slider container */
+}
+
+.priceSlider {
+  /* ... Styles for the actual slider element */
+}
+
+/* Additional Filter Types */
+.categoryFilter, 
+.otherFilter {
+  /* Style similar to .filterGroup */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) { 
+  .filterBar {
+    width: 100%; 
   }
-  
-  .filterBar h3 { /* Filter bar heading */
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-  }
-  
-  .filters {
-    display: flex;
-    flex-direction: column; /* Stack filter sections vertically by default */
-    gap: 1rem; /* Spacing between filter sections */
-  }
-  
-  /* Filter section styling */
-  .filterBar h4 { /* Section heading (e.g., Collections) */
-    font-size: 1rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-  
-  /* Checkbox styling (you can customize this based on your Checkbox component) */
-  .checkbox {
-    display: block; /* Each checkbox on its own line */
-    margin-bottom: 0.25rem; /* Space between checkboxes */
-  }
-  
-  /* Media queries for responsive design */
-  @media (min-width: 768px) { /* Adjust this breakpoint as needed */
-    .filters {
-      flex-direction: row; /* Display filter sections horizontally on larger screens */
-      flex-wrap: wrap;    /* Allow wrapping if needed */
-    }
-  }
-  
+}
+

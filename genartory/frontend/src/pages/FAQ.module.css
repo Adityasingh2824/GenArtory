@@ -1,19 +1,50 @@
 /* FAQ.module.css */
 
-.container {
+/* Container for the entire FAQ section */
+.faqContainer {
+    max-width: 800px; /* Limit width for better readability */
+    margin: 0 auto;  /* Center the container */
     padding: 20px;
-    max-width: 800px;
-    margin: auto;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.faqList {
-    margin-top: 20px;
-}
-
-h1 {
-    text-align: center;
-    color: #333;
-}
+  }
+  
+  /* Block: FAQ item */
+  .faqItem {
+    margin-bottom: 20px; /* Space between items */
+    border-bottom: 1px solid #eee; /* Subtle separator */
+  }
+  
+  /* Element: Question */
+  .faqItem__question {
+    cursor: pointer; /* Indicate interactivity */
+    padding: 15px;
+    background-color: #f9f9f9; /* Light background for questions */
+    font-weight: bold;
+    position: relative; /* For positioning the arrow */
+  }
+  
+  /* Element: Question arrow (initially hidden) */
+  .faqItem__question::after {
+    content: "\25BC"; /* Unicode down arrow */
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease; /* Smooth rotation */
+  }
+  
+  /* Modifier: Open question */
+  .faqItem__question--open::after {
+    transform: translateY(-50%) rotate(180deg); /* Rotate arrow up */
+  }
+  
+  /* Element: Answer (initially hidden) */
+  .faqItem__answer {
+    display: none; /* Hide by default */
+    padding: 15px;
+  }
+  
+  /* Modifier: Open answer */
+  .faqItem__answer--open {
+    display: block; /* Show when the question is open */
+  }
+  

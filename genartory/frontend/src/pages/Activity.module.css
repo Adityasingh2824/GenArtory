@@ -1,32 +1,96 @@
-/* Activity.module.css */
+/* frontend/src/components/activity/ActivityItem.module.css */
 
-.activityContainer {
-    display: flex;
-    flex-direction: column;
+/* Main Activity Feed Container */
+.container {
+    background-color: var(--background-color-light); /* Slightly lighter background for contrast */
+    padding: 2rem;
+    border-radius: 12px; /* Slightly more rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle box shadow */
+    max-width: 900px; /* Adjust as needed */
+    margin: 0 auto;
+  }
+  .container h1{
+      color: var(--text-color);
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+    }
+  
+  /* Activity List Styling */
+  .activityList {
+    list-style: none; 
+    padding: 0;
+  }
+  
+  /* Individual Activity Item */
+  .activityItem {
+    background-color: var(--background-color); 
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease; /* Add transition for hover effect */
+  }
+  
+  .activityItem:hover {
+    transform: translateY(-3px); /* Slightly lift up on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Activity Icon */
+  .icon {
+    margin-right: 0.75rem;
+    display: inline-flex;
     align-items: center;
-    padding: 20px;
-}
-
-.activityTitle {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.activityList {
-    width: 100%;
-    max-width: 800px;
-}
-
-.activityItem {
-    border-bottom: 1px solid #ccc;
-    padding: 10px 0;
-}
-
-.activityItem:last-child {
-    border-bottom: none;
-}
-
-.activityDescription {
-    color: #666;
-}
+    font-size: 1.5rem; /* Slightly larger icon size */
+    color: var(--accent-color); /* Use a vibrant accent color for icons */
+  }
+  
+  /* Activity Type Heading */
+  .type {
+    font-weight: 600; 
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+  }
+  
+  /* Timestamp & Actor */
+  .timestamp {
+    font-size: 0.9rem;
+    color: var(--text-color-light); 
+    margin-bottom: 0.5rem;
+  }
+  
+  .actor {
+    font-size: 0.9rem;
+    color: var(--text-color-light);
+    font-style: italic;
+  }
+  
+  /* NFT Information (for mint, list, sale, bid types) */
+  .nftInfo {
+    margin-top: 1rem;
+  }
+  
+  .nftInfo img {
+    max-width: 100%; 
+    height: auto;
+    max-height: 200px; 
+    object-fit: cover;
+    border-radius: 4px; 
+    margin-bottom: 0.5rem;
+  }
+  
+  .nftInfo h4 { /* NFT Title */
+    font-size: 1rem;
+    margin: 0 0 0.25rem 0;
+    color: var(--primary-color); /* Purple */
+  }
+  
+  .nftInfo p {
+    font-size: 0.875rem;
+    color: var(--text-color-light);
+    margin: 0;
+  }
+  
