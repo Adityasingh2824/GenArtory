@@ -4,15 +4,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #f308a8;
-    color: hsl(0, 90%, 49%);
+    background-color: #faf5f8;
+    color: rgb(12, 12, 12);
     padding: 20px;
 }
 /* Adjusted styles for button text centering and trimming long text */
 .homeButton,
 .profileButton {
-    background-color: hwb(60 6% 6%);
-    color: rgb(235, 5, 5);
+    background-color: hwb(288 59% 5%);
+    color: rgb(11, 11, 11);
     padding: 0;
     /* Remove padding to use height and line-height for centering */
     text-decoration: none;
