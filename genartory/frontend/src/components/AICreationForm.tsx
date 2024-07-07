@@ -17,7 +17,7 @@ interface AICreationFormProps {
 
 const AICreationForm: React.FC<AICreationFormProps> = ({ onArtGenerated, error }) => {
   // States for form fields
-  const [prompt, setPrompt] = useState('');
+  const [prompt, setPrompt] = useState('Iranam');
   const [isLoading, setIsLoading] = useState(false);
   const [numOutputs, setNumOutputs] = useState(1);
   const [width, setWidth] = useState(DEFAULT_IMAGE_WIDTH);
@@ -57,6 +57,7 @@ const AICreationForm: React.FC<AICreationFormProps> = ({ onArtGenerated, error }
         placeholder="Enter a description of the artwork you want to generate."
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
+       
         required
       />
       <Input
