@@ -20,9 +20,6 @@ const getWebIrys = async (aptosWallet: WalletContextState) => {
 
 
 
-
-
-
 const fetchFileSize = async (imageUrl) => {
   try {
     const response = await fetch(imageUrl, { method: 'HEAD' });
@@ -46,8 +43,6 @@ export const checkIfFund = async (aptosWallet: WalletContextState, files: File[]
     
   const webIrys = await getWebIrys(aptosWallet);
   
-    
-    //console.log(' checkIfFund irys.ts files', files.map((f) => f.size));
 
     files.map((f) => {
         console.log(' checkIfFund irys.ts f.size', f);
@@ -60,16 +55,8 @@ let myobj = {
     fileCount: 1,
     totalBytes: totalsize
   }
-  
 
-  // const files: File[] = [];
-  // for (let i = 0; i < fileList.length; i++) {
-  //   files.push(fileList[i]);
-  // }
 
-  //const costToUpload = await webIrys.utils.estimateFolderPrice(files.map((f) => f.size));
-
-  
   const costToUpload = await webIrys.utils.estimateFolderPrice(myobj);
   console.log(' checkIfFund irys.ts costToUpload', costToUpload);
   // 2. check the wallet balance on the irys node: irys.getLoadedBalance()
@@ -147,6 +134,9 @@ export const uploadFile = async (
 ): Promise<string> => {
   const webIrys = await getWebIrys(aptosWallet);
   try {
+
+    console.log('uploadFile irys.ts fileToUpload', fileToUpload);
+
     const receipt = await webIrys.uploadFile(fileToUpload, { tags: [] });
 
     return `https://gateway.irys.xyz/${receipt.id}`;

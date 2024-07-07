@@ -5,12 +5,13 @@ import styles from './AICreationForm.module.css';
 import Input from './common/Input';
 import Select from './common/Select';
 import Button from './common/Button';
-import { generateArt } from '../utils/ai';
+import { generateArt,AIImageprops } from '../utils/ai';
 import { GenerateArtRequest } from '../utils/ai/types';
 import { DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT } from '../utils/constants';
 
+
 interface AICreationFormProps {
-  onArtGenerated: (imageData: string, prompt: string) => void;
+  onArtGenerated: (imageData: AIImageprops, prompt: string) => void;
   error?: string;
 }
 
@@ -35,7 +36,7 @@ const AICreationForm: React.FC<AICreationFormProps> = ({ onArtGenerated, error }
 
     try {
       const generatedImages = await generateArt(request); // Get an array of generated images
-      onArtGenerated(generatedImages[0], prompt); // Pass the first generated image and prompt to the parent
+      onArtGenerated(generatedImages, prompt); // Pass the first generated image and prompt to the parent
      
       // Optionally, show a gallery with all generated images
     } catch (err) {

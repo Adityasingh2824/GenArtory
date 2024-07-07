@@ -2,9 +2,19 @@
 import { GenerateArtRequest } from './types';
 import { toast } from "react-hot-toast";
 import { API_URL } from '../constants';
+import { blob } from 'stream/consumers';
 
 
-export async function generateArt(request: GenerateArtRequest): Promise<string> {
+
+export interface AIImageProps {
+  //blob:blob,
+  blob: blob;
+  url: string;
+};
+
+
+
+export async function generateArt(request: GenerateArtRequest): Promise<AIImageProps> {
   //const API_URL = 'https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4'; 
   const headers = { Authorization: `Bearer ${import.meta.env.VITE_HUGGING_FACE_API_KEY}` }; 
   try {
@@ -36,8 +46,26 @@ export async function generateArt(request: GenerateArtRequest): Promise<string> 
       }
     }
 
-  const imageBlob = await response.blob(); // Convert the response body to a Blob
-    const imageUrl = URL.createObjectURL(imageBlob); // Create a URL for the Blob
+ 
+    //const imageBlob = await response.blob();//.blob(); // Convert the response body to a Blob
+    const imageData = await response.blob(); // Convert the response body to a Blob
+    //console.log('imageBlob arraybuffer', imageBlob);
+    //console.log('imageData blob', imageData);
+     const imageUrl = URL.createObjectURL(imageData); // Create a URL for the Blob
+    // console.log('imageUrl', imageUrl);
+
+    //let tt:File = new File([imageBlob], 'image.png', { type: 'image/png' });
+    //convert blob to base64
+    // const reader = new FileReader();
+    // reader.readAsDataURL(imageBlob);
+    
+    // reader.onloadend = function() {
+    //   const base64data = reader.result;
+    //   console.log('base64data', base64data);
+    // }
+
+    //console.log('reader', await reader);  
+
     
 
 
@@ -49,12 +77,12 @@ export async function generateArt(request: GenerateArtRequest): Promise<string> 
 
     const imageUrls = [];// data.map((item: { generated: string }) => item.generated); 
     //add imageUrl to array of imageUrls
-    imageUrls.push({ imageUrl  });
-
+    imageUrls.push({   blob: imageData, url: imageUrl});
+//console.log('imageUrls', imageUrls);
     if (imageUrls.length === 0) {
       throw new Error('No images were generated. Please try a different prompt or settings.');
     }
-    return imageUrls; 
+    return {   blob: imageData, url: imageUrl}; 
   } catch (error) {
     console.error('Error generating art:', error);
     toast.error(error?.message || 'An unexpected error occurred.'); // Display user-friendly error
