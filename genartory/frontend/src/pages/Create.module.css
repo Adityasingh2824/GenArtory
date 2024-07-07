@@ -18,7 +18,7 @@
     background-color: var(--background-color-light); /* Slightly lighter background */
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 4px 8px hsla(302, 95%, 48%, 0.2); 
+    box-shadow: 0 4px 8px hsla(238, 80%, 54%, 0.2); 
     margin-top: 2rem;
   }
   

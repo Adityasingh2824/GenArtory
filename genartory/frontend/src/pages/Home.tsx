@@ -21,8 +21,10 @@ const Home: React.FC = () => {
 //<Spline scene="https://prod.spline.design/h5oaCvhO2NaUT988/scene.splinecode" />
   return (
     <div className={styles.container}>
-       
-
+      <Spline scene="https://prod.spline.design/clGQxaePHndGHZfG/scene.splinecode" />
+  
+  
+  
       <section className={styles.featured}>
         <h2>Featured Artworks</h2>
         {isLoading ? (
