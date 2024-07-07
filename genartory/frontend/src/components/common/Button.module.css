@@ -2,12 +2,12 @@
 
 /* Design System Variables */
 :root {
-  --primary-color: #2980b9;      /* Deep blue primary color */
+  --primary-color: #00607d;      /* Deep blue primary color */
   --secondary-color: #e67e22;   /* Orange secondary color */
   --accent-color: #f1c40f;      /* Yellow accent color */
   --text-color: #333;           /* Dark gray text color */
-  --background-color: #fff;
-  --light-background: #f9f9f9;
+  --background-color: #05788f;
+  --light-background: #6403ba;
   --font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   --border-radius: 8px;
   --transition: all 0.3s ease;  /* Smoother transitions */
@@ -33,7 +33,7 @@
 /* Button Variations */
 .primary {
   background-color: var(--primary-color);
-  color: #ccec17;
+  color: #828f36;
 }
 
 .primary:hover {
@@ -49,7 +49,7 @@
 
 .secondary:hover {
   background-color: var(--secondary-color);
-  color: white;
+  color: rgb(3, 156, 239);
 }
 
 .outline {
@@ -61,7 +61,7 @@
 .outline:hover {
   background-color: var(--accent-color);
   color: #06e3f3;
-  box-shadow: 0 6px 8px #e603f126;
+  box-shadow: 0 6px 8px #236fc626;
 }
 
 
