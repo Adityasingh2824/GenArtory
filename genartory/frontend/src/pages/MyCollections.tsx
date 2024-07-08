@@ -101,7 +101,7 @@ const MyCollections: React.FC = () => {
         const response = await signAndSubmitTransaction({
           sender: account,
           data: {
-            function:`${MODULE_ADDRESS}::nft::create_collection`,
+            function:`${MODULE_ADDRESS}::nft2::create_collection`,
             typeArguments: [],
             functionArguments:  [collectionName, uri, description],
           }

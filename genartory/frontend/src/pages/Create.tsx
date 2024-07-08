@@ -12,8 +12,8 @@ import { validateRoyaltyPercentage } from '../utils/validation';
 //please import Input and Button components from the common folder
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
-import { useWallet } from '@aptos-labs/wallet-adapter-react';
-import { Aptos, AptosConfig, Network, queryIndexer } from "@aptos-labs/ts-sdk";
+import {  AccountInfo, useWallet } from '@aptos-labs/wallet-adapter-react';
+import { Aptos, AptosConfig, Network, queryIndexer,Account ,mintTokenTransaction } from "@aptos-labs/ts-sdk";
 import { checkIfFund, uploadFile } from "../utils/web3/";
 import { isAscii } from 'buffer';
 import { NODE_URL, MODULE_ADDRESS } from "../utils/constants";
@@ -26,12 +26,9 @@ const Create: React.FC = () => {
   const navigate = useNavigate();
   const aptosWallet = useWallet();
   const { account,signAndSubmitTransaction} = useWallet();
-  
   const [isLoading, setIsLoading] = useState(false);
   const [generatedImages, setGeneratedImage] = useState<AIImageprops[]>([]);
   const [myMintedImage, setMyMintedImage] = useState('');
-  
-  //const [generatedBlobs, setGeneratedBlobs] = useState<blob[]>([]);
   const [prompt, setPrompt] = useState('');
   const [collectionName, setCollectionName] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -46,12 +43,10 @@ const Create: React.FC = () => {
     const fetchCollections = async () => {
       if (account?.address) {
         try {
-         // const userCollections = await getUserCollections(account.address);
           const datafetched = await lgetinfos(account);
           const userCollections = datafetched;
-          //console.log(userCollections);
           setCollections(userCollections.current_collections_v2);
-          setSelectedCollection(userCollections[0]?.description || "hhhhh");
+          setSelectedCollection(userCollections.current_collections_v2[0]?.collection_name);
         } catch (error) {
           console.error('Error fetching collections:', error);
         } 
@@ -101,50 +96,32 @@ const lgetinfos = async (account: any ) => {
 
 
   const lcreateNFT = async (
-    account: any | null,
+    account: AccountInfo ,
     collectionName: string,
     uri: string,
     name: string,
+    description: string,
     royalty: number,
     
   ) => {
       if (!account) {
         throw new Error('Please connect your wallet first');
       }
-      try {
-
+   
         const response = await signAndSubmitTransaction({
           sender: account,
           data: {
-            function:`${MODULE_ADDRESS}::nft::mint_nft`,
+            function:`${MODULE_ADDRESS}::nft2::mint_token`,
             typeArguments: [],
-            functionArguments:  [collectionName, uri, name, royalty],
+            functionArguments:  [collectionName,description,name,royalty, uri],
           }
         });
         let myresult = await myclient.waitForTransaction({ transactionHash: response.hash });
        return response.hash;
-      } catch (error: any) {
-         toast.error(error?.message || "Failed to create collection.");
-        //return null;
-      }
     }
-
-
-
-
-
-
-
-
   const handleArtGenerated = (imageData: AIImageprops, prompt: string) => {
-    console.log('here it is',imageData);
-    
-    //const imageUrl =  URL.createObjectURL(imageDataArray.blob); // Create a URL for the Blob
-    
     setGeneratedImage(imageData);
-    //setGeneratedBlobs(imageDataArray);
     setPrompt(prompt);
-   // setMintSuccess(false);
     setError(null); // Clear any previous errors
   };
 
@@ -162,42 +139,23 @@ const lgetinfos = async (account: any ) => {
     setIsLoading(true);
 
     try {
-      //let myarrayFile:blob = [];
-      //myarrayFile.push(generatedBlobs);
-
-      console.log('myres checkgeneratedImageIfFund', generatedImages);
-      let myres = checkIfFund(aptosWallet, generatedImages.blob);
-      console.log('myres checkIfFund', myres);
-     // console.log('myres', myres);
-      
+      let myres = checkIfFund(aptosWallet, generatedImages);
       notifToast("Uploading images to Irys...");
-      
-      //please upload my file myarrayFile[0] to Irys using  Irys.ts uploadFile file function
-
-      //create a File from url
-      //const myblob = new Blob([generatedImages[0]], { type: 'image/jpeg' });
-
-     //let tt:File = new File(generatedBlobs, 'image.jpeg', { type: 'image/jpeg' });
-let tt:File=new File([generatedImages.blob], "my_image.jpeg", {
-  type: "image/jpeg",
-  lastModified: new Date(),
-  size: 2,
-});
+      let tt:File=new File([generatedImages.blob], "my_image.jpeg", {
+        type: "image/jpeg",
+        lastModified: new Date(),
+        size: 2,
+      });
       const myres2 = await uploadFile(aptosWallet, tt);
-      console.log('myres2', myres2);
-setMyMintedImage(myres2);
-
-    notifToast(myres2);
-
+      setMyMintedImage(myres2);
+      notifToast(myres2);
       notifToast("Images uploaded to Irys successfully");
-
-
-    //  const collectionDetails = await getCollectionDetails(selectedCollection);
-      
-       const nftIds = await lcreateNFT(
-         account.address, 
+      const aname = prompt;
+      const nftIds = await lcreateNFT(
+         account, 
          selectedCollection, 
-        myres2,
+         myres2,
+        aname,
         prompt, 
         royaltyPercentage 
       );
@@ -253,8 +211,8 @@ setMyMintedImage(myres2);
               onChange={(e) => setSelectedCollection(e.target.value)}
             >
               {collections.map((collection) => (
-                <option key={collection.description} value={collection.description}>
-                  {collection.description}
+                <option key={collection.collection_name} value={collection.collection_name}>
+                  {collection.collection_name}
                 </option>
               ))}
             </select>

@@ -44,10 +44,10 @@ export const checkIfFund = async (aptosWallet: WalletContextState, files: File[]
   const webIrys = await getWebIrys(aptosWallet);
   
 
-    files.map((f) => {
-        console.log(' checkIfFund irys.ts f.size', f);
+    // files.map((f) => {
+    //     console.log(' checkIfFund irys.ts f.size', f);
         
-    });    
+    // });    
      
   let totalsize:number  = await fetchFileSize(files);//.then((size) => {console.log('size of image', size);});
 
