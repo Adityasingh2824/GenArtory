@@ -22,7 +22,9 @@ const MyCollections: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [newCollectionName, setNewCollectionName] = useState('');
-  const [newCollectionUri, setNewCollectionUri] = useState('');
+  const [newCollectionUri, setNewCollectionUri] = useState('https://gateway.irys.xyz/Vni9C6umVV3sZaHoByib3FTgV_rjvyxaolzmQV5PfMg');
+
+  
   const [newCollectionDesc, setNewCollectionDesc] = useState('');
   const navigate = useNavigate();
 
@@ -172,7 +174,10 @@ const MyCollections: React.FC = () => {
             <Input
                 label="Collection URI"
                 value={newCollectionUri}
-                onChange={(e) => setNewCollectionUri(e.target.value)}
+            onChange={(e) => setNewCollectionUri(e.target.value)
+                
+            }
+              
             />
             <Input
                 label="Collection Description"

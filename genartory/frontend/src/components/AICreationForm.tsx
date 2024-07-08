@@ -16,8 +16,17 @@ interface AICreationFormProps {
 }
 
 const AICreationForm: React.FC<AICreationFormProps> = ({ onArtGenerated, error }) => {
-  // States for form fields
-  const [prompt, setPrompt] = useState('Iranam');
+  
+  const worldCapitals = [
+  'Tokyo', 'London', 'Paris', 'Berlin', 'Ottawa',
+  'Canberra', 'Washington D.C.', 'Kyiv', 'Beijing', 'New Delhi'
+];
+
+// Select a random capital
+const randomCapital = worldCapitals[Math.floor(Math.random() * worldCapitals.length)];
+
+// States for form fields
+const [prompt, setPrompt] = useState(randomCapital);
   const [isLoading, setIsLoading] = useState(false);
   const [numOutputs, setNumOutputs] = useState(1);
   const [width, setWidth] = useState(DEFAULT_IMAGE_WIDTH);

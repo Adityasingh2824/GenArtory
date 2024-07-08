@@ -141,7 +141,7 @@ const lgetinfos = async (account: any ) => {
     try {
       let myres = checkIfFund(aptosWallet, generatedImages);
       notifToast("Uploading images to Irys...");
-      let tt:File=new File([generatedImages.blob], "my_image.jpeg", {
+      let tt:File=new File([generatedImages.blob], "image.jpeg", {
         type: "image/jpeg",
         lastModified: new Date(),
         size: 2,

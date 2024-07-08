@@ -136,8 +136,9 @@ export const uploadFile = async (
   try {
 
     console.log('uploadFile irys.ts fileToUpload', fileToUpload);
-
-    const receipt = await webIrys.uploadFile(fileToUpload, { tags: [] });
+	const tags = [{ name: "Content-Type", value: "image/jpeg" }];
+ 
+    const receipt = await webIrys.uploadFile(fileToUpload, { tags: tags });
 
     return `https://gateway.irys.xyz/${receipt.id}`;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
