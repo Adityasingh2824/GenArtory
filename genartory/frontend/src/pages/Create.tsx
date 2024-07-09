@@ -17,9 +17,12 @@ import { Aptos, AptosConfig, Network, queryIndexer,Account ,mintTokenTransaction
 import { checkIfFund, uploadFile } from "../utils/web3/";
 import { isAscii } from 'buffer';
 import { NODE_URL, MODULE_ADDRESS } from "../utils/constants";
-
+import Spline from '@splinetool/react-spline';
 const Create: React.FC = () => {
-
+  
+  
+    
+     
   const config = new AptosConfig({ network: Network.TESTNET });
   let myclient=new Aptos(config);
 
@@ -41,6 +44,7 @@ const Create: React.FC = () => {
 
   useEffect(() => {
     const fetchCollections = async () => {
+     
       if (account?.address) {
         try {
           const datafetched = await lgetinfos(account);
