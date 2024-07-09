@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './MyCollections.module.css';
 import { useWallet } from '@aptos-labs/wallet-adapter-react';
-import { Aptos, AptosConfig, Network, queryIndexer } from "@aptos-labs/ts-sdk";
-import toast from 'react-hot-toast';
+import { Aptos, AptosConfig, Network, queryIndexer, throwTypeMismatch } from "@aptos-labs/ts-sdk";
+import toast, { Toaster } from 'react-hot-toast';
 //import { getUserCollections, createCollection } from '../utils/aptos';
 import CollectionCard from '../components/nft/CollectionCard';
 import Button from '../components/common/Button';
@@ -11,23 +11,32 @@ import Modal from '../components/common/Modal'; // Assuming you have a Modal com
 import Input from '../components/common/Input';
 import { useNavigate } from 'react-router-dom'
 import {  MODULE_ADDRESS } from "../utils/constants";
-
+import { FileUploader } from "react-drag-drop-files";
+import { checkIfFund, uploadFileCol,uploadFile } from "../utils/web3/";
 
 
 
 const MyCollections: React.FC = () => {
 
+
+  const notifToast = (mytext:string) => toast(mytext);
+
+const aptosWallet = useWallet();
   const { account , signAndSubmitTransaction} = useWallet();
   const [collections, setCollections] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [newCollectionName, setNewCollectionName] = useState('');
-  const [newCollectionUri, setNewCollectionUri] = useState('https://gateway.irys.xyz/Vni9C6umVV3sZaHoByib3FTgV_rjvyxaolzmQV5PfMg');
+  const [newCollectionUri, setNewCollectionUri] = useState('');
+ 
+  const fileTypes = ["JPG", "PNG", "GIF","JPEG"];
 
+  const [colfileurl, setVisualFile] = useState(null);
+  const [rawImageFile, setRawImageFile] = useState(null);
   
   const [newCollectionDesc, setNewCollectionDesc] = useState('');
   const navigate = useNavigate();
-
+const [file, setFile] = useState(null);
  const config = new AptosConfig({ network: Network.TESTNET });
   let myclient=new Aptos(config);
 
@@ -140,6 +149,43 @@ const MyCollections: React.FC = () => {
 
 
   const explHeader: string = (collections.length != 0) ? "My Collections" : "No collections found Please create one first.";
+
+  function DragDrop() {
+  
+    const handleChange = (file) => {
+    setRawImageFile(file);
+      setVisualFile(URL.createObjectURL(file)); 
+      setFile(file);
+    //setVisualFile(file);
+    //console.log(file);
+
+  };
+  return (
+    <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
+  );
+}
+
+  
+  const createUrl =async()=> {
+        if (!account?.address || !file) {
+       notifToast("Please connect your wallet and generate at least one image first.");
+      return;
+        }
+    try {
+
+      let myres = checkIfFund(aptosWallet, file);
+      const myres2 = await uploadFile(aptosWallet, file);
+      setNewCollectionUri(myres2);
+      
+    } catch (error) {
+      console.error("Error minting NFT:", error);
+      setError("An error occurred while minting the NFT. Please try again.");
+      toast.error(error?.message || "Failed to mint NFT");
+    }
+
+
+    
+  }
   
   return (
     <div className={styles.container}>
@@ -173,14 +219,21 @@ const MyCollections: React.FC = () => {
                 value={newCollectionName}
                 onChange={(e:any) => setNewCollectionName(e.target.value)}
             />
-            <Input
-                label="Collection URI"
+          <Input
+            
+            label="Collection URI"
+          
                 value={newCollectionUri}
-            onChange={(e:any) => setNewCollectionUri(e.target.value)
-                
+                onChange={(e: any) => setNewCollectionUri(e.target.value)
             }
               
-            />
+          />
+          <DragDrop > 
+
+            
+          </DragDrop >
+          <img src={colfileurl} alt={prompt} key={0} className={styles.previewImage} />   
+<Button onClick={() => createUrl({rawImageFile})}>Create URL</Button>          
             <Input
                 label="Collection Description"
                 value={newCollectionDesc}

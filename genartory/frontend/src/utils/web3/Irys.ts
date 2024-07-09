@@ -136,7 +136,8 @@ export const uploadFile = async (
   try {
 
     console.log('uploadFile irys.ts fileToUpload', fileToUpload);
-	const tags = [{ name: "Content-Type", value: "image/jpeg" }];
+    //	const tags = [{ name: "Content-Type", value: "image/jpeg" }];
+    	const tags = [{ name: "Content-Type", value: "image/jpeg" }];
  
     const receipt = await webIrys.uploadFile(fileToUpload, { tags: tags });
 
@@ -146,6 +147,28 @@ export const uploadFile = async (
     throw new Error(`Error uploading file ${e}`);
   }
 };
+
+export const uploadFile2 = async (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  aptosWallet: any,
+  fileToUpload: File,
+): Promise<string> => {
+  const webIrys = await getWebIrys(aptosWallet);
+  try {
+
+    console.log('uploadFile irys.ts fileToUpload', fileToUpload.type);
+	const tags = [{ name: "Content-Type", value: fileToUpload.type }];
+ 
+    const receipt = await webIrys.uploadFile(fileToUpload, { tags: tags });
+
+    return `https://gateway.irys.xyz/${receipt.id}`;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
+    throw new Error(`Error uploading file ${e}`);
+  }
+};
+
+
 
 export const uploadFolder = async (aptosWallet: WalletContextState, files: File[]) => {
   const webIrys = await getWebIrys(aptosWallet);

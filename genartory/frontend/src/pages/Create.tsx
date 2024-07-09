@@ -39,6 +39,7 @@ const Create: React.FC = () => {
   const [collections, setCollections] = useState<any[]>([]);
   const [selectedCollection, setSelectedCollection] = useState('');
   const [royaltyPercentage, setRoyaltyPercentage] = useState(10);
+  const [buttonText, setButtonText] = useState('Mint NFT');
 
   const notifToast = (mytext:string) => toast(mytext);
 
@@ -145,7 +146,7 @@ const lgetinfos = async (account: any ) => {
     }
 
     
-    
+    setButtonText('Minting...');
 
     const validRoyalty = validateRoyaltyPercentage(royaltyPercentage);
     if(validRoyalty) {
@@ -164,6 +165,7 @@ const lgetinfos = async (account: any ) => {
       });
       const myres2 = await uploadFile(aptosWallet, tt);
       setMyMintedImage(myres2);
+      console.log('handleMint',myres2);
       notifToast(myres2);
       notifToast("Images uploaded to Irys successfully");
       const aname = prompt;
@@ -178,7 +180,9 @@ const lgetinfos = async (account: any ) => {
       
       if (nftIds && nftIds.length > 0) {
         toast.success("NFT(s) minted successfully!");
-        navigate("/explore"); // Navigate back to marketplace after successful mint
+        setButtonText('Mint NFT');
+
+        //navigate("/explore"); // Navigate back to marketplace after successful mint
       } else {
         throw new Error("Minting failed");
       }
@@ -219,20 +223,22 @@ const lgetinfos = async (account: any ) => {
             )}*/}
           </div>
       
-          <div className={styles.select}>
-            <label htmlFor="collection">Select Collection:</label>
-            <select
-              id="collection"
-              value={selectedCollection}
-              onChange={(e) => setSelectedCollection(e.target.value)}
-            >
-              {collections.map((collection) => (
-                <option key={collection.collection_name} value={collection.collection_name}>
-                  {collection.collection_name}
-                </option>
-              ))}
-            </select>
-          </div>
+          
+            <div className={styles.select}>
+              <label htmlFor="collection">Select Collection:</label>
+              <select
+                id="collection"
+                value={selectedCollection}
+                onChange={(e) => setSelectedCollection(e.target.value)}
+              >
+                {collections.map((collection) => (
+                  <option key={collection.collection_name} value={collection.collection_name}>
+                    {collection.collection_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          
 
           <div className={styles.royaltyPercentage}>
             <Input
@@ -250,9 +256,11 @@ const lgetinfos = async (account: any ) => {
               }}
             />
           </div>
+          
+          
 
           <Button onClick={handleMint} isLoading={isLoading} disabled={isLoading || minting}>
-            {minting ? 'Minting...' : 'Mint NFT'}
+            {buttonText}
           </Button>
 
         </div> 
