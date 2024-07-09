@@ -22,7 +22,11 @@ const Home: React.FC = () => {
     //<Spline scene="https://prod.spline.design/clGQxaePHndGHZfG/scene.splinecode" />    
   return (
     <div className={styles.container}>
-    
+      <div className={styles.genAnime}>  
+        
+    <Spline scene="https://prod.spline.design/clGQxaePHndGHZfG/scene.splinecode" />  
+
+        </div>
   
       <section className={styles.featured}>
         <h2>Featured Artworks</h2>

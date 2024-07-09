@@ -3,14 +3,14 @@ import React, { useState, useEffect } from 'react';
 import styles from './MyCollections.module.css';
 import { useWallet } from '@aptos-labs/wallet-adapter-react';
 import { Aptos, AptosConfig, Network, queryIndexer } from "@aptos-labs/ts-sdk";
-
-import { getUserCollections, createCollection } from '../utils/aptos';
+import toast from 'react-hot-toast';
+//import { getUserCollections, createCollection } from '../utils/aptos';
 import CollectionCard from '../components/nft/CollectionCard';
 import Button from '../components/common/Button';
 import Modal from '../components/common/Modal'; // Assuming you have a Modal component
 import Input from '../components/common/Input';
 import { useNavigate } from 'react-router-dom'
-import { NODE_URL, MODULE_ADDRESS } from "../utils/constants";
+import {  MODULE_ADDRESS } from "../utils/constants";
 
 
 
@@ -169,12 +169,12 @@ const MyCollections: React.FC = () => {
             <Input
                 label="Collection Name"
                 value={newCollectionName}
-                onChange={(e) => setNewCollectionName(e.target.value)}
+                onChange={(e:any) => setNewCollectionName(e.target.value)}
             />
             <Input
                 label="Collection URI"
                 value={newCollectionUri}
-            onChange={(e) => setNewCollectionUri(e.target.value)
+            onChange={(e:any) => setNewCollectionUri(e.target.value)
                 
             }
               
