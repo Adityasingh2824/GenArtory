@@ -13,7 +13,7 @@
   color: var(--text-color);
   background-color: var(--background-color-light); /* Slightly lighter background for contrast */
   border-radius: 15px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  box-shadow: 0 5px 10px rgba(247, 246, 246, 0.1); /* Subtle shadow for depth */
   background-image: url("/images/subtle_texture.png"); /* Subtle texture for visual interest */
   background-repeat: repeat;
   background-size: 200px; /* Adjust texture size as needed */

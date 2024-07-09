@@ -1,10 +1,7 @@
 /* frontend/src/pages/Home.module.css */
 
 
-.container {
-    padding: 20px;
-    background-color:  #f7f3f3;
-}
+
 
 .featured {
     margin-top: 20px;
@@ -16,3 +13,35 @@
     gap: 40px;
     margin-top: 1px;
 }
+/* Home.module.css */
+.container {
+    padding: 40px;
+    
+}
+
+.featured {
+    margin-top: 20px;
+    padding-top: 40px;
+}
+
+/* ... your other styles ... */
+
+.splineBackground {
+    position: absolute; /* Position the Spline container absolutely */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Place the Spline behind other content */
+    overflow: hidden;
+  }
+  
+  /* Call to Action Button Container */
+  .callToAction {
+    position: relative; /* Ensure the buttons are positioned relative to this container */
+    z-index: 1;  /* Make sure buttons are above the Spline background */
+    text-align: center;
+    padding-top: 100px;  /* Add padding to create space for buttons on top of the Spline */
+    margin-bottom: 40px;
+  }
+  
