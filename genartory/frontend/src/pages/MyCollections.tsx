@@ -151,7 +151,7 @@ const MyCollections: React.FC = () => {
         <p>Loading collections...</p>
       ) : (
           <div className={styles.collectionsGrid}>
-            <a> hi {account?.address} length {collections?.length}</a>
+            
           {collections.map((collection) => (
             <CollectionCard 
               key={collection.collection_id} 

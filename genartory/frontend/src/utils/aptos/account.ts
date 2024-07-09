@@ -27,7 +27,9 @@ export async function getAccountBalance(accountAddress: string): Promise<number 
 // Function to get a list of NFTs owned by an address
 export async function getNFTsOwnedByAddress(address: string): Promise<any[]> {
   try {
-    const nfts = await tokenClient.getTokens(address);
+   // console.log(' getNFTsOwnedByAddress account.ts address', address);
+
+    const nfts = await tokenClient.getToken(address);
     return nfts;
   } catch (error) {
     console.error("Error fetching NFTs:", error);
