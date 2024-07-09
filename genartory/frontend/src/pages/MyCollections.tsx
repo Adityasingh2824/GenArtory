@@ -139,9 +139,11 @@ const MyCollections: React.FC = () => {
   };
 
 
+  const explHeader: string = (collections.length != 0) ? "My Collections" : "No collections found Please create one first.";
+  
   return (
     <div className={styles.container}>
-      <h1>My Collections</h1>
+      <h1>{explHeader}</h1>
 
       <Button onClick={() => setShowModal(true)}>
         Create New Collection

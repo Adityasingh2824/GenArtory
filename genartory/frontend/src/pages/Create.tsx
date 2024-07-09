@@ -126,10 +126,22 @@ const lgetinfos = async (account: any ) => {
   };
 
   const handleMint = async () => {
+
+    if (collections.length  == 0) {
+      notifToast("Please create a collection first.");
+      setTimeout(() => {
+        navigate("/my-collections");        
+      }, 3000);
+      return;
+    }
+
     if (!account?.address || generatedImages.length === 0) {
        notifToast("Please connect your wallet and generate at least one image first.");
       return;
     }
+
+    
+    
 
     const validRoyalty = validateRoyaltyPercentage(royaltyPercentage);
     if(validRoyalty) {
