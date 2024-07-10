@@ -70,4 +70,44 @@
     line-height: 1.4;
     text-align: justify;
   }
-  
+  .collectionImage {
+         /* Do not grow, can shrink, basis of 50px */
+    flex:  1 ;
+    max-width: 150px;
+    max-height: 150px;
+    /* Add more styles as needed */
+  }
+  .collectionInfo
+  {
+    padding: 20px;
+    /* Grow to fill remaining space */
+    flex: 1;
+    /* Add more styles as needed */
+
+  }
+
+    .collectionTitle {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333333;
+      /* Dark grey text */
+      
+    }
+
+
+    .collectionCard {
+      
+      display: flex;
+      border: 1px solid #cccccc;
+      /* Thin grey border */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      /* Small shadow */
+      background-color: #fddde6;
+      /* Light pink background */
+      padding: 20px;
+      /* Add padding inside the card */
+      border-radius: 10px;
+      /* Optional: if you want rounded corners */
+      margin-bottom: 20px;
+      /* Space between cards */
+    }

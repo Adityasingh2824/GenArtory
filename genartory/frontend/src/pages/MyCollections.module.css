@@ -87,3 +87,17 @@
        object-fit: contain;
        border-radius: 4px;
      }
+
+     
+         .collectionContainer {
+           background-color: #fddde6;
+           /* Light pink color */
+           border-radius: 10px;
+           /* 10px corner radius */
+           padding: 20px;
+           /* Add some padding inside the container */
+           margin-bottom: 20px;
+           /* Add some space between the containers */
+           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+           /* Optional: add a subtle shadow for depth */
+         }

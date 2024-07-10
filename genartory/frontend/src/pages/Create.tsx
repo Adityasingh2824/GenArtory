@@ -205,10 +205,6 @@ const lgetinfos = async (account: any ) => {
    
 
       <AICreationForm onArtGenerated={handleArtGenerated} error={error} collections={collections} />
-      {/* Image Preview Section */}
-      {myMintedImage &&
-        <img src={myMintedImage} alt="myMintedImage" className={styles.previewImage} />
-      }
 
       {generatedImages && (
         <div className={styles.previewContainer}>

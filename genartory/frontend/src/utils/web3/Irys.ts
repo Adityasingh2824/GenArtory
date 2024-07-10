@@ -20,7 +20,7 @@ const getWebIrys = async (aptosWallet: WalletContextState) => {
 
 
 
-const fetchFileSize = async (imageUrl) => {
+export const fetchFileSize = async (imageUrl) => {
   try {
     const response = await fetch(imageUrl, { method: 'HEAD' });
     const contentLength = response.headers.get('Content-Length');

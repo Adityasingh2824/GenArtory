@@ -12,7 +12,7 @@ import Input from '../components/common/Input';
 import { useNavigate } from 'react-router-dom'
 import {  MODULE_ADDRESS } from "../utils/constants";
 import { FileUploader } from "react-drag-drop-files";
-import { checkIfFund, uploadFileCol,uploadFile } from "../utils/web3/";
+import { checkIfFund, uploadFile,fetchFileSize } from "../utils/web3/";
 
 
 
@@ -104,6 +104,7 @@ const [file, setFile] = useState(null);
     uri: string,
     description: string
   ) => {
+    notifToast("Creating Collection, Great");
       if (!account) {
         throw new Error('Please connect your wallet first');
       }
@@ -148,20 +149,20 @@ const [file, setFile] = useState(null);
   };
 
 
-  const explHeader: string = (collections.length != 0) ? "My Collections" : "No collections found Please create one first.";
+  const explHeader: string = (collections.length != 0) ? "" : "No collections found Please create one first.";
 
   function DragDrop() {
   
     const handleChange = (file) => {
-    setRawImageFile(file);
+      setRawImageFile(file);
+      notifToast("File dropped")
       setVisualFile(URL.createObjectURL(file)); 
       setFile(file);
-    //setVisualFile(file);
-    //console.log(file);
-
+    
   };
   return (
-    <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
+    <FileUploader handleChange={handleChange} name="file" types={fileTypes} maxSize="0.1"
+      onSizeError={console.log("file must be <100kb") } />
   );
 }
 
@@ -171,6 +172,13 @@ const [file, setFile] = useState(null);
        notifToast("Please connect your wallet and generate at least one image first.");
       return;
         }
+        
+        //  if ( file.size>100000) {
+        //    notifToast("File Size must be below 100kB");
+           
+        //   return;
+        //  }
+        
     try {
 
       let myres = checkIfFund(aptosWallet, file);
@@ -200,12 +208,15 @@ const [file, setFile] = useState(null);
       ) : (
           <div className={styles.collectionsGrid}>
             
-          {collections.map((collection) => (
+            {collections.map((collection) => (
+            
             <CollectionCard 
               key={collection.collection_id} 
               collection={collection} 
+              imageUrl={collection.uri}
               onClick={() => handleCollectionClick(collection.name)}
-            />
+                />
+            
           ))}
         </div>
       )}
@@ -232,7 +243,7 @@ const [file, setFile] = useState(null);
 
             
           </DragDrop >
-          <img src={colfileurl} alt={prompt} key={0} className={styles.previewImage} />   
+          <img src={colfileurl} key={0} className={styles.previewImage} />   
 <Button onClick={() => createUrl({rawImageFile})}>Create URL</Button>          
             <Input
                 label="Collection Description"
