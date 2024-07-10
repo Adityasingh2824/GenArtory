@@ -8,6 +8,7 @@ import { AptosWalletAdapterProvider } from '@aptos-labs/wallet-adapter-react';
 import './styles/index.css'; 
 import { API_URL } from './utils/constants'; // Assuming you have this in constants.ts
 
+import Spline from '@splinetool/react-spline';
 
 
 // Import your page components
@@ -24,7 +25,7 @@ import FAQ from './pages/FAQ';
 // Import your layout components
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
-
+import styles from './pages/Home.module.css';
 // Create an array of supported wallet adapters
 const wallets = [
   new PetraWallet(),
@@ -54,6 +55,11 @@ function App() {
             
             <Route path="*" element={<h1>Page Not Found</h1>}/>
           </Routes>
+          <div className={styles.splineBackground}>
+      <Spline scene="https://prod.spline.design/pgW1fxHd2W7NRYsa/scene.splinecode" />
+  
+      </div>
+
         </main>
         <Footer /> 
    

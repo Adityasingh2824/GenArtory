@@ -23,15 +23,16 @@ const Home: React.FC = () => {
     fetchNFTs();
   }, []);
 
+  // <div className={styles.splineBackground}>
+  // <Spline scene="https://prod.spline.design/pgW1fxHd2W7NRYsa/scene.splinecode" />
+
+  // </div>
+
   return (
     <div className={styles.container}>
 
       {/* Spline Background */}
-      <div className={styles.splineBackground}>
-      <Spline scene="https://prod.spline.design/pgW1fxHd2W7NRYsa/scene.splinecode" />
-  
-      </div>
-
+   
       <section className={styles.callToAction}>
         <h2>Ready to start your creative journey?</h2>
         <Button variant="primary" onClick={() => navigate('/create')}>

@@ -69,15 +69,8 @@ const [prompt, setPrompt] = useState(randomCapital);
        
         required
       />
-      <Input
-        type="number"
-        id="numOutputs"
-        label="Number of Images"
-        value={numOutputs}
-        onChange={(e) => setNumOutputs(parseInt(e.target.value))}
-        min="1"
-        required
-      />
+   
+   
       <Input
         type="number"
         id="width"
