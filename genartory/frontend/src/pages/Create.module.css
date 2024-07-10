@@ -12,6 +12,7 @@
   }
   
   .previewContainer {
+    color: azure;
     display: flex;
     flex-direction: column; /* Stack image and details vertically */
     align-items: center;
@@ -36,17 +37,23 @@
     
   }
   
-
-
-.royaltyPercentage{
-
-input{
+  input{
     background-color: rgb(118, 95, 145);
-    color:azure;
-    border-radius: 20px;
+    color:azure !important;
+    border-radius: 20px !important;
     border-width: 1px;
+    text-align: center !important;
+
 } 
+label{
+    color:azure !important;
+    text-align: center !important;
+    font-size: large !important;
+    font-weight: 800 !important;
+    font-family:  ;
 }
+
+
 
 
 

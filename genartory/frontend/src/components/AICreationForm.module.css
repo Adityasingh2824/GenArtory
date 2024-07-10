@@ -12,10 +12,15 @@
     padding: 20px;
     
     max-width: 600px;
-    background-color: #896c92;
+    
     border-radius: 20px;
     color:azure;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    
+
 }
 
 .formTitle {
@@ -47,7 +52,7 @@
 
 .submitButton {
     width: 100%;
-    background-color: #007bff;
+    
     color: white;
     padding: 10px 0;
     border: none;
