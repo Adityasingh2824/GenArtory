@@ -25,7 +25,7 @@ export async function createProposal(
       arguments: [proposalType, description, parameters || []],
     };
 
-    const txnHash = await signAndSubmitTransaction(account, payload);
+//    const txnHash = await signAndSubmitTransaction(account, payload);
     toast.success("Proposal created successfully!");
     return txnHash;
   } catch (error: any) {

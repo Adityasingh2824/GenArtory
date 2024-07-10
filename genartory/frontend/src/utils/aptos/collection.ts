@@ -64,10 +64,10 @@ export async function getUserCollections(creatorAddress: string): Promise<any[]>
   console.log(' getUserCollections creatorAddress', creatorAddress);
 const ledgerVersion = await client.getLedgerInfo().ledger_version;
  
-const tokens = await client.getAccountOwnedTokens({
-  accountAddress: creatorAddress,
-  minimumLedgerVersion: BigInt(ledgerVersion.version),
-});
+// const tokens = await client.getAccountOwnedTokens({
+//   accountAddress: creatorAddress,
+//   minimumLedgerVersion: BigInt(ledgerVersion.version),
+//});
 console.log('tokens', tokens);
   try {
     const resources = await client.getAccountResources(creatorAddress);

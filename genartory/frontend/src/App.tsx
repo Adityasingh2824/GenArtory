@@ -34,6 +34,7 @@ const wallets = [
 
 
 function App() {
+  //<Spline scene="https://prod.spline.design/pgW1fxHd2W7NRYsa/scene.splinecode" /> 
   return (
     <AptosWalletAdapterProvider plugins={wallets} autoConnect>
            
@@ -56,7 +57,7 @@ function App() {
             <Route path="*" element={<h1>Page Not Found</h1>}/>
           </Routes>
           <div className={styles.splineBackground}>
-      <Spline scene="https://prod.spline.design/pgW1fxHd2W7NRYsa/scene.splinecode" />
+       
   
       </div>
 

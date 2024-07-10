@@ -3,11 +3,11 @@ import { AptosClient, Types, CoinClient } from "aptos";
 import { NODE_URL, MODULE_ADDRESS } from "../constants";
 import { toast } from "react-hot-toast";
 //import { getConnectedWallet } from "./wallet";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
+//import { useWallet } from "@aptos-labs/wallet-adapter-react";
 
 
 const client = new AptosClient(NODE_URL);
-const coinClient = new CoinClient(client);
+//const coinClient = new CoinClient(client);
 
 
   

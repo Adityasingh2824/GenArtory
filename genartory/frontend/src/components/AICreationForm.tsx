@@ -66,7 +66,7 @@ const [prompt, setPrompt] = useState(randomCapital);
         placeholder="Enter a description of the artwork you want to generate."
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
-       
+       className={styles.inputfield}
         required
       />
    
@@ -80,6 +80,7 @@ const [prompt, setPrompt] = useState(randomCapital);
         min="256" // Minimum image width (adjust as needed)
         max="1024" // Maximum image width (adjust as needed)
         required
+        className={styles.inputfield}
       />
       <Input
         type="number"
@@ -90,6 +91,7 @@ const [prompt, setPrompt] = useState(randomCapital);
         min="256" // Minimum image height (adjust as needed)
         max="1024" // Maximum image height (adjust as needed)
         required
+        className={styles.inputfield}
       />
       {/* ... you can add more input fields here for style, seed etc. ... */}
       <Button type="submit" isLoading={isLoading} disabled={isLoading}>

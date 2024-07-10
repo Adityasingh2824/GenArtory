@@ -9,10 +9,12 @@
 
 .form {
     width: 100%;
-    max-width: 600px;
-    background-color: #f7f7f7;
+    padding: 20px;
     
-    border-radius: 8px;
+    max-width: 600px;
+    background-color: #896c92;
+    border-radius: 20px;
+    color:azure;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -57,4 +59,14 @@
 
 .submitButton:hover {
     background-color: #0056b3;
+}
+
+.inputfield{
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px !important;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }

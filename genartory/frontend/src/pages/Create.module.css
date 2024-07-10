@@ -8,6 +8,7 @@
     max-width: 1200px;
     margin: 0 auto;
     color: var(--text-color); /* Light text for contrast */
+
   }
   
   .previewContainer {
@@ -17,11 +18,38 @@
     gap: 1.5rem;
     background-color: var(--background-color-light); /* Slightly lighter background */
     padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px hsla(238, 80%, 54%, 0.2); 
+    
+    border-radius: 20px;
+    box-shadow: 0 4px 8px hsla(238, 63%, 79%, 0.2); 
     margin-top: 2rem;
+    
+
+    label{
+        color:azure;
+    
+    }
+    h2{
+        color:azure;
+    
+    }
+    
   }
   
+
+
+.royaltyPercentage{
+
+input{
+    background-color: rgb(118, 95, 145);
+    color:azure;
+    border-radius: 20px;
+    border-width: 1px;
+} 
+}
+
+
+
+
   .previewTitle {
     font-size: 1.5rem; /* Adjust the title font size as needed */
     margin-bottom: 1rem;

@@ -252,9 +252,6 @@ const lgetinfos = async (account: any ) => {
               }}
             />
           </div>
-          
-          
-
           <Button onClick={handleMint} isLoading={isLoading} disabled={isLoading || minting}>
             {buttonText}
           </Button>
