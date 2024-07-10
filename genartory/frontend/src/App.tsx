@@ -58,7 +58,7 @@ function App() {
           </Routes>
           <div className={styles.splineBackground}>
        
-  
+          <Spline scene="https://prod.spline.design/pgW1fxHd2W7NRYsa/scene.splinecode" /> 
       </div>
 
         </main>
