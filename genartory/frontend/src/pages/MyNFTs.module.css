@@ -19,7 +19,7 @@
   .nftsContainer {
     max-width: 1200px; 
     margin: 0 auto; 
-    padding: var(--standard-padding);
+    padding: red;
     font-family: var(--font-family);
   }
   

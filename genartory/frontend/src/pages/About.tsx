@@ -29,7 +29,9 @@ const About: React.FC = () => {
 
       <section className={styles.section}>
         <h2 className={styles.subheading}>The Team</h2>
-        {/* Add your team information here (names, roles, photos, etc.) */}
+        <p>
+          GenArtory was founded by two passionate blockchain enthusiasts, Aditya Singh and Damien narozniak , who share a vision to create a new generation of art collectors and creators.
+           </p>
       </section>
 
       <section className={styles.section}>

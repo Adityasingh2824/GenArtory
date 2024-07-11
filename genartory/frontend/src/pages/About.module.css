@@ -10,10 +10,10 @@
   margin: 0 auto;  /* Center the container horizontally */
   padding: 3rem;   /* Add padding for visual breathing room */
   text-align: center; /* Center text by default for aesthetic appeal */
-  color: var(--text-color);
+  color: #f9f7f9;
   background-color: var(--background-color-light); /* Slightly lighter background for contrast */
   border-radius: 15px;
-  box-shadow: 0 5px 10px rgba(247, 246, 246, 0.1); /* Subtle shadow for depth */
+  box-shadow: 0 5px 10px rgb(252, 3, 3); /* Subtle shadow for depth */
   background-image: url("/images/subtle_texture.png"); /* Subtle texture for visual interest */
   background-repeat: repeat;
   background-size: 200px; /* Adjust texture size as needed */
@@ -28,7 +28,7 @@
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 1.5rem;
-  color: var(--primary-color); /* Purple */
+  color: red; /* Purple */
   text-align: center;
   font-family: "Playfair Display", serif;
 }
@@ -37,13 +37,13 @@
 .heading {
   font-size: 2rem; /* Adjust as needed */
   margin-bottom: 1rem;
-  color: var(--text-color); /* Use the main text color */
+  color: rgba(255, 0, 0, 0.614); /* Use the main text color */
 }
 
 .subheading {
   font-size: 1.5rem;
   margin-bottom: 0.75rem;
-  color: var(--primary-color-light); /* Lighter shade of purple */
+  color: rgba(255, 0, 0, 0.628); /* Lighter shade of purple */
 }
 
 /* Paragraph Styles */
@@ -51,6 +51,7 @@
   line-height: 1.6; 
   margin-bottom: 1rem;
   text-align: justify;
+  color: rgb(226, 95, 43);
 }
 
 /* Team Member Styles */
@@ -59,10 +60,10 @@
   flex-direction: column; 
   align-items: center;
   margin-bottom: 2rem;
-  background-color: #fff; /* White background for team member cards */
+  background-color: #ffffff; /* White background for team member cards */
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle card shadow */
+  box-shadow: 0 2px 5px rgb(245, 5, 5); /* Subtle card shadow */
 }
 
 .teamMemberImage {

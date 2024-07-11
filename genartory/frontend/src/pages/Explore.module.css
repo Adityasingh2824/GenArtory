@@ -7,6 +7,8 @@
     padding: 2rem; /* Add some padding around the content */
     max-width: 1200px; /* Limit max width for larger screens */
     margin: 0 auto; /* Center the container horizontally */
+    color: #390ef7cc;
+    
   }
   
   .filterAndSearch {
@@ -14,6 +16,7 @@
     justify-content: space-between; /* Space them out evenly */
     width: 100%; 
     margin-bottom: 2rem; /* Add space between filter/search and the grid */
+    
   }
   .filterAndSearch .filters{
     display: flex;

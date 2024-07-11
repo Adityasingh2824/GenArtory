@@ -4,6 +4,8 @@
 
 .featured {
     margin-top: 20px;
+    padding-top: 150px;
+    
 }
 
 .nftGrid {
@@ -19,8 +21,8 @@
 }
 
 .featured {
-    margin-top: 20px;
-    padding-top: 40px;
+    margin-top: 200px;
+    padding-top: 150px;
 }
 
 /* ... your other styles ... */
@@ -38,9 +40,9 @@
   /* Call to Action Button Container */
   .callToAction {
     position: relative; /* Ensure the buttons are positioned relative to this container */
-    z-index: 1;  /* Make sure buttons are above the Spline background */
+    z-index: 500;  /* Make sure buttons are above the Spline background */
     text-align: center;
-    padding-top: 100px;  /* Add padding to create space for buttons on top of the Spline */
-    margin-bottom: 40px;
+    padding-top: 150px;  /* Add padding to create space for buttons on top of the Spline */
+    margin-bottom: 80px;
   }
   

@@ -15,7 +15,7 @@
     
     border-radius: 20px;
     color:azure;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgb(247, 2, 2);
     align-items: center;
     justify-content: center;
     display: flex;
@@ -27,7 +27,7 @@
     text-align: center;
     margin-bottom: 20px;
     font-size: 24px;
-    color: #333;
+    color: #fb0808;
 }
 
 .formGroup {

@@ -19,20 +19,20 @@
 /* Profile Container */
 .profileContainer {
   max-width: 800px;
-  margin: 0 auto;
-  padding: var(--standard-padding);
+  margin:  auto;
+  padding: 40px;
   font-family: var(--font-family);
-  background-color: var(--light-background);
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  overflow: hidden; /* Contain image overflow */
+  
+  border-radius: red;
+  box-shadow: red;
+  overflow: ; /* Contain image overflow */
 }
 
 /* Profile Header */
 .profileHeader {
   display: flex;
   align-items: center; /* Align image and text vertically */
-  margin-bottom: 20px;
+  margin-bottom: 90px;
 }
 
 .profileImage {
@@ -75,13 +75,14 @@
 /* Profile Sections */
 .profileSection {
   margin-bottom: 30px;
+  margin-top: 40px;
 }
 
 .profileSection__title {
   font-size: 1.4rem;
   font-weight: bold;
   margin-bottom: 15px;
-  color: var(--text-color);
+  color: rgb(34, 10, 249);
 }
 
 /* NFT Grid */

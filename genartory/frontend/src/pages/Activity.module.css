@@ -5,12 +5,12 @@
     background-color: var(--background-color-light); /* Slightly lighter background for contrast */
     padding: 2rem;
     border-radius: 12px; /* Slightly more rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle box shadow */
+    box-shadow: 0 4px 8px rgb(250, 3, 3); /* Subtle box shadow */
     max-width: 900px; /* Adjust as needed */
     margin: 0 auto;
   }
   .container h1{
-      color: var(--text-color);
+      color: rgb(17, 0, 255);
       text-align: center;
       margin-bottom: 1.5rem;
       font-weight: 600;

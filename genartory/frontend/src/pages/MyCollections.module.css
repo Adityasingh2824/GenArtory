@@ -42,14 +42,14 @@
   .collectionItem {
     background-color: var(--background-color);
     border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
+    box-shadow: red;
     overflow: hidden;
     transition: var(--transition);
   }
   
   .collectionItem:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 8px rgb(249, 3, 3);
   }
   
   /* Collection Item Image */
