@@ -50,23 +50,9 @@ GenArtory aims to democratize art creation and ownership by harnessing AI to gen
     cd genartory
     ```
 
-2.  **Set Up Environment Variables:**
-    *   Create a `.env` file in the `backend` directory.
-    *   Fill in the required environment variables:
-        *   `MONGODB_URI` - Your MongoDB connection string.
-        *   `PORT` - The port for your backend server (e.g., 3000).
-        *   `HUGGING_FACE_API_KEY` - Your Hugging Face API key.
-
-3.  **Start the Backend:**
+2.  **Launch The genartory:**
     ```bash
-    cd backend
-    npm install  
-    npm run dev 
-    ```
-
-4.  **Start the Frontend:**
-    ```bash
-    cd frontend
+    cd genartory
     npm install 
     npm run dev
     ```
